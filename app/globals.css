@@ -74,3 +74,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* navLink class ar css define kora holo and its for component tai sheita o indicate kora hoisey */
+@layer components {
+  .navLink {
+    @apply md:!justify-start space-x-2 md:!my-1.5 !px-3 w-full;
+  }
+  .menuItem {
+    @apply dark:hover:bg-[#3C3C3C] !cursor-pointer flex items-center gap-x-2 !px-4 !py-3.5 !m-1.5 !rounded-lg font-medium;
+  }
+}

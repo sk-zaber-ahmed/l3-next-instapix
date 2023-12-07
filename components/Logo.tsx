@@ -1,15 +1,14 @@
 import React from 'react';
 import { Button, buttonVariants } from './ui/button';
 import Link from 'next/link';
-import {SwitchCamera} from 'lucide-react'
+import { SwitchCamera } from 'lucide-react'
 
 const Logo = () => {
     return (
         <Link
             href={"/dashboard"}
             className={buttonVariants({
-                className:
-                    "hidden md:flex navLink !mb-10 lg:hover:bg-transparent lg:!p-0",
+                className: "hidden md:flex navLink !mb-10 lg:hover:bg-transparent lg:!p-0",
                 variant: "ghost",
                 size: "lg",
             })}
