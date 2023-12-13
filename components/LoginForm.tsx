@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { pacifico } from './fonts';
 import AppCard from './AppCard';
+import { FacebookIcon } from "lucide-react";
 
 const formSchema = z.object({
     username: z.string().min(2, {
@@ -51,8 +52,8 @@ const LoginForm = () => {
     }
 
     return (
-        <div className=' h-full'>
-            <div className='border border-gray-200 px-6 py-8 rounded'>
+        <div className='mt-[110px]'>
+            <div className='border border-gray-200 px-6 py-8'>
                 <div className='mb-8'>
                     <h1 className={`${pacifico.className} text-primary text-4xl font-bold text-center`}>InstaPix</h1>
                 </div>
@@ -64,7 +65,7 @@ const LoginForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input placeholder="Phone number, username or email" {...field} />
+                                        <Input className='text-[12px]' placeholder="Phone number, username or email" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -76,14 +77,14 @@ const LoginForm = () => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input placeholder="Password" {...field} />
+                                        <Input className='text-[12px]' placeholder="Password" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
 
-                        <Button className='w-full mt-8' type="submit">Login in</Button>
+                        <Button className='w-full mt-8' type="submit">Log in</Button>
                     </form>
                 </Form>
 
@@ -95,20 +96,22 @@ const LoginForm = () => {
 
                 <div className="mt-8 space-y-5">
                     <div className='flex justify-center'>
-                        <h1 className='mr-4'>Logo</h1>
-                        <h1>Login with Facebook</h1>
+                        <div className="bg-[#385185] p-1 rounded">
+                            <FacebookIcon color="white" size={18}/>
+                        </div>
+                        <h1 className='text-[#385185] text-[14px] font-semibold  ml-2'>Login with Facebook</h1>
                     </div>
-                    <p className='text-center'>Forgot password?</p>
+                    <p className='text-center text-[13px] text-[#0095F7]'>Forgot password?</p>
                 </div>
             </div>
 
             {/* sign up */}
-            <div className='border border-gray-200 px-6 py-4 rounded mt-6'>
-                <p className='text-center'>Don't have account? <span>Sign up</span></p>
+            <div className='border border-gray-200 px-6 py-4 mt-6 text-[14px]'>
+                <p className='text-center'>Don't have account? <span className='text-[#0095F7]'>Sign up</span></p>
             </div>
 
             <div className='mt-6 flex flex-col items-center'>
-                <h1>Get the app</h1>
+                <h1 className='text-[14px]'>Get the app.</h1>
                 <div className='flex space-x-2'>
                     <div>
                         <AppCard></AppCard>
@@ -118,6 +121,8 @@ const LoginForm = () => {
                     </div>
                 </div>
             </div>
+            
+          
         </div>
     );
 };
