@@ -9,3 +9,7 @@
 
 ## frames mockup: https://codesandbox.io/p/sandbox/react-device-frameset-demo-forked-s577w4?file=%2Fsrc%2FApp.js%3A13%2C55-13%2C65
  https://codesandbox.io/p/sandbox/mockuuupppp-forked-fe8w11?file=%2Fsrc%2FApp.js (with slide show)
+
+## useMount(): costom hook help to prevent the hydration issue. it will run only on the client side. it will run only once when the component is mounted. it will not run on the server side
+
+## for file upload I used: https://uploadthing.com/dashboard (s3 bucket) like features

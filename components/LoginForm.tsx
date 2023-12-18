@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from 'next/navigation';
+import { useRouter,redirect } from 'next/navigation';
 import React, { useState } from 'react';
 import {
     Form,
@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator"
 import { pacifico } from './fonts';
 import AppCard from './AppCard';
 import { FacebookIcon } from "lucide-react";
+import axios from 'axios';
 
 const formSchema = z.object({
     username: z.string().min(2, {
@@ -26,7 +27,7 @@ const formSchema = z.object({
     }),
     password: z.string().min(2, {
         message: "Password must be at least 2 characters.",
-    }),
+    })
 })
 
 
@@ -40,15 +41,38 @@ const LoginForm = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             username: "",
-            password: "",
+            password: ""
         },
     })
 
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    async function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
+        const postData = {
+            grant_type:"password_username",
+            username: values.username,
+            password: values.password
+        }
+
+        const headers = {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer YOUR_ACCESS_TOKEN',
+            //Host:"misterloo.seliselocal.com"
+          };
+
+          try {
+            const response = await axios.post('http://127.0.0.1:5000/user/auth', postData, {
+              headers: headers
+            });
+            console.log(response.data);
+            if(response.data.access_token){
+                router.push('/dashboard');
+            }
+          } catch (error) {
+            console.log({ error: 'An error occurred' });
+          }
     }
 
     return (
@@ -97,7 +121,7 @@ const LoginForm = () => {
                 <div className="mt-8 space-y-5">
                     <div className='flex justify-center'>
                         <div className="bg-[#385185] p-1 rounded">
-                            <FacebookIcon color="white" size={18}/>
+                            <FacebookIcon color="white" size={18} />
                         </div>
                         <h1 className='text-[#385185] text-[14px] font-semibold  ml-2'>Login with Facebook</h1>
                     </div>
@@ -121,8 +145,8 @@ const LoginForm = () => {
                     </div>
                 </div>
             </div>
-            
-          
+
+
         </div>
     );
 };
