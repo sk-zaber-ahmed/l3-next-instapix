@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import {
   Form,
@@ -122,10 +122,11 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-
-            <Button className="w-full mt-8" type="submit">
-              Log in
-            </Button>
+            <div>
+              <Button className="w-full mt-4" type="submit">
+                Log in
+              </Button>
+            </div>
           </form>
         </Form>
 
