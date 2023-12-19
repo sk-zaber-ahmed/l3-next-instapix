@@ -13,3 +13,5 @@
 ## useMount(): costom hook help to prevent the hydration issue. it will run only on the client side. it will run only once when the component is mounted. it will not run on the server side
 
 ## for file upload I used: https://uploadthing.com/dashboard (s3 bucket) like features
+
+## https://www.npmjs.com/package/react-timeago (Used for the time stamps)

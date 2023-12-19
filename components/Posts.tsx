@@ -1,11 +1,15 @@
-// import { fetchPosts } from "@/lib/data";
-// import Post from "./Post";
+import { fetchFollowersPost } from "@/lib/data";
+import Post from "./Post";
 
 async function Posts() {
+  const posts = await fetchFollowersPost();
+  //console.log(posts)
 
   return (
     <>
-     <h1>Post</h1>
+      {posts?.ads?.map((post:any) => (
+        <Post key={post._id} post={post} />
+      ))}
     </>
   );
 }

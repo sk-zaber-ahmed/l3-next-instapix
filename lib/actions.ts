@@ -1,3 +1,5 @@
+//contains all the mutation logics
+
 export async function followUser() {
     try {
     } catch (error) {
