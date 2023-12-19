@@ -18,6 +18,12 @@ const nextConfig = {
         protocol: "https",
         hostname: "//selisefalcon.blob.core.windows.net/",
       },
+      {
+        protocol: "https",
+        hostname: "github.com",
+        port: "",
+        pathname: "/shadcn.png",
+      },
     ],
   },
 };

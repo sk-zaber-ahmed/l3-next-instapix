@@ -63,7 +63,7 @@ const LoginForm = () => {
           };
 
           try {
-            const response = await axios.post('http://127.0.0.1:5000/user/auth', postData, {
+            const response = await axios.post(`http://127.0.0.1:5000/user/auth`, postData, {
               headers: headers
             });
             console.log(response.data);

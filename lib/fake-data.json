@@ -1,0 +1,164 @@
+{
+    "images": [
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      },
+      {
+        "src": "/images/Personal_PP.jpg",
+        "width": 150,
+        "height": 150,
+        "alt": "Gallery Image"
+      }
+    ],
+    "profile": {
+      "id": "1",
+      "username": "8_sza_8",
+      "name": "Sk. Zaber Ahmed",
+      "bio": "Software Engineer, Cyclist, Snap player",
+      "posts": [
+        {
+          "id": "123",
+          "caption": "This is my profile picture",
+          "fileUrl": "/images/New_PP.jpg",
+          "userId": "1",
+          "likes": [],
+          "comments": []
+        },
+        {
+          "id": "456",
+          "caption": "This is my holiday picture",
+          "fileUrl": "/images/Personal_PP.jpg",
+          "userId": "1",
+          "likes": [],
+          "comments": []
+        },
+        {
+          "id": "789",
+          "caption": "This is my cool picture",
+          "fileUrl": "/images/Selise_PP.jpg",
+          "userId": "1",
+          "likes": [],
+          "comments": []
+        }
+      ],
+      "followedBy": [
+        {
+          "id": "2",
+          "followerId": "1"
+        },
+        {
+          "id": "3",
+          "followerId": "1"
+        },
+        {
+          "id": "4",
+          "followerId": "1"
+        },
+        {
+          "id": "5",
+          "followerId": "1"
+        }
+      ],
+      "following": []
+    }
+  }
+  
