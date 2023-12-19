@@ -4,7 +4,7 @@ import { MoreHorizontal, Settings } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
-import UserAvatar from "@/components/ProfileAvater";
+import ProfileAvatar from "@/components/ProfileAvatar";
 import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
@@ -41,7 +41,7 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
       <ProfileHeader username={profile.username} />
       <div className="max-w-4xl mx-auto">
         <div className="flex gap-x-5 md:gap-x-10 px-4">
-          <UserAvatar
+          <ProfileAvatar
             user={profile}
             className="w-20 h-20 md:w-36 md:h-36 cursor-pointer"
           />

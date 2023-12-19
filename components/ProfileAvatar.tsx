@@ -7,7 +7,7 @@ type Props = Partial<AvatarProps> & {
   user: User | undefined;
 };
 
-function UserAvatar({ user, ...avatarProps }: Props) {
+function ProfileAvatar({ user, ...avatarProps }: Props) {
   return (
     <Avatar className="relative h-8 w-8" {...avatarProps}>
       <Image
@@ -20,4 +20,4 @@ function UserAvatar({ user, ...avatarProps }: Props) {
   );
 }
 
-export default UserAvatar;
+export default ProfileAvatar;

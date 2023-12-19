@@ -1,129 +1,28 @@
-// "use client";
-
-// import React from "react";
-// import {
-//   Clapperboard,
-//   Compass,
-//   Heart,
-//   Home,
-//   LucideIcon,
-//   MessageCircle,
-//   PlusSquare,
-//   Search,
-// } from "lucide-react";
-// import Link from "next/link";
-
-// import { usePathname } from "next/navigation";
-// import { NavigationLinks } from "@/lib/definitions";
-// import { buttonVariants } from "./ui/button";
-// import { cn } from "@/lib/utils";
-// import NavLinkAvatar from "./NavLinkAvatar";
-
-// const NavLinks = ({ profile }: { profile: string }) => {
-//   const pathname = usePathname();
-
-//   const links: NavigationLinks[] = [
-//     { name: "Home", href: "/dashboard", icon: Home },
-//     {
-//       name: "Search",
-//       href: "/dashboard/search",
-//       icon: Search,
-//       hideOnMobile: true,
-//     },
-//     { name: "Explore", href: "/dashboard/explore", icon: Compass },
-//     {
-//       name: "Reels",
-//       href: "/dashboard/reels",
-//       icon: Clapperboard,
-//     },
-//     {
-//       name: "Messages",
-//       href: "/dashboard/messages",
-//       icon: MessageCircle,
-//     },
-//     {
-//       name: "Notifications",
-//       href: "/dashboard/notifications",
-//       icon: Heart,
-//       hideOnMobile: true,
-//     },
-//     {
-//       name: "Create",
-//       href: "/dashboard/create",
-//       icon: PlusSquare,
-//     },
-//     {
-//       name: "Profile",
-//       href: `/dashboard/${profile}`,
-//     },
-//   ];
-//   return (
-//     <>
-//       {links.map((link) => {
-//         const LinkIcon = link.icon as LucideIcon;
-//         const isActive = pathname === link.href;
-
-//         return (
-//           <Link
-//             key={link.name}
-//             href={link.href}
-//             className={buttonVariants({
-//               variant: isActive ? "secondary" : "ghost",
-//               className: cn("navLink", {
-//                 "hidden 2xl:flex": link.hideOnMobile,
-//               }),
-//               size: "lg",
-//             })}
-//           >
-//             {LinkIcon ? (
-//               <LinkIcon className="w-6" />
-//             ) : (
-//               <NavLinkAvatar size={6} />
-//             )}
-//             <p
-//               className={`${cn("hidden 2xl:block", {
-//                 "font-extrabold": isActive,
-//               })}`}
-//             >
-//               {link.name}
-//             </p>
-//           </Link>
-//         );
-//       })}
-//     </>
-//   );
-// };
-
-// export default NavLinks;
-
-
-
-
 "use client";
 
-import React from 'react';
+import React from "react";
 import {
   Clapperboard,
   Compass,
   Heart,
   Home,
+  LucideIcon,
   MessageCircle,
   PlusSquare,
   Search,
 } from "lucide-react";
-import Link from 'next/link';
-import { buttonVariants } from './ui/button';
-import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
+import Link from "next/link";
 
-
-
-
-
+import { usePathname } from "next/navigation";
+import { NavigationLinks } from "@/lib/definitions";
+import { buttonVariants } from "./ui/button";
+import { cn } from "@/lib/utils";
+import NavLinkAvatar from "./NavLinkAvatar";
 
 const NavLinks = ({ profile }: { profile: string }) => {
   const pathname = usePathname();
-  const links = [
+
+  const links: NavigationLinks[] = [
     { name: "Home", href: "/dashboard", icon: Home },
     {
       name: "Search",
@@ -156,14 +55,13 @@ const NavLinks = ({ profile }: { profile: string }) => {
     {
       name: "Profile",
       href: `/dashboard/${profile}`,
-      icon: PlusSquare,
     },
   ];
 
   return (
     <>
       {links.map((link) => {
-        const LinkIcon = link.icon;
+        const LinkIcon = link.icon as LucideIcon;
         const isActive = pathname === link.href;
 
         return (
@@ -172,15 +70,21 @@ const NavLinks = ({ profile }: { profile: string }) => {
             href={link.href}
             className={buttonVariants({
               variant: isActive ? "secondary" : "ghost",
-              className: cn("navLink", { "hidden md:flex": link.hideOnMobile }),
+              className: cn("navLink", {
+                "hidden 2xl:flex": link.hideOnMobile,
+              }),
               size: "lg",
             })}
           >
-            <LinkIcon className="w-6" />
+            {LinkIcon ? (
+              <LinkIcon className="w-6" />
+            ) : (
+              <NavLinkAvatar size={6} />
+            )}
             <p
-              className={`${cn("hidden lg:block", 
-              {"font-extrabold": isActive,}
-              )}`}
+              className={`${cn("hidden 2xl:block", {
+                "font-extrabold": isActive,
+              })}`}
             >
               {link.name}
             </p>
