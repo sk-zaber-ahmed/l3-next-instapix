@@ -68,6 +68,7 @@ const LoginForm = () => {
             });
             console.log(response.data);
             if(response.data.access_token){
+                localStorage.setItem('token', response.data.access_token);
                 router.push('/dashboard');
             }
           } catch (error) {
