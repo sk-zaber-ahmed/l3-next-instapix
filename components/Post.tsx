@@ -11,10 +11,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserAvatar from './UserAvatar';
 import Timestamp from './TimesStamps';
+import PostOptions from './PostOptions';
+import PostActions from './PostActions';
+import { Separator } from './ui/separator';
 
 const Post = ({ post }: any) => {
     return (
-        <div className="flex flex-col space-y-2.5">
+        <div className="flex flex-col space-y-2.5 mb-[40px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
                 <div className="flex space-x-3 items-center">
                     <UserAvatar user={post.user} />
@@ -36,7 +39,8 @@ const Post = ({ post }: any) => {
                     </div>
                 </div>
 
-                {/* <PostOptions post={post} userId={userId} /> */}
+                {/* Sending the post and userId=owner of the post as parameter to give some special accessibility */}
+                <PostOptions post={post} />   
             </div>
 
             <Card className="relative h-[450px] w-full overflow-hidden rounded-none sm:rounded-md">
@@ -48,18 +52,20 @@ const Post = ({ post }: any) => {
                 />
             </Card>
 
-            {/* <PostActions post={post} userId={userId} className="px-3 sm:px-0" /> */}
+            <PostActions post={post} className="px-3 sm:px-0" />
 
-            {/* {post.caption && (
-          <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0">
-            <Link href={`/dashboard/${username}`} className="font-bold">
-              {username}
-            </Link>
-            <p>{post.caption}</p>
-          </div>
-        )}
-  
-        <Comments postId={post.id} comments={post.comments} user={session.user} /> */}
+            {post?.description && (
+                <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0">
+                    <Link href={`/dashboard/${post?.owner}`} className="font-bold">
+                        User
+                    </Link>
+                    <p>{post?.description?.length>16 ? `${post?.description?.slice(0,20)}... more` : post?.description }</p>
+                </div>
+            )}
+
+            {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
+
+            <Separator />
         </div>
     );
 };
