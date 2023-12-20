@@ -6,12 +6,12 @@ import { Suspense } from "react";
 
 function DashboardPage() {
   return (
-    <main className="grid xl:grid-cols-2 xl:gap-[50px]">
+    <main className="grid xl:grid-cols-5 xl:gap-[50px]">
         <Suspense>
-          <div>
+          <div className="col-span-3">
             <Posts />
           </div>
-          <div>
+          <div className="hidden xl:block">
             <FollowersSuggestion/>
           </div>
         </Suspense>

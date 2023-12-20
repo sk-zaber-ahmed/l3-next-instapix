@@ -7,9 +7,9 @@ const FollowersSuggestion = () => {
     return (
         <div>
             {
-                suggestions?.map((suggestion)=>(
-                    <div>
-                        <FollowersSuggestionCard key={suggestion}></FollowersSuggestionCard>
+                suggestions?.map((suggestion,index)=>(
+                    <div key={index}>
+                        <FollowersSuggestionCard ></FollowersSuggestionCard>
                     </div>
                 ))
             }

@@ -19,15 +19,22 @@ function PostActions({ post, className }: Props) {
     const userId = "64eb61e611e76cab67d456de"  //testing purpose
 
     return (
-        <div className={cn("relative flex items-start w-full gap-x-2", className)}>
-            <LikeButton post={post} userId={userId} />
-            <Link href={`/dashboard/p/${post._id}`}>
-                <ActionIcon>
-                    <MessageCircle className={"h-6 w-6"} />
-                </ActionIcon>
-            </Link>
-            <ShareButton postId={post._id} />
+        <div className={cn("relative flex justify-between w-full", className)}>
+            <div className='flex'>
+                <LikeButton post={post} userId={userId} />
+                <div>
+                    <Link href={`/dashboard/p/${post._id}`}>
+                        <ActionIcon>
+                            <MessageCircle className={"h-6 w-6"} />
+                        </ActionIcon>
+                    </Link>
+                </div>
+                <ShareButton postId={post._id} />
+            </div>
+
+
             <BookmarkButton post={post} userId={userId} />
+
         </div>
     );
 }
