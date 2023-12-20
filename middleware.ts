@@ -7,6 +7,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 async function middleware(request: NextRequest) {
+    // console.log("call middleware", request);
     // const cookie = request.cookies.get(process.env.AUTH_SECRET as string);
     const access_token = request.cookies.get("access_token");
     const refresh_token = request.cookies.get("refresh_token");
@@ -45,6 +46,8 @@ async function middleware(request: NextRequest) {
                 secure: false,
             });
 
+
+
             return response;
         }
     }
@@ -75,6 +78,10 @@ async function middleware(request: NextRequest) {
             httpOnly: true,
             secure: false,
         });
+
+        setTimeout(() => {
+            console.log("user?.access_token in middleware");
+        }, 3000);
 
         return response;
     }

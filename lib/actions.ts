@@ -1,6 +1,7 @@
 //contains all the mutation logics
 'use server';
 
+import axios from "axios";
 import { cookies } from "next/headers";
 
 
@@ -62,5 +63,31 @@ export async function authenticate(data: any) {
       return 'CredentialsSignIn';
     }
     return 'authentication error';
+  }
+}
+
+
+export async function uploadToStorage(data: any) {
+  try {
+    console.log("call for upload", cookies().get("access_token")?.value);
+
+    const headers = {
+      token: `bearer ${cookies().get("access_token")?.value}`,
+    };
+
+    // console.log(headers, data);
+
+    const response = await axios.post(
+      `http://127.0.0.1:5000/storage/upload`,
+      data,
+      {
+        headers: headers,
+      }
+    );
+    return response.data;
+    // return "response.data";
+
+  } catch (error: any) {
+    return null;
   }
 }

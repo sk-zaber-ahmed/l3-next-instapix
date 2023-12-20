@@ -27,13 +27,15 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import axios from "axios";
+import { uploadToStorage } from "@/lib/actions";
 
 function CreatePage() {
   const pathname = usePathname();
   const isCreatePage = pathname === "/dashboard/create";
   const router = useRouter();
   const mount = useMount();
-  const authToken = localStorage?.getItem("token");
+  // const authToken = localStorage?.getItem("token");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const form = useForm<z.infer<typeof CreatePost>>({
     resolver: zodResolver(CreatePost),
@@ -43,8 +45,6 @@ function CreatePage() {
     },
   });
   const fileUrl = form.watch("fileUrl"); //whatever happens in fileUrl will be watched by the form
-
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
@@ -60,38 +60,14 @@ function CreatePage() {
   };
 
   async function onSubmit(values: z.infer<typeof CreatePost>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log("form values", selectedFile);
-
-    let myFormdata = new FormData();
+    const formData = new FormData();
     if (selectedFile) {
-      myFormdata.append("image", selectedFile);
+      formData.append("image", selectedFile);
     }
 
-    // console.log('sending to backend',myFormdata.get("image"))
-
-    const postData = {
-      myFormdata,
-      name: "nothing",
-    };
-
-    const headers = {
-      token: `bearer ${authToken}`,
-    };
-
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:5000/storage/upload`,
-        myFormdata,
-        {
-          headers: headers,
-        }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log({ error: "An error occurred" });
-    }
+    const imageUrl = await uploadToStorage(formData);
+    console.log(imageUrl);
+    return imageUrl;
   }
 
   if (!mount) return null; //this prevents the hydration issue when component is mounted then the Dialog component is rendered
