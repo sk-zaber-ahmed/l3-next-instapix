@@ -28,6 +28,10 @@ const nextConfig = {
         hostname: "//selisefalcon.blob.core.windows.net/",
       },
       {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+      },
+      {
         protocol: "https",
         hostname: "github.com",
         port: "",
