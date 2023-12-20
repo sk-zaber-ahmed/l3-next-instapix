@@ -23,6 +23,7 @@ function ProfilePostsGrid({ posts }: { posts: Post[] | undefined }) {
           <Image
             src={post.fileUrl}
             fill
+            sizes=""
             alt="Post preview"
             className="object-cover -z-10 transition group-hover:filter group-hover:blur-[2px] group-hover:brightness-90"
           />
