@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react"
-import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot } from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot,ChevronRight ,ChevronLeft } from "lucide-react"
 
 
 type ImageSliderProps = {
@@ -57,7 +57,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
         style={{ left: 0 }}
         aria-label="View Previous Image"
       >
-        <ArrowBigLeft aria-hidden />
+        <ChevronLeft aria-hidden />
       </button>
       <button
         onClick={showNextImage}
@@ -65,7 +65,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
         style={{ right: 0 }}
         aria-label="View Next Image"
       >
-        <ArrowBigRight aria-hidden />
+        <ChevronRight aria-hidden />
       </button>
       <div
         style={{

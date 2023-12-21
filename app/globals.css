@@ -141,9 +141,12 @@
 
 .img-slider-btn > * {
   stroke: white;
-  fill: black;
+  fill: #B4B7B9;
   width: 2rem;
   height: 2rem;
+  padding: 5px;
+  background-color: #B4B7B9;
+  border-radius:50px;
 }
 
 @keyframes squish {
