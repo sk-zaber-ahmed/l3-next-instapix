@@ -66,6 +66,7 @@ function CreatePage() {
     }
 
     const imageUrl = await uploadToStorage(formData);
+
     if (imageUrl === "cookies_not_found") {
       return await uploadToStorage(formData);
     }
