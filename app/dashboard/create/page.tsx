@@ -70,9 +70,13 @@ function CreatePage() {
     if (imageUrl === "cookies_not_found") {
       return await uploadToStorage(formData);
     }
-    // console.log(imageUrl);
+
+    console.log(imageUrl);
     return imageUrl;
   }
+
+  // const [userData, dispatch] = useFormState(onSubmit, undefined);
+  // const { pending } = useFormStatus();
 
   if (!mount) return null; //this prevents the hydration issue when component is mounted then the Dialog component is rendered
 

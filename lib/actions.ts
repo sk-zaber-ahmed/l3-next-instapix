@@ -69,7 +69,7 @@ export async function authenticate(data: any) {
 
 export async function uploadToStorage(data: any) {
   try {
-    console.log("call for upload", cookies().get("access_token")?.value);
+    // console.log("call for upload", cookies().get("access_token")?.value);
 
     if (!cookies().get("access_token")) {
       return 'cookies_not_found'
