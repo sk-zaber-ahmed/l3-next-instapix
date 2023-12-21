@@ -140,11 +140,9 @@
 } */
 
 .img-slider-btn > * {
-  stroke: white;
+  stroke: black;
   fill: #B4B7B9;
-  width: 2rem;
-  height: 2rem;
-  padding: 5px;
+  padding: 3px;
   background-color: #B4B7B9;
   border-radius:50px;
 }
@@ -159,8 +157,8 @@
   all: unset;
   display: block;
   cursor: pointer;
-  width: 1rem;
-  height: 1rem;
+  width: 0.5rem;
+  height: 0.5rem;
   transition: scale 100ms ease-in-out;
 }
 

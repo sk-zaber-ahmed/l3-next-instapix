@@ -6,7 +6,7 @@ import {Card} from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 type CardProps = React.ComponentProps<typeof Card>
 
-export function FollowersSuggestionCard({ className, ...props }: CardProps) {
+export function OwnProfilePage({ className, ...props }: CardProps) {
     return (
 
         <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)} {...props}>
@@ -25,7 +25,7 @@ export function FollowersSuggestionCard({ className, ...props }: CardProps) {
                     </div>
                 </div>
 
-                <Button className="text-[#0095F6] text-[12px]" variant={"ghost"}>Follow</Button>
+                <Button className="text-[#0095F6] text-[12px]" variant={"ghost"}>Switch</Button>
 
             </div>
         </div>

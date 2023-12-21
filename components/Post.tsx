@@ -18,7 +18,7 @@ import { ImageSlider } from './ImageSlider';
 
 const Post = ({ post }: any) => {
     return (
-        <div className="flex flex-col space-y-2.5 mb-[40px] lg:px-[80px]">
+        <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
                 <div className="flex space-x-3 items-center">
                     <UserAvatar user={post.user} />
