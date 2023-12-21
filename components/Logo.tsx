@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
 import { buttonVariants } from "./ui/button";
+import { pacifico } from "./fonts";
 
 const Logo = () => {
   return (
@@ -16,7 +17,11 @@ const Logo = () => {
     >
       <Instagram className="h-6 w-6 shrink-0 2xl:hidden" />
 
-      <p className={`text-semibold text-3xl hidden 2xl:block `}>Instapix</p>
+      <h1
+        className={`${pacifico.className} text-primary text-4xl font-bold text-center hidden 2xl:block`}
+      >
+        InstaPix
+      </h1>
     </Link>
   );
 };

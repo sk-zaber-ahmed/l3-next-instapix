@@ -4,7 +4,9 @@ function HomePageLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
       <Header />
-      {children}
+      <div className="flex flex-col items-center">
+        {children}
+      </div>
     </div>
   );
 }

@@ -20,10 +20,12 @@ import { pacifico } from "./fonts";
 import AppCard from "./AppCard";
 import { FacebookIcon } from "lucide-react";
 import axios from "axios";
+import { useFormState } from "react-dom";
+import { authenticate } from "@/lib/actions";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  email: z.string().email({
+    message: "Please enter a valid email address.",
   }),
   password: z.string().min(2, {
     message: "Password must be at least 2 characters.",
@@ -32,50 +34,38 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData, dispatch] = useFormState(onSubmit, undefined);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(
+    prevState: string | undefined,
+    values: z.infer<typeof formSchema>
+  ) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
+
     const postData = {
       grant_type: "password_username",
-      username: values.username,
+      username: values.email,
       password: values.password,
     };
 
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Bearer YOUR_ACCESS_TOKEN",
-      //Host:"misterloo.seliselocal.com"
-    };
+    const data = await authenticate(postData);
 
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:5000/user/auth`,
-        postData,
-        {
-          headers: headers,
-        }
-      );
-      console.log(response.data);
-      if (response.data.access_token) {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.log({ error: "An error occurred" });
+    if (data) {
+      router.replace("/dashboard");
     }
+    return data;
   }
 
   return (
@@ -89,10 +79,10 @@ const LoginForm = () => {
           </h1>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={form.handleSubmit(dispatch)} className="space-y-2">
             <FormField
               control={form.control}
-              name="username"
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
