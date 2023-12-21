@@ -79,21 +79,9 @@ async function middleware(request: NextRequest) {
             secure: false,
         });
 
-        setTimeout(() => {
-            console.log("user?.access_token in middleware");
-        }, 3000);
-
         return response;
     }
 
-    // const token = access_token?.value;
-    // if (request.nextUrl.pathname.startsWith('/dashboard')) {
-    //     if (!token) {
-    //         return NextResponse.redirect(new URL('/login', request.url));
-    //     } else {
-    //         return NextResponse.next();
-    //     }
-    // }
     return NextResponse.next();
 }
 export default middleware;
