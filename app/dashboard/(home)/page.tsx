@@ -1,15 +1,20 @@
+
 // import { PostsSkeleton } from "@/components/Skeletons";
+import FollowersSuggestion from "@/components/FollowersSuggestion";
 import Posts from "@/components/Posts";
 import { Suspense } from "react";
 
 function DashboardPage() {
   return (
-    <main className="flex w-full flex-grow">
-      <div className="flex flex-col flex-1 gap-y-8 max-w-lg mx-auto pb-20">
+    <main className="grid xl:grid-cols-5 xl:gap-[50px]">
         <Suspense>
-          <Posts/>
+          <div className="col-span-3">
+            <Posts />
+          </div>
+          <div className="hidden xl:block">
+            <FollowersSuggestion/>
+          </div>
         </Suspense>
-      </div>
     </main>
   );
 }
