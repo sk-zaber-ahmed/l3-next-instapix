@@ -1,9 +1,8 @@
 //contains all the mutation logics
-'use server';
+"use server";
 
 import axios from "axios";
 import { cookies } from "next/headers";
-
 
 export async function followUser() {
   try {
@@ -11,7 +10,6 @@ export async function followUser() {
     console.log("Error while executing action", error);
   }
 }
-
 
 export async function authenticate(data: any) {
   try {
@@ -51,28 +49,45 @@ export async function authenticate(data: any) {
       console.log("login api not working");
       return null;
     }
-
   } catch (error: any) {
     console.log("From the authenticate function", error);
     if (error.response) {
       console.log(error.response?.data);
       return error.response?.body?.error;
-    };
-
-    if ((error as Error).message.includes('CredentialsSignin')) {
-      return 'CredentialsSignIn';
     }
-    return 'authentication error';
+
+    if ((error as Error).message.includes("CredentialsSignin")) {
+      return "CredentialsSignIn";
+    }
+    return "authentication error";
   }
 }
 
+// export async function fetchInstaPosts(loggedInUserId: string) {
+//   try {
+//     const res = await fetch("http://localhost:9100/api/insta/app/posts", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         loggedInUserId,
+//       }),
+//     });
+
+    
+//     return res.json();
+//   } catch (error: any) {
+//     return error;
+//   }
+// }
 
 export async function uploadToStorage(data: any) {
   try {
     // console.log("call for upload", cookies().get("access_token")?.value);
 
     if (!cookies().get("access_token")) {
-      return 'cookies_not_found'
+      return "cookies_not_found";
     }
 
     const headers = {
@@ -90,7 +105,6 @@ export async function uploadToStorage(data: any) {
     );
     return response.data;
     // return "response.data";
-
   } catch (error: any) {
     return null;
   }

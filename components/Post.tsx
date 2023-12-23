@@ -52,17 +52,17 @@ const Post = ({ post }: any) => {
                     className="sm:rounded-md object-cover"
                 /> */}
 
-                <ImageSlider images={post?.images} />
+                <ImageSlider images={post?.files} />
             </Card>
 
             <PostActions post={post} />
 
-            {post?.description && (
+            {post?.content && (
                 <div className="text-sm leading-none flex items-center space-x-2 font-medium px-2 sm:px-0">
                     <Link href={`/dashboard/${post?.owner}`} className="font-bold">
                         User
                     </Link>
-                    <p>{post?.description?.length > 16 ? `${post?.description?.slice(0, 20)}... more` : post?.description}</p>
+                    <p>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
                 </div>
             )}
 
