@@ -1,17 +1,16 @@
+import React from "react";
 import RegisterForm from "@/components/RegisterForm";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Facebook } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-
-import React from "react";
 import { roboto } from "@/components/fonts";
 
 const Register = () => {
   return (
-    <main className="flex flex-col gap-5 items-center justify-center h-screen bg-white text-black">
-      <div className="relative mx-auto flex flex-col w-full max-w-[350px] space-y-2.5 p-4 gap-2 shadow-sm border-gray-300 border">
+    <main className="flex flex-col gap-5 items-center justify-center h-screen bg-white text-black ">
+      <div className="relative mx-auto flex flex-col w-full max-w-[350px] space-y-2.5 p-8 gap-2 shadow-sm border-gray-300 border">
         <Image
           src={"/Instapix.svg"}
           alt={"logo"}
@@ -21,14 +20,13 @@ const Register = () => {
         />
 
         <p
-          className={`text-center font-semibold text-[#737373] ${roboto.className}`}
+          className={`text-center font-semibold text-[#737373] text-[16px] ${roboto.className}`}
         >
           Sign up to see photos and videos from your friends.
         </p>
-        {/* <RegisterForm /> */}
 
-        <Button className="text-primary font-bold bg-[#0095f6] hover:bg-[#0095f6]/90 gap-1 items-center w-3/4 self-center">
-          <Facebook size={18} /> Log in with Facebook
+        <Button className="text-primary font-bold bg-[#0095f6] hover:bg-[#0095f6]/90 gap-1  w-3/4 self-center">
+          <Facebook size={16} /> Log in with Facebook
         </Button>
 
         <div className="flex justify-around items-center my-4">
@@ -40,6 +38,7 @@ const Register = () => {
           </p>
           <Separator decorative className="w-1/3 border-1 bg-gray-300 " />
         </div>
+        <RegisterForm />
       </div>
 
       <div className="mx-auto flex w-full max-w-[350px] flex-col space-y-2.5 p-4 gap-5 shadow-sm border-gray-300 border">

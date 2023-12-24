@@ -1,13 +1,11 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React from "react";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { pacifico } from "./fonts";
 import AppCard from "./AppCard";
 import { FacebookIcon } from "lucide-react";
-import axios from "axios";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/lib/actions";
 
@@ -141,7 +138,6 @@ const LoginForm = () => {
         </div>
       </div>
 
-      {/* sign up */}
       <div className="border border-gray-200 px-6 py-4 mt-6 text-[14px]">
         <p className="text-center">
           Don&apos;t have account?
