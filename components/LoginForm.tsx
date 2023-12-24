@@ -69,7 +69,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="mt-[110px]">
+    <div className="mt-[60px]">
       <div className="border border-gray-200 px-6 py-8">
         <div className="mb-8">
           <h1

@@ -6,11 +6,12 @@ import { links } from "@/lib/links";
 const Login = () => {
   return (
     <div className="">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-[100px] lg:mx-[250px]">
-        <div className="hidden lg:block grid-cols-1">
+      <div className="grid grid-cols-11 lg:grid-cols-12 gap-4 h-fit">
+        <div className="hidden lg:block lg:col-start-2 lg:col-span-5">
           <LoginLogo />
         </div>
-        <div className="lg:col-span-1 grid-cols-1">
+
+        <div className="2xl:col-start-7 2xl:col-span-3 lg:col-start-7 lg:col-span-4 col-start-4 col-span-5 align-center content-center">
           <LoginForm />
         </div>
       </div>
