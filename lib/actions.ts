@@ -62,15 +62,53 @@ export async function authenticate(data: any) {
     return "authentication error";
   }
 }
+
+const headersData = [
+  {
+    key: "Origin",
+    value: "http://misterloo.seliselocal.com",
+    type: "text",
+    enabled: true,
+    description: null,
+  },
+  // {
+  //   key: "Referer",
+  //   value: "http://misterloo.seliselocal.com/login",
+  //   type: "text",
+  //   enabled: true,
+  //   description: null,
+  // },
+  // {
+  //   key: "Accept-Language",
+  //   value: "en-US,en;q=0.9",
+  //   type: "text",
+  //   enabled: true,
+  //   description: null,
+  // },
+  // {
+  //   key: "Accept",
+  //   value: "application/json, text/plain, */*",
+  //   type: "text",
+  //   enabled: true,
+  //   description: null,
+  // },
+];
+
+// Convert the headers data into an object
+const headers: { [key: string]: string } = {};
+headersData.forEach((header) => {
+  if (header.enabled) {
+    headers[header.key] = header.value;
+  }
+});
+
 export async function registerUser(data: any) {
   try {
     const res = await fetch(
       "http://misterloo.seliselocal.com/api/identity/v20/identity/token",
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { Origin: "http://misterloo.seliselocal.com" },
         body: JSON.stringify({ grant_type: "authenticate_site" }),
       }
     );

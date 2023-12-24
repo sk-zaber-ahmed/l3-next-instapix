@@ -46,6 +46,15 @@ const RegisterForm = () => {
       fullName: "",
     },
   });
+  const disableSignupButton = () => {
+    return (
+      !form.getValues("fullName") ||
+      !form.getValues("email") ||
+      !form.getValues("username") ||
+      !form.getValues("password") ||
+      !form.getValues("mobileNumber")
+    );
+  };
 
   async function onSubmit(
     prevState: string | undefined,
@@ -62,6 +71,7 @@ const RegisterForm = () => {
       console.log("data:", data);
     }
     return data;
+    return "";
   }
   return (
     <Form {...form}>
@@ -155,7 +165,7 @@ const RegisterForm = () => {
         <Button
           type="submit"
           className="text-primary font-bold bg-[#0095f6] hover:bg-[#0095f6]/90 w-full self-center"
-          disabled
+          disabled={disableSignupButton()}
         >
           Sign up
         </Button>

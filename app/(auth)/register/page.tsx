@@ -6,6 +6,7 @@ import { Facebook } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { roboto } from "@/components/fonts";
+import AppCard from "@/components/AppCard";
 
 const Register = () => {
   return (
@@ -48,6 +49,17 @@ const Register = () => {
             Login
           </Link>
         </p>
+      </div>
+      <div className="mt-6 flex flex-col items-center gap-2 w-full max-w-[350px] space-y-2.5 p-4">
+        <p className="">Get the app.</p>
+        <div className="flex space-x-1">
+          <div>
+            <AppCard></AppCard>
+          </div>
+          <div>
+            <AppCard></AppCard>
+          </div>
+        </div>
       </div>
     </main>
   );
