@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfileTabs, UserProfile } from "@/lib/definitions";
+import { FakeUserProfile, ProfileTabs } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,7 +35,7 @@ function ProfileTabs({
   profile,
   isCurrentUser,
 }: {
-  profile: UserProfile;
+  profile: FakeUserProfile;
   isCurrentUser: boolean;
 }) {
   const pathname = usePathname();

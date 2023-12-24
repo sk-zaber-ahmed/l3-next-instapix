@@ -1,9 +1,9 @@
-import { Post } from "@/lib/definitions";
+import { FakePost } from "@/lib/definitions";
 import { HeartIcon, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-function ProfilePostsGrid({ posts }: { posts: Post[] | undefined }) {
+function ProfilePostsGrid({ posts }: { posts: FakePost[] | undefined }) {
   if (posts?.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center space-y-3 max-w-3xl 2xl:max-w-4xl mx-auto pb-20">
