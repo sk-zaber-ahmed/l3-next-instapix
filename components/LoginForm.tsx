@@ -19,12 +19,11 @@ import { Separator } from "@/components/ui/separator";
 import { pacifico } from "./fonts";
 import AppCard from "./AppCard";
 import { FacebookIcon } from "lucide-react";
-import axios from "axios";
 import { useFormState } from "react-dom";
 import { authenticate } from "@/lib/actions";
 
 const formSchema = z.object({
-  email: z.string().email({
+  email: z.string().min(2, {
     message: "Please enter a valid email address.",
   }),
   password: z.string().min(2, {

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react"
 import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot,ChevronRight ,ChevronLeft } from "lucide-react"
+import ImageGet from "./ImageGet";
 
 
 type ImageSliderProps = {
@@ -40,15 +41,16 @@ export function ImageSlider({ images }: ImageSliderProps) {
           overflow: "hidden",
         }}
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <img
             key={index}
-            src={image}
+            src="https://github.com/shadcn.png"
             alt={image}
             aria-hidden={imageIndex !== index}
             className="img-slider-img"
             style={{ translate: `${-100 * imageIndex}%` }}
           />
+          // <ImageGet key={index} image={image} imageIndex={imageIndex} index={index}></ImageGet>
         ))}
       </div>
       <button

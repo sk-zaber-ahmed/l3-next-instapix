@@ -75,7 +75,6 @@ export async function authenticate(data: any) {
 //       }),
 //     });
 
-    
 //     return res.json();
 //   } catch (error: any) {
 //     return error;
@@ -103,9 +102,99 @@ export async function uploadToStorage(data: any) {
         headers: headers,
       }
     );
+
     return response.data;
-    // return "response.data";
   } catch (error: any) {
     return null;
+  }
+}
+
+//getting image string using image id from the storage micro-service
+// export async function getImageUrl(imageId:string){
+//   try{
+//     // console.log("res",cookies().get("access_token"))
+//     // console.log("image id",imageId)
+//     const headers = {
+//       "accept": "application/json",
+//       Authorization: `bearer ${cookies().get("access_token")?.value}`,
+//     };
+
+// const res = await fetch(`http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=4f23068f-cceb-43e7-b9ae-eb129fbe66d0`, {
+//   method: "GET",
+//   headers: headers,
+// });
+// console.log('headers',headers)
+// console.log('res',res.json())
+
+// return res.json();
+//   }catch (error: any) {
+//     return error;
+//   }
+// }
+
+export async function getImageUrl(imageId: string) {
+  try {
+    //console.log("cookies",cookies().get("access_token")?.value)
+    console.log("image id", imageId);
+    const headers = {
+      // accept: "application/json",
+      Authorization: `bearer ${cookies().get("access_token")?.value}`,
+    };
+    console.log("headers", headers);
+
+    const data = {
+      fileId: imageId,
+    };
+
+    // const res = await fetch("http://127.0.0.1:5000/storage/url/parser", {
+    //   method: "POST",
+    //   headers: headers,
+    //   body: JSON.stringify(data),
+    // });
+
+    // const response = await axios.post(
+    //   "http://127.0.0.1:5000/storage/url/parser",
+    //   {
+    //     fileId: imageId,
+    //   },
+    //   {
+    //     headers: headers,
+    //   }
+    // );
+    // console.log("response", response);
+
+
+    const options = {
+      url: 'http://127.0.0.1:5000/storage/url/parser',
+      method: 'POST',
+      headers: {
+        authorization: `bearer ${cookies().get("access_token")?.value}`,
+      },
+      data: {
+        fileId: imageId,
+      }
+    };
+    
+    axios(options)
+      .then(response => {
+        console.log(response.data);
+      });
+
+    // const data_data:any={
+    //   fileId:"4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
+    // }
+    // const response=await fetch('http://127.0.0.1:5000/storage/url/parser', {
+    //   method: 'POST',
+    //   headers: {
+    //     authorization: `bearer ${cookies().get("access_token")?.value}`,
+    //   },
+    //   body: JSON.stringify(data_data),
+    // });
+
+    // console.log('response',response.json())
+    // return response.json()
+
+  } catch (error: any) {
+    return error;
   }
 }

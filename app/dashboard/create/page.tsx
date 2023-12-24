@@ -26,7 +26,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
 import { uploadToStorage } from "@/lib/actions";
 
 function CreatePage() {

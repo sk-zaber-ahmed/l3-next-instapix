@@ -15,8 +15,12 @@ import PostOptions from './PostOptions';
 import PostActions from './PostActions';
 import { Separator } from './ui/separator';
 import { ImageSlider } from './ImageSlider';
+import { getImageUrl } from '@/lib/actions';
 
-const Post = ({ post }: any) => {
+const Post = async({ post }: any) => {
+    const parsedUrl=await getImageUrl(post?.files[0])
+    console.log(parsedUrl)
+
     return (
         <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">
             <div className="flex items-center justify-between px-3 sm:px-0">

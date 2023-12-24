@@ -5,7 +5,7 @@ import Post from "./Post";
 async function Posts() {
   //const posts = await fetchFollowersPost();
   //console.log(posts)
-  let loggedInUser="fdd29cd4-bde4-4b11-9557-2a41241cf2c2"
+  let loggedInUser="7e648dc6-f120-42e6-9c34-8cf366a63654"
   const instaPosts=await fetchInstaPosts(loggedInUser);
 
   return (
