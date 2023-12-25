@@ -37,6 +37,10 @@ const nextConfig = {
         port: "",
         pathname: "/shadcn.png",
       },
+      {
+        protocol:"https",
+        hostname:"selisefalcon.blob.core.windows.net",
+      }
     ],
   },
 };

@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
@@ -15,11 +16,18 @@ import PostOptions from './PostOptions';
 import PostActions from './PostActions';
 import { Separator } from './ui/separator';
 import { ImageSlider } from './ImageSlider';
-import { getImageUrl } from '@/lib/actions';
+import { getImageUrl } from '@/lib/data';
+import axios from 'axios';
 
-const Post = async({ post }: any) => {
-    const parsedUrl=await getImageUrl(post?.files[0])
-    console.log(parsedUrl)
+const Post = async ({ post }: any) => {
+    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
+    // const parsedUrl=await getImageUrl(fileId)
+    // console.log(parsedUrl)
+    const formData={
+        "fileId":fileId
+    }
+
+    
 
     return (
         <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">

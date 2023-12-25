@@ -61,8 +61,11 @@ const LoginForm = () => {
 
     const data = await authenticate(postData);
 
+    console.log(data)
+
     if (data) {
       router.replace("/dashboard");
+      localStorage.setItem("token", data.access_token);
     }
     return data;
   }
