@@ -1,7 +1,5 @@
 "use client";
 
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -16,18 +14,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import useMount from "@/hooks/useMount";
 import { CreatePost } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
-import { uploadToStorage } from "@/lib/actions";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 
 function CreatePage() {
@@ -35,9 +29,8 @@ function CreatePage() {
   const isCreatePage = pathname === "/dashboard/create";
   const router = useRouter();
   const mount = useMount();
-  // const authToken = localStorage?.getItem("token");
-  const [selectedFile, setSelectedFile] = useState(null);
-  console.log("working", selectedFile);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [postImage, setPostImage] = useState<File[]>([]);
 
   const form = useForm<z.infer<typeof CreatePost>>({
     resolver: zodResolver(CreatePost),
@@ -46,35 +39,45 @@ function CreatePage() {
       fileUrl: undefined,
     },
   });
-  const fileUrl = form.watch("fileUrl"); //whatever happens in fileUrl will be watched by the form
 
-  const handleFileChange = (event: any) => {
-    // const file = event.target.files[0];
-    setSelectedFile(event.target.files);
+  const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
 
-    // if (file) {
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     form.setValue("fileUrl", reader?.result as string);
-    //   };
-    //   reader.readAsDataURL(file);
-    // }
+    if (files) {
+      const imagePreviewsArray: string[] = [];
+      const inputImages: File[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        const file = files[i];
+        inputImages.push(file); // set input files
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          const base64Data = reader.result as string; // 'result' contains the base64 string
+          imagePreviewsArray.push(base64Data);
+
+          if (imagePreviewsArray.length === files.length) {
+            setImagePreviews(imagePreviewsArray);
+            setPostImage(inputImages);
+          }
+        };
+      }
+    }
   };
 
   async function onSubmit(values: z.infer<typeof CreatePost>) {
-    const formData = new FormData();
-    if (selectedFile) {
-      formData.append("image", selectedFile);
-    }
-
-    const imageUrl = await uploadToStorage(formData);
-
-    if (imageUrl === "cookies_not_found") {
-      return await uploadToStorage(formData);
-    }
-
-    console.log(imageUrl);
-    return imageUrl;
+    // const formData = new FormData();
+    // if (selectedFile) {
+    //   formData.append("image", selectedFile);
+    // }
+    // const imageUrl = await uploadToStorage(formData);
+    // if (imageUrl === "cookies_not_found") {
+    //   return await uploadToStorage(formData);
+    // }
+    // console.log(imageUrl);
+    // return imageUrl;
   }
 
   // const [userData, dispatch] = useFormState(onSubmit, undefined);
@@ -89,7 +92,6 @@ function CreatePage() {
     >
       <DialogContent
         style={{
-          // border: "2px solid red",
           minWidth: "100vw",
           minHeight: "100dvh",
           display: "flex",
@@ -98,7 +100,7 @@ function CreatePage() {
         }}
         className="bg-background/10"
       >
-        <div className="flex flex-col border-2 rounded-lg rounded border-border bg-border w-full md:w-[70%] lg:w-[50%] min-h-[65vh]">
+        <div className="flex flex-col border-2 rounded-lg rounded border-border bg-border w-full md:w-[70%] lg:w-[50%]">
           <DialogHeader>
             <DialogTitle className="text-center text-[16px] py-2">
               Create new post
@@ -106,9 +108,9 @@ function CreatePage() {
           </DialogHeader>
           <Separator className="bg-foreground" />
 
-          <div className="flex-1 flex items-center justify-center">
-            {!!selectedFile ? (
-              <ImageViewCarousel selectedFile={selectedFile} />
+          <div className="flex items-center justify-center rounded-b-lg w-full">
+            {imagePreviews.length > 0 ? (
+              <ImageViewCarousel postImage={postImage} />
             ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="">
@@ -159,7 +161,7 @@ function CreatePage() {
                                 type="file"
                                 accept="image/*"
                                 multiple
-                                onChange={handleFileChange}
+                                onChange={handleFileInputChange}
                                 style={{ display: "none" }}
                               />
                               Select from computer
@@ -284,3 +286,18 @@ export default CreatePage;
 //   )}
 // </form>
 // </Form>
+
+// <>
+// {imagePreviews.map((preview, index) => (
+//   <Card key={index}>
+//     <CardContent className="flex aspect-square items-center justify-center p-6">
+//       <Image
+//         src={preview}
+//         alt="Post preview"
+//         fill
+//         className="rounded-md object-cover"
+//       />
+//     </CardContent>
+//   </Card>
+// ))}
+// </>
