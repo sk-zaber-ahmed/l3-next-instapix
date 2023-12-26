@@ -91,7 +91,7 @@ const ImageViewCarousel = ({
               <Image
                 src={item?.base64}
                 alt="Post preview"
-                className="object-cover h-[65vh] w-auto rounded-b-lg"
+                className="object-cover h-[65vh] w-auto"
                 height={100}
                 width={100}
               />

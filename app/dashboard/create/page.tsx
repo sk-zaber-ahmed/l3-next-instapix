@@ -23,7 +23,24 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, CircleUser } from "lucide-react";
+import { useFormState, useFormStatus } from "react-dom";
+import { authenticate, uploadToStorage } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
+
+function PostCreateButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      className="absolute right-4 top-[10px] text-[14px] text-blue-500 font-bold hover:text-blue-600"
+      type="submit"
+      aria-disabled={pending}
+    >
+      {pending ? "pending..." : "Share"}
+    </button>
+  );
+}
 
 function CreatePage() {
   const pathname = usePathname();
@@ -32,22 +49,30 @@ function CreatePage() {
   const mount = useMount();
   const [postImage, setPostImage] = useState<File[]>([]);
   const [stage, setStage] = useState<number>(0);
+  const [postDist, setPostDist] = useState<string>("");
+
+  const [postData, dispatch] = useFormState(onSubmit, undefined);
+  // console.log("data comming from action", postData);
+
+  async function onSubmit(values: z.infer<typeof CreatePost>) {
+    const formData = new FormData();
+    if (postImage.length > 0) {
+      formData.append("image", postImage[0]);
+    }
+    const imageUrl = await uploadToStorage(formData);
+    if (imageUrl === "cookies_not_found") {
+      return await uploadToStorage(formData);
+    }
+    console.log(imageUrl);
+    return imageUrl;
+  }
 
   const updateStage = () => {
     if (stage === 0) {
       setStage(1);
     }
     if (stage === 1) {
-      // const formData = new FormData();
-      // if (selectedFile) {
-      //   formData.append("image", selectedFile);
-      // }
-      // const imageUrl = await uploadToStorage(formData);
-      // if (imageUrl === "cookies_not_found") {
-      //   return await uploadToStorage(formData);
-      // }
-      // console.log(imageUrl);
-      // return imageUrl;
+      dispatch();
     }
   };
 
@@ -58,6 +83,10 @@ function CreatePage() {
       fileUrl: undefined,
     },
   });
+
+  const handleDistInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setPostDist(event.target.value);
+  };
 
   const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -81,11 +110,6 @@ function CreatePage() {
   const updateUploadImageList = (file: File[]) => {
     setPostImage((prev) => [...prev, ...file]);
   };
-
-  async function onSubmit(values: z.infer<typeof CreatePost>) {}
-
-  // const [userData, dispatch] = useFormState(onSubmit, undefined);
-  // const { pending } = useFormStatus();
 
   if (!mount) return null; //this prevents the hydration issue when component is mounted then the Dialog component is rendered
 
@@ -114,14 +138,19 @@ function CreatePage() {
               Create new post
             </DialogTitle>
 
-            {postImage.length > 0 && (
-              <button
-                onClick={updateStage}
-                className="absolute right-2 top-[4px] text-[14px] text-blue-500 font-bold hover:text-blue-600 "
-              >
-                {stage === 0 ? "Next" : "Share"}
-              </button>
-            )}
+            {postImage.length > 0 &&
+              (stage === 0 ? (
+                <button
+                  onClick={updateStage}
+                  className="absolute right-2 top-[4px] text-[14px] text-blue-500 font-bold hover:text-blue-600 "
+                >
+                  {stage === 0 ? "Next" : "Share"}
+                </button>
+              ) : (
+                <form action={dispatch}>
+                  <PostCreateButton />
+                </form>
+              ))}
 
             {stage !== 0 && (
               <button
@@ -135,8 +164,9 @@ function CreatePage() {
           <Separator className="bg-foreground" />
 
           <div
-            className={`flex items-center justify-center rounded-b-lg w-full`}
+            className={`flex items-center justify-center rounded-b-lg w-full h-full rounded-b-lg overflow-hidden`}
           >
+            {/* image pick area */}
             <div
               className={`${
                 stage === 0 ? "w-full" : "lg:w-1/2 md:hidden lg:block"
@@ -213,12 +243,30 @@ function CreatePage() {
                 </Form>
               )}
             </div>
+
+            {/* post's detail area */}
             <div
               className={`${
                 stage === 0 ? "hidden" : "lg:w-1/2 md:w-full"
-              } h-[100px]`}
-              style={{ border: "2px solid red" }}
-            ></div>
+              } h-[65vh]`}
+              // style={{ border: "2px solid red" }}
+            >
+              <div className="w-full flex items-center gap-3 p-4">
+                <div>
+                  <CircleUser size={48} />
+                </div>
+                <div>Who is the User?</div>
+              </div>
+              <div className=" m-4">
+                <textarea
+                  name="description"
+                  id="post_dist"
+                  rows={10}
+                  onChange={handleDistInputChange}
+                  className="p-4 w-full"
+                ></textarea>
+              </div>
+            </div>
           </div>
         </div>
       </DialogContent>
