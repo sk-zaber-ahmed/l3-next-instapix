@@ -11,7 +11,7 @@ import AppCard from "@/components/AppCard";
 const Register = () => {
   return (
     <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black ">
-      <div className=" flex flex-col w-full max-w-[340px] space-y-2.5 p-8 gap-2 shadow-sm border-[#dbdbdb] border md:mt-5">
+      <div className=" flex flex-col w-full max-w-[340px] space-y-2.5 p-8 gap-2 md:shadow-sm border-[#dbdbdb] md:border md:mt-5">
         <Image
           src={"/Instapix.svg"}
           alt={"logo"}
@@ -26,7 +26,7 @@ const Register = () => {
           Sign up to see photos and videos from your friends.
         </p>
 
-        <Button className="gap-1" variant={"auth"} size={"auth"}>
+        <Button className="gap-1 text-sm" variant={"auth"} size={"auth"}>
           <Facebook size={16} /> Log in with Facebook
         </Button>
 
@@ -40,7 +40,7 @@ const Register = () => {
         <RegisterForm />
       </div>
 
-      <div className="flex w-full max-w-[340px] flex-col space-y-2.5 p-4 md:h-[75px]  justify-center shadow-sm border-gray-300 border">
+      <div className="flex w-full max-w-[340px] flex-col space-y-2.5 p-4 md:h-[75px]  justify-center md:shadow-sm border-gray-300 md:border">
         <p className="text-sm text-center">
           Have an account?{" "}
           <Link className="text-[#0095f6] font-bold" href={"/login"}>
