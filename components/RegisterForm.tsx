@@ -78,6 +78,7 @@ const RegisterForm = () => {
       <form
         onSubmit={form.handleSubmit(dispatch)}
         className="space-y-3 flex flex-col"
+        // autoComplete="off"
       >
         <FormField
           control={form.control}
@@ -88,7 +89,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="Full Name"
                   {...field}
-                  className="bg-inherit text-[#737373] text-sm rounded-sm border border-gray-200 focus-visible:ring-0  focus-visible:ring-offset-1 ring-offset-gray-300"
+                  className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400 "
                 />
               </FormControl>
               <FormMessage />
@@ -104,7 +105,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="Email"
                   {...field}
-                  className="bg-inherit text-[#737373] text-sm rounded-sm border border-gray-200 focus-visible:ring-0  focus-visible:ring-offset-1 ring-offset-gray-300"
+                  className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400"
                 />
               </FormControl>
               <FormMessage />
@@ -121,7 +122,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="Username"
                   {...field}
-                  className="bg-inherit text-[#737373] text-sm rounded-sm border border-gray-200 focus-visible:ring-0  focus-visible:ring-offset-1 ring-offset-gray-300"
+                  className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400"
                 />
               </FormControl>
               <FormMessage />
@@ -138,7 +139,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="Password"
                   {...field}
-                  className="bg-inherit text-[#737373] text-sm rounded-sm border border-gray-200 focus-visible:ring-0  focus-visible:ring-offset-1 ring-offset-gray-300"
+                  className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400"
                 />
               </FormControl>
               <FormMessage />
@@ -154,7 +155,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="Mobile Number"
                   {...field}
-                  className="bg-inherit text-[#737373] text-sm rounded-sm border border-gray-200 focus-visible:ring-0  focus-visible:ring-offset-1 ring-offset-gray-300"
+                  className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400"
                 />
               </FormControl>
               <FormMessage />
@@ -164,7 +165,8 @@ const RegisterForm = () => {
 
         <Button
           type="submit"
-          className="text-primary font-bold bg-[#0095f6] hover:bg-[#0095f6]/90 w-full self-center"
+          variant={"auth"}
+          size={"auth"}
           disabled={disableSignupButton()}
         >
           Sign up

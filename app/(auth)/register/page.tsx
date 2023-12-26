@@ -10,8 +10,8 @@ import AppCard from "@/components/AppCard";
 
 const Register = () => {
   return (
-    <main className="flex flex-col gap-5 items-center justify-center h-screen bg-white text-black ">
-      <div className="relative mx-auto flex flex-col w-full max-w-[350px] space-y-2.5 p-8 gap-2 shadow-sm border-gray-300 border">
+    <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black ">
+      <div className=" flex flex-col w-full max-w-[340px] space-y-2.5 p-8 gap-2 shadow-sm border-[#dbdbdb] border md:mt-5">
         <Image
           src={"/Instapix.svg"}
           alt={"logo"}
@@ -21,36 +21,34 @@ const Register = () => {
         />
 
         <p
-          className={`text-center font-semibold text-[#737373] text-[16px] ${roboto.className}`}
+          className={`tracking-wide leading-5 text-center font-semibold text-[#737373] text-[16px] ${roboto.className}`}
         >
           Sign up to see photos and videos from your friends.
         </p>
 
-        <Button className="text-primary font-bold bg-[#0095f6] hover:bg-[#0095f6]/90 gap-1  w-3/4 self-center">
+        <Button className="gap-1" variant={"auth"} size={"auth"}>
           <Facebook size={16} /> Log in with Facebook
         </Button>
 
-        <div className="flex justify-around items-center my-4">
-          <Separator decorative className="w-1/3 border-1 bg-gray-300 " />
-          <p
-            className={`text-sm font-semibold text-[#737373] ${roboto.className}`}
-          >
+        <div className="flex justify-between items-center my-4">
+          <Separator decorative className="w-2/5 border-1 bg-gray-300 " />
+          <p className={`text-sm font-bold text-[#737373] ${roboto.className}`}>
             OR
           </p>
-          <Separator decorative className="w-1/3 border-1 bg-gray-300 " />
+          <Separator decorative className="w-2/5 border-1 bg-gray-300 " />
         </div>
         <RegisterForm />
       </div>
 
-      <div className="mx-auto flex w-full max-w-[350px] flex-col space-y-2.5 p-4 gap-5 shadow-sm border-gray-300 border">
+      <div className="flex w-full max-w-[340px] flex-col space-y-2.5 p-4 md:h-[75px]  justify-center shadow-sm border-gray-300 border">
         <p className="text-sm text-center">
           Have an account?{" "}
           <Link className="text-[#0095f6] font-bold" href={"/login"}>
-            Login
+            Log in
           </Link>
         </p>
       </div>
-      <div className="mt-6 flex flex-col items-center gap-2 w-full max-w-[350px] space-y-2.5 p-4">
+      <div className="mt-2 flex flex-col items-center w-full max-w-[340px] space-y-2 p-1">
         <p className="">Get the app.</p>
         <div className="flex space-x-1">
           <div>
