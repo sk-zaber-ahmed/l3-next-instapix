@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerUser } from "@/lib/actions";
+import { authenticateSite, registerUser } from "@/lib/actions";
 
 const formSchema = zod.object({
   email: zod.string().email({
@@ -60,19 +60,19 @@ const RegisterForm = () => {
     prevState: string | undefined,
     values: zod.infer<typeof formSchema>
   ) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
+    const isSiteAuthenticated = await authenticateSite();
 
-    const data = await registerUser(values);
-
-    if (data) {
-      // router.replace("/dashboard");
-      console.log("data:", data);
+    if (isSiteAuthenticated?.access_token) {
+      const data = await registerUser(values);
+      if (data) {
+        // router.replace("/dashboard");
+        console.log("data:", data);
+      }
+      return data;
     }
-    return data;
-    return "";
   }
+
   return (
     <Form {...form}>
       <form

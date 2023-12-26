@@ -3,6 +3,7 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
+import { userRegistrationTemplate } from "./templates";
 
 export async function followUser() {
   try {
@@ -63,58 +64,73 @@ export async function authenticate(data: any) {
   }
 }
 
-const headersData = [
-  {
-    key: "Origin",
-    value: "http://misterloo.seliselocal.com",
-    type: "text",
-    enabled: true,
-    description: null,
-  },
-  // {
-  //   key: "Referer",
-  //   value: "http://misterloo.seliselocal.com/login",
-  //   type: "text",
-  //   enabled: true,
-  //   description: null,
-  // },
-  // {
-  //   key: "Accept-Language",
-  //   value: "en-US,en;q=0.9",
-  //   type: "text",
-  //   enabled: true,
-  //   description: null,
-  // },
-  // {
-  //   key: "Accept",
-  //   value: "application/json, text/plain, */*",
-  //   type: "text",
-  //   enabled: true,
-  //   description: null,
-  // },
-];
-
-// Convert the headers data into an object
-const headers: { [key: string]: string } = {};
-headersData.forEach((header) => {
-  if (header.enabled) {
-    headers[header.key] = header.value;
-  }
-});
-
-export async function registerUser(data: any) {
+//this function is used in register page and this is the first step of onboarding an user
+export async function registerUser(registrationData: any) {
   try {
+    // console.log("registration data", registrationData);
+    const token = cookies().get("access_token");
+
+    // console.log("token", token?.value);
+    const userTemplate = userRegistrationTemplate;
+    const payload = {
+      ...userRegistrationTemplate,
+      Email: registrationData?.email || userRegistrationTemplate?.Email,
+      UserName:
+        registrationData?.username || userRegistrationTemplate?.UserName,
+    };
+    console.log("payload", payload);
+    const res = await fetch(
+      "http://microservices.seliselocal.com/api/uam/v23/UserAccessManagement/SecurityCommand/CreateUser",
+      {
+        method: "POST",
+        headers: {
+          Origin: "http://misterloo.seliselocal.com",
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `bearer ${token?.value}`,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await res.json();
+    console.log("data from register user", data);
+    return data;
+  } catch (error) {
+    console.log("Error while registering user", error);
+  }
+}
+
+export async function authenticateSite() {
+  try {
+    const formData = new URLSearchParams();
+    formData.append("grant_type", "authenticate_site");
+
     const res = await fetch(
       "http://misterloo.seliselocal.com/api/identity/v20/identity/token",
       {
         method: "POST",
-        headers: { Origin: "http://misterloo.seliselocal.com" },
-        body: JSON.stringify({ grant_type: "authenticate_site" }),
+        headers: {
+          Origin: "http://misterloo.seliselocal.com",
+          Referer: "http://misterloo.seliselocal.com/login",
+          "Accept-Language": "en-US,en;q=0.9",
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/x-www-form-urlencoded",
+          Host: "misterloo.seliselocal.com",
+        },
+        body: formData.toString(),
       }
     );
 
-    return res.json();
-  } catch (error) {}
+    const data = await res.json();
+    if (data?.access_token) {
+      cookies().set("access_token", data?.access_token);
+      // console.log("access_token", data?.access_token);
+    }
+    return data;
+  } catch (error) {
+    console.log("Error while authenticating site user", error);
+  }
 }
 
 export async function uploadToStorage(data: any) {
