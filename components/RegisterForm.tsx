@@ -7,7 +7,7 @@ import zod from "zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "@/lib/actions";
 
@@ -32,10 +32,6 @@ const formSchema = zod.object({
   }),
 });
 const RegisterForm = () => {
-  const router = useRouter();
-  const [userData, dispatch] = useFormState(onSubmit, undefined);
-
-  // authenticate
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +42,10 @@ const RegisterForm = () => {
       fullName: "",
     },
   });
+  const router = useRouter();
+  const [userData, dispatch] = useFormState(onSubmit, undefined);
+  const { pending } = useFormStatus();
+
   const disableSignupButton = () => {
     return (
       !form.getValues("fullName") ||
@@ -168,6 +168,7 @@ const RegisterForm = () => {
           variant={"auth"}
           size={"auth"}
           disabled={disableSignupButton()}
+          aria-disabled={pending}
         >
           Sign up
         </Button>
