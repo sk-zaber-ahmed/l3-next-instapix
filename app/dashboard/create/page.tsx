@@ -47,18 +47,30 @@ function CreatePage() {
   const isCreatePage = pathname === "/dashboard/create";
   const router = useRouter();
   const mount = useMount();
-  const [postImage, setPostImage] = useState<File[]>([]);
   const [stage, setStage] = useState<number>(0);
-  const [postDist, setPostDist] = useState<string>("");
+  const [postImage, setPostImage] = useState<File[]>([]); // post's image list
+  const [postDist, setPostDist] = useState<string>(""); // post's description
 
   const [postData, dispatch] = useFormState(onSubmit, undefined);
   // console.log("data comming from action", postData);
 
   async function onSubmit(values: z.infer<typeof CreatePost>) {
     const formData = new FormData();
-    if (postImage.length > 0) {
-      formData.append("image", postImage[0]);
-    }
+
+    //   for (const key of Object.keys(this.state.imgCollection)) {
+    //     formData.append('image', this.state.imgCollection[key])
+    // }
+
+    postImage.map((item: File) => {
+      formData.append("image", item);
+    });
+
+    formData.append("disc", postDist);
+
+    // if (postImage.length > 0) {
+    //   formData.append("image", postImage[0]);
+    // }
+
     const imageUrl = await uploadToStorage(formData);
     if (imageUrl === "cookies_not_found") {
       return await uploadToStorage(formData);

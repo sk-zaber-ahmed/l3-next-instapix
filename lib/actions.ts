@@ -65,16 +65,6 @@ export default axiosInstance;
 
 
 
-
-
-
-
-
-
-
-
-
-
 export async function followUser() {
   try {
   } catch (error) {
@@ -94,6 +84,8 @@ export async function authenticate(data: any) {
     });
 
     const user = await res.json();
+
+    console.log(user);
 
     if (user?.access_token) {
       cookies().set("access_token", user?.access_token, {
@@ -139,12 +131,6 @@ export async function authenticate(data: any) {
 
 export async function uploadToStorage(data: any) {
   try {
-    // console.log("call for upload", cookies().get("access_token")?.value);
-
-    if (!cookies().get("access_token")) {
-      return 'cookies_not_found'
-    }
-
     // console.log(headers, data);
 
     const response = await axiosInstance.post(
