@@ -19,8 +19,19 @@ import { Separator } from "@/components/ui/separator";
 import { pacifico } from "./fonts";
 import AppCard from "./AppCard";
 import { FacebookIcon } from "lucide-react";
-import { useFormState } from "react-dom";
+import axios from "axios";
+import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button className="w-full mt-4" type="submit">
+      Log in
+    </Button>
+  );
+}
 
 const formSchema = z.object({
   email: z.string().min(2, {
@@ -34,6 +45,7 @@ const formSchema = z.object({
 const LoginForm = () => {
   const router = useRouter();
   const [userData, dispatch] = useFormState(onSubmit, undefined);
+  const { pending } = useFormStatus();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -71,7 +83,7 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="mt-[110px]">
+    <div className="mt-[60px]">
       <div className="border border-gray-200 px-6 py-8">
         <div className="mb-8">
           <h1
@@ -114,11 +126,7 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <div>
-              <Button className="w-full mt-4" type="submit">
-                Log in
-              </Button>
-            </div>
+            <LoginButton />
           </form>
         </Form>
 
