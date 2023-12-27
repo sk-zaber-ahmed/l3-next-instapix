@@ -16,11 +16,15 @@ import PostActions from './PostActions';
 import { Separator } from './ui/separator';
 import { ImageSlider } from './ImageSlider';
 import axios from 'axios';
-import { parseImage } from '@/lib/actions';
+import { multiImageParse, parseImage } from '@/lib/actions';
 
 const Post = async ({ post }: any) => {
+    const {files}=post
     const parsed = await parseImage()
-    //console.log(parsed)
+    console.log(parsed)
+
+    const multiImage=await multiImageParse(files)
+    console.log(multiImage)
 
     return (
         <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">
@@ -57,19 +61,19 @@ const Post = async ({ post }: any) => {
                     className="sm:rounded-md object-cover"
                 /> */}
 
-                <ImageSlider parsed={parsed} images={post?.files} />
+                <ImageSlider parsed={parsed} multiImage={multiImage} images={post?.files} />
             </Card>
 
             <PostActions post={post} />
 
-            {post?.content && (
+            {/* {post?.content && (
                 <div className="text-sm leading-none flex items-center space-x-2 font-medium px-2 sm:px-0">
                     <Link href={`/dashboard/${post?.owner}`} className="font-bold">
                         User
                     </Link>
                     <p>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
                 </div>
-            )}
+            )} */}
 
             {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
 

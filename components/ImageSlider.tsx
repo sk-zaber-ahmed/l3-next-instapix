@@ -1,17 +1,20 @@
 "use client";
 import { useState } from "react"
-import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot,ChevronRight ,ChevronLeft } from "lucide-react"
+import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot, ChevronRight, ChevronLeft } from "lucide-react"
 import ImageGet from "./ImageGet";
 
 
 type ImageSliderProps = {
   images: string[]
   parsed: any
+  multiImage: any
 }
 
-export function ImageSlider({ images,parsed }: ImageSliderProps) {
+export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(0)
-  console.log(images)
+  //console.log(images)
+  //console.log('each user post image', multiImage[0]?.Url)
+
   function showNextImage() {
     setImageIndex(index => {
       if (index === images.length - 1) return 0
@@ -42,15 +45,25 @@ export function ImageSlider({ images,parsed }: ImageSliderProps) {
           overflow: "hidden",
         }}
       >
-        {images?.map((image, index) => (
-          <img
-            key={index}
-            src={parsed?.Url}
-            alt={image}
-            aria-hidden={imageIndex !== index}
-            className="img-slider-img"
-            style={{ translate: `${-100 * imageIndex}%` }}
-          />
+        {multiImage?.map((image: any, index: number) => (
+            <img
+              key={index}
+              src={image?.Url}
+              alt={image}
+              aria-hidden={imageIndex !== index}
+              className="img-slider-img"
+              style={{ translate: `${-100 * imageIndex}%` }}
+            />
+
+          //   <img
+          //   key={index}
+          //   src={parsed?.Url}
+          //   alt={image}
+          //   aria-hidden={imageIndex !== index}
+          //   className="img-slider-img"
+          //   style={{ translate: `${-100 * imageIndex}%` }}
+          // />
+
           // <ImageGet key={index} image={image} imageIndex={imageIndex} index={index}></ImageGet>
         ))}
       </div>
@@ -96,6 +109,7 @@ export function ImageSlider({ images,parsed }: ImageSliderProps) {
         ))}
       </div>
       <div id="after-image-slider-controls" />
+      
     </section>
   )
 }

@@ -334,24 +334,46 @@ export async function uploadToStorage(data: any) {
 }
 
 //getting image string using image id from the storage micro-service
-export const parseImage=async ()=>{
+export const parseImage = async () => {
   try {
-     const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
-     const formData = {
-       "fileId": fileId
-     }
+    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0";
+    const formData = {
+      fileId: fileId,
+    };
 
-     // Define the URL for your POST request
-     const url = 'http://127.0.0.1:5000/storage/url/parser';
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/storage/url/parser";
 
-     // Make a POST request with custom headers using Axios
-     const response = await axiosInstance.post(url, formData);
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
 
-     // Handle the response data
-     //console.log(response.data);
-     return response.data
-   } catch (error) {
-     // Handle errors
-     console.error('Error:', error);
-   }
-} 
+    // Handle the response data
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
+
+//multiple image parse
+export const multiImageParse = async (files:any) => {
+  try {
+    const formData = {
+      FileIds: files,
+    };
+
+    // Define the URL for your POST request
+    const url =
+      "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+    
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
