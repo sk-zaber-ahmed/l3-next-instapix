@@ -37,6 +37,7 @@ export const fetchFollowersPost = async () => {
 };
 
 //--------------------------------------//
+
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
