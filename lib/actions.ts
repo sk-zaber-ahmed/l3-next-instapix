@@ -32,16 +32,20 @@ axiosInstance.interceptors.request.use(
     const access_token = cookies().get("access_token");
 
     if (access_token && access_token.value !== "") {
-      config.headers.Authorization = `Bearer ${access_token}`;
+      config.headers.Authorization = `bearer ${access_token.value}`;
       return config;
     }
 
     const refresh_token = cookies().get("refresh_token");
 
+    if (!refresh_token?.value || refresh_token?.value === "") {
+      throw new Error("token not found");
+    }
+
     // Check token validity here, you might have your own validation logic
     // For example, you could decode the token and check its expiration date
     try {
-      const response = await getToken(refresh_token);
+      const response = await getToken(refresh_token?.value);
 
       cookies().set("access_token", response.data.access_token, {
         path: "/",
@@ -51,7 +55,7 @@ axiosInstance.interceptors.request.use(
         secure: false,
       });
 
-      config.headers.Authorization = `Bearer ${response.data.access_token}`;
+      config.headers.Authorization = `bearer ${response.data.access_token}`;
       return config;
 
     } catch (error) {
@@ -62,7 +66,6 @@ axiosInstance.interceptors.request.use(
 );
 
 export default axiosInstance;
-
 
 
 export async function followUser() {
@@ -81,11 +84,10 @@ export async function authenticate(data: any) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      cache: "no-cache"
     });
 
     const user = await res.json();
-
-    console.log(user);
 
     if (user?.access_token) {
       cookies().set("access_token", user?.access_token, {

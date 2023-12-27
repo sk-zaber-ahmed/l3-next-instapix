@@ -14,6 +14,7 @@ const getAccessTokenWithRefreshToken = async (refresh_token: string) => {
             grant_type: "refresh_token",
             refresh_token: refresh_token
         }),
+        cache: "no-cache"
     });
 
     if (!res.ok) {
@@ -33,45 +34,27 @@ async function middleware(request: NextRequest) {
     try {
         if (access_token && refresh_token && request.nextUrl.pathname.startsWith('/dashboard')) {
             if (access_token.value === "") {
-                const res = await fetch("http://127.0.0.1:5000/user/auth", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        grant_type: "refresh_token",
-                        refresh_token: refresh_token.value
-                    }),
+                const resData = await getAccessTokenWithRefreshToken(refresh_token.value);
+
+                // const response = NextResponse.redirect(new URL('/dashboard', request.url));
+                let response = NextResponse.next()
+                response.cookies.set("access_token", resData?.access_token, {
+                    path: "/",
+                    domain: "localhost",
+                    maxAge: resData?.expires_in,
+                    httpOnly: true,
+                    secure: false,
                 });
 
-                if (!res.ok) {
-                    throw res;
-                }
-
-                const user = await res.json();
-
-                if (user?.access_token) {
-                    const response = NextResponse.redirect(new URL('/dashboard', request.url));
-
-                    response.cookies.set("access_token", user?.access_token, {
-                        path: "/",
-                        domain: "localhost",
-                        maxAge: user?.expires_in,
-                        httpOnly: true,
-                        secure: false,
-                    });
-
-                    return response;
-                }
-                throw "access_token not found";
+                return response;
             }
             return NextResponse.next();
         }
 
         if (!access_token && refresh_token && request.nextUrl.pathname.startsWith('/dashboard')) {
             const resData = await getAccessTokenWithRefreshToken(refresh_token.value);
-            const response = NextResponse.redirect(new URL('/dashboard', request.url));
-
+            // const response = NextResponse.redirect(new URL('/dashboard', request.url));
+            let response = NextResponse.next()
             response.cookies.set("access_token", resData?.access_token, {
                 path: "/",
                 domain: "localhost",
