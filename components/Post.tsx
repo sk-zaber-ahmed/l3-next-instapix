@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React, { useEffect } from 'react';
 import {
     Card,
     CardContent,
@@ -15,8 +16,19 @@ import PostOptions from './PostOptions';
 import PostActions from './PostActions';
 import { Separator } from './ui/separator';
 import { ImageSlider } from './ImageSlider';
+import { getImageUrl } from '@/lib/data';
+import axios from 'axios';
 
-const Post = ({ post }: any) => {
+const Post = async ({ post }: any) => {
+    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
+    // const parsedUrl=await getImageUrl(fileId)
+    // console.log(parsedUrl)
+    const formData={
+        "fileId":fileId
+    }
+
+    
+
     return (
         <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
@@ -52,17 +64,17 @@ const Post = ({ post }: any) => {
                     className="sm:rounded-md object-cover"
                 /> */}
 
-                <ImageSlider images={post?.images} />
+                <ImageSlider images={post?.files} />
             </Card>
 
             <PostActions post={post} />
 
-            {post?.description && (
+            {post?.content && (
                 <div className="text-sm leading-none flex items-center space-x-2 font-medium px-2 sm:px-0">
                     <Link href={`/dashboard/${post?.owner}`} className="font-bold">
                         User
                     </Link>
-                    <p>{post?.description?.length > 16 ? `${post?.description?.slice(0, 20)}... more` : post?.description}</p>
+                    <p>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
                 </div>
             )}
 

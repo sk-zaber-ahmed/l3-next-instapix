@@ -4,12 +4,16 @@ import { Button } from "@/components/ui/button"
 import {Card} from "@/components/ui/card"
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-type CardProps = React.ComponentProps<typeof Card>
+type CardProps = {
+    suggestion:any
+    className?: string
+    [key: string]: any
+}
 
-export function FollowersSuggestionCard({ className, ...props }: CardProps) {
+export function FollowersSuggestionCard({ className,suggestion }: CardProps) {
     return (
 
-        <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)} {...props}>
+        <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)}>
 
             <div className='flex justify-between'>
                 <div className="flex items-center space-x-4">
