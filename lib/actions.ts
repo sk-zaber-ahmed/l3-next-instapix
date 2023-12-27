@@ -4,7 +4,10 @@
 import axios from "axios";
 import { cookies } from "next/headers";
 import { userRegistrationTemplate } from "./templates";
-
+import { formSchema } from "@/components/RegisterForm";
+import zod from "zod";
+import { v4 as uuidv4 } from "uuid";
+import { splitFullName } from "./utils";
 export async function followUser() {
   try {
   } catch (error) {
@@ -65,18 +68,34 @@ export async function authenticate(data: any) {
 }
 
 //this function is used in register page and this is the first step of onboarding an user
-export async function registerUser(registrationData: any) {
+export async function registerUser(
+  registrationData: zod.infer<typeof formSchema>
+) {
   try {
     // console.log("registration data", registrationData);
-    const token = cookies().get("access_token");
+    let token = cookies().get("access_token");
+    if (token?.value.length === 0) {
+      const authenticatedSiteData = await authenticateSite();
+      if (authenticatedSiteData?.access_token) {
+        cookies().set("access_token", authenticatedSiteData?.access_token);
+        // console.log("access_token", data?.access_token);
+        token = authenticatedSiteData?.access_token;
+      }
+    }
 
     // console.log("token", token?.value);
+
     const userTemplate = userRegistrationTemplate;
+    const { firstName, lastName } = splitFullName(registrationData?.fullName);
     const payload = {
       ...userRegistrationTemplate,
-      Email: registrationData?.email || userRegistrationTemplate?.Email,
-      UserName:
-        registrationData?.username || userRegistrationTemplate?.UserName,
+      Email: registrationData?.email || userTemplate?.Email,
+      UserName: registrationData?.username || userTemplate?.UserName,
+      Password: registrationData?.password || userTemplate?.Password,
+      PhoneNumber: registrationData?.mobileNumber || userTemplate?.PhoneNumber,
+      FirstName: firstName,
+      LastName: lastName,
+      ItemId: uuidv4(),
     };
     console.log("payload", payload);
     const res = await fetch(
@@ -123,10 +142,7 @@ export async function authenticateSite() {
     );
 
     const data = await res.json();
-    if (data?.access_token) {
-      cookies().set("access_token", data?.access_token);
-      // console.log("access_token", data?.access_token);
-    }
+
     return data;
   } catch (error) {
     console.log("Error while authenticating site user", error);

@@ -9,9 +9,9 @@ import { Input } from "./ui/input";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { authenticateSite, registerUser } from "@/lib/actions";
+import { registerUser } from "@/lib/actions";
 
-const formSchema = zod.object({
+export const formSchema = zod.object({
   email: zod.string().email({
     message: "Please enter a valid email address.",
   }),
@@ -61,16 +61,13 @@ const RegisterForm = () => {
     values: zod.infer<typeof formSchema>
   ) {
     console.log(values);
-    const isSiteAuthenticated = await authenticateSite();
 
-    if (isSiteAuthenticated?.access_token) {
-      const data = await registerUser(values);
-      if (data) {
-        // router.replace("/dashboard");
-        console.log("data:", data);
-      }
-      return data;
+    const data = await registerUser(values);
+    if (data) {
+      // router.replace("/dashboard");
+      console.log("data:", data);
     }
+    return data;
   }
 
   return (
