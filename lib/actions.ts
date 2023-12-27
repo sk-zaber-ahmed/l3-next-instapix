@@ -128,6 +128,25 @@ export async function authenticate(data: any) {
   }
 }
 
+//Logged in user data
+export const fetchLoggedInUser = async () => {
+  try {
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/user/auth/loggedin/user";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.get(url);
+
+    // Handle the response data
+    // console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
+
 // export async function fetchInstaPosts(loggedInUserId: string) {
 //   try {
 //     const res = await fetch("http://localhost:9100/api/insta/app/posts", {
