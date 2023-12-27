@@ -75,7 +75,6 @@ const LoginForm = () => {
 
     if (data) {
       router.replace("/dashboard");
-      localStorage.setItem("token", data.access_token);
     }
     return data;
   }

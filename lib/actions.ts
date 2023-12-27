@@ -10,14 +10,76 @@ import zod from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { splitFullName } from "./utils";
 
+// const axiosInstance = axios.create();
+
+// const getToken = async (refresh_token: any) => {
+//   try {
+//     const formData = {
+//       grant_type: "refresh_token",
+//       refresh_token: refresh_token,
+//     };
+//     // Define your headers
+//     const headers = {
+//       "Content-Type": "application/json",
+//     };
+//     // Define the URL for your POST request
+//     const url = "http://127.0.0.1:5000/user/auth";
+
+//     // Make a POST request with custom headers using Axios
+//     const response = await axios.post(url, formData, { headers });
+//     return response;
+//   } catch (error) {
+//     throw new Error("Failed to get a new token");
+//   }
+// };
+
+// axiosInstance.interceptors.request.use(
+//   async (config) => {
+//     const access_token = cookies().get("access_token");
+
+//     if (access_token && access_token.value !== "") {
+//       config.headers.Authorization = `bearer ${access_token.value}`;
+//       return config;
+//     }
+
+//     const refresh_token = cookies().get("refresh_token");
+
+//     if (!refresh_token?.value || refresh_token?.value === "") {
+//       throw new Error("token not found");
+//     }
+
+//     // Check token validity here, you might have your own validation logic
+//     // For example, you could decode the token and check its expiration date
+//     try {
+//       const response = await getToken(refresh_token?.value);
+
+//       cookies().set("access_token", response.data.access_token, {
+//         path: "/",
+//         domain: "localhost",
+//         maxAge: response.data?.expires_in,
+//         httpOnly: true,
+//         secure: false,
+//       });
+
+//       config.headers.Authorization = `bearer ${response.data.access_token}`;
+//       return config;
+//     } catch (error) {
+//       throw error;
+//     }
+//   },
+//   (error) => Promise.reject(error)
+// );
+
 const axiosInstance = axios.create();
 
 const getToken = async (refresh_token: any) => {
+  //console.log("from axios instance",refresh_token)
   try {
     const formData = {
       grant_type: "refresh_token",
       refresh_token: refresh_token,
     };
+    //console.log("from axios instance",formData)
     // Define your headers
     const headers = {
       "Content-Type": "application/json",
@@ -27,6 +89,14 @@ const getToken = async (refresh_token: any) => {
 
     // Make a POST request with custom headers using Axios
     const response = await axios.post(url, formData, { headers });
+
+    // cookies().set("access_token", response.data.access_token, {
+    //   path: "/",
+    //   domain: "localhost",
+    //   maxAge: response.data?.expires_in,
+    //   httpOnly: true,
+    //   secure: false,
+    // });
     return response;
   } catch (error) {
     throw new Error("Failed to get a new token");
@@ -35,37 +105,31 @@ const getToken = async (refresh_token: any) => {
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const access_token = cookies().get("access_token");
+    // Check if the token is valid before sending the request
+    const refresh_token = cookies().get("refresh_token")?.value; // Assuming token is stored in localStorage
+    const access_token = cookies().get("access_token")?.value;
+    //console.log("from axios instance",refresh_token)
+    let newToken = "";
 
-    if (access_token && access_token.value !== "") {
-      config.headers.Authorization = `bearer ${access_token.value}`;
-      return config;
+    if (refresh_token) {
+      // Check token validity here, you might have your own validation logic
+      // For example, you could decode the token and check its expiration date
+      try {
+        const response = await getToken(refresh_token);
+
+        newToken = response.data.access_token;
+        //console.log("from axios instance",newToken)
+      } catch (error) {
+        // Handle errors
+        console.error("Error:", error);
+      }
     }
 
-    const refresh_token = cookies().get("refresh_token");
+    // Set the token in the request header
+    config.headers.Authorization = `Bearer ${newToken}`;
+    //console.log("from axios instance",config)
 
-    if (!refresh_token?.value || refresh_token?.value === "") {
-      throw new Error("token not found");
-    }
-
-    // Check token validity here, you might have your own validation logic
-    // For example, you could decode the token and check its expiration date
-    try {
-      const response = await getToken(refresh_token?.value);
-
-      cookies().set("access_token", response.data.access_token, {
-        path: "/",
-        domain: "localhost",
-        maxAge: response.data?.expires_in,
-        httpOnly: true,
-        secure: false,
-      });
-
-      config.headers.Authorization = `bearer ${response.data.access_token}`;
-      return config;
-    } catch (error) {
-      throw error;
-    }
+    return config;
   },
   (error) => Promise.reject(error)
 );
@@ -247,15 +311,15 @@ export async function uploadToStorage(data: any) {
   try {
     // console.log("call for upload", cookies().get("access_token")?.value);
 
-    if (!cookies().get("access_token")) {
-      return "cookies_not_found";
-    }
+    // if (!cookies().get("access_token")) {
+    //   return "cookies_not_found";
+    // }
 
-    const headers = {
-      token: `bearer ${cookies().get("access_token")?.value}`,
-    };
+    // const headers = {
+    //   token: `bearer ${cookies().get("access_token")?.value}`,
+    // };
 
-    // console.log(headers, data);
+    // // console.log(headers, data);
 
     const response = await axiosInstance.post(
       `http://127.0.0.1:5000/storage/upload`,
@@ -270,106 +334,24 @@ export async function uploadToStorage(data: any) {
 }
 
 //getting image string using image id from the storage micro-service
-// export async function getImageUrl(imageId: string) {
-//   try {
-//     if (!cookies().get("access_token")) {
-//       return "cookies_not_found";
-//     }
+export const parseImage=async ()=>{
+  try {
+     const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
+     const formData = {
+       "fileId": fileId
+     }
 
-//     const headers = {
-//       accept: "application/json",
-//       Authorization: `bearer ${cookies().get("access_token")?.value}`,
-//     };
+     // Define the URL for your POST request
+     const url = 'http://127.0.0.1:5000/storage/url/parser';
 
-//     const response = await axios.get(
-//       `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${imageId}`,
-//       {
-//         headers: headers,
-//       }
-//     );
+     // Make a POST request with custom headers using Axios
+     const response = await axiosInstance.post(url, formData);
 
-//     return response.data;
-//   } catch (error: any) {
-//     return error;
-//   }
-// }
-
-// export async function getImageUrl(imageId: string) {
-//   try {
-//     //console.log("cookies",cookies().get("access_token")?.value)
-//     console.log("image id", imageId);
-//     const headers = {
-//       // accept: "application/json",
-//       Authorization: `bearer ${cookies().get("access_token")?.value}`,
-//     };
-//     //console.log("headers", headers);
-
-//     const data = {
-//       fileId: imageId,
-//     };
-
-//     // const res = await fetch("http://127.0.0.1:5000/storage/url/parser", {
-//     //   method: "POST",
-//     //   headers: headers,
-//     //   body: JSON.stringify(data),
-//     // });
-
-//     // const response = await axios.post(
-//     //   "http://127.0.0.1:5000/storage/url/parser",
-//     //   {
-//     //     fileId: imageId,
-//     //   },
-//     //   {
-//     //     headers: headers,
-//     //   }
-//     // );
-//     // console.log("response", response);
-
-//     const options = {
-//       url: `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${'4f23068f-cceb-43e7-b9ae-eb129fbe66d0'}`,
-//       method: 'GET',
-//       headers: {
-//         Authorization: `bearer ${cookies().get("access_token")?.value}`,
-//       }
-//     };
-
-//     const res=await axios(options)
-//       .then(response => {
-//         console.log(response);
-//         return response.data
-//       });
-//     console.log('res',res)
-
-//     // const response = await axios.get(
-//     //   `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${imageId}`,
-//     //   {
-//     //     headers: {
-//     //       // Accept: 'application/json',
-//     //       Authorization: `bearer ${cookies().get("access_token")?.value}`,
-//     //     },
-//     //   }
-//     // );
-//     // //console.log("response",response)
-//     // if (response.status === 200) {
-//     //   return response.data;
-//     // } else {
-//     //   return "something happended";
-//     // }
-
-//     // const data_data:any={
-//     //   fileId:"4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
-//     // }
-//     // const response=await fetch('http://127.0.0.1:5000/storage/url/parser', {
-//     //   method: 'POST',
-//     //   headers: {
-//     //     authorization: `bearer ${cookies().get("access_token")?.value}`,
-//     //   },
-//     //   body: JSON.stringify(data_data),
-//     // });
-
-//     // console.log('response',response.json())
-//     // return response.json()
-//   } catch (error: any) {
-//     return error;
-//   }
-// }
+     // Handle the response data
+     //console.log(response.data);
+     return response.data
+   } catch (error) {
+     // Handle errors
+     console.error('Error:', error);
+   }
+} 

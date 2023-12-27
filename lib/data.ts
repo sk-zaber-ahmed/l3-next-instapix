@@ -1,7 +1,6 @@
 //Contains all the data fetching logic
 import data from "@/lib/fake-data.json";
-import axios from "axios";
-import { cookies } from "next/headers";
+
 
 export async function fetchPostsByUsername(username: string = "8_sza_8") {
   try {
@@ -41,15 +40,9 @@ export const fetchFollowersPost = async () => {
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
-    //   const res = await fetch(`http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`, {
-    //     cache:'no-cache',
-    // });
-    const res = await fetch(
-      `http://localhost:9100/api/insta/app/posts/${loggedInUserId}`,
-      {
-        cache: "no-cache",
-      }
-    );
+      const res = await fetch(`http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`, {
+        cache:'no-cache',
+    });
 
     return res.json();
   } catch (error: any) {
@@ -72,39 +65,39 @@ export async function fetchSuggestedUsers(loggedInUserId: string) {
   }
 }
 
-export async function getImageUrl(imageId: string) {
-  try {
-    console.log("image id", imageId);
-    const headers = {
-      accept: "application/json",
-      Authorization: `bearer ${cookies().get("access_token")?.value}`,
-    };
-    console.log("headers", headers);
+// export async function getImageUrl(imageId: string) {
+//   try {
+//     console.log("image id", imageId);
+//     const headers = {
+//       accept: "application/json",
+//       Authorization: `bearer ${cookies().get("access_token")?.value}`,
+//     };
+//     console.log("headers", headers);
 
-    const data = {
-      fileId: "4f23068f-cceb-43e7-b9ae-eb129fbe66d0",
-    };
+//     const data = {
+//       fileId: "4f23068f-cceb-43e7-b9ae-eb129fbe66d0",
+//     };
 
-    // const response = await fetch(
-    //   `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${imageId}`,
-    //   {
-    //     method: "GET",
-    //     headers: headers,
-    //   }
-    // );
+//     // const response = await fetch(
+//     //   `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${imageId}`,
+//     //   {
+//     //     method: "GET",
+//     //     headers: headers,
+//     //   }
+//     // );
 
-    const response = await axios.post(
-      `http://127.0.0.1:5000/storage/url/parser`,
-      {
-        fileId: imageId,
-      },
-      {
-        headers: headers,
-      }
-    );
-    console.log("response", response.data.status);
-    //return response.json();
-  } catch (error: any) {
-    return error;
-  }
-}
+//     const response = await axios.post(
+//       `http://127.0.0.1:5000/storage/url/parser`,
+//       {
+//         fileId: imageId,
+//       },
+//       {
+//         headers: headers,
+//       }
+//     );
+//     console.log("response", response.data.status);
+//     //return response.json();
+//   } catch (error: any) {
+//     return error;
+//   }
+// }

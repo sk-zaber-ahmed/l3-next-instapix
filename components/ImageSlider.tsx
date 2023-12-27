@@ -6,11 +6,12 @@ import ImageGet from "./ImageGet";
 
 type ImageSliderProps = {
   images: string[]
+  parsed: any
 }
 
-export function ImageSlider({ images }: ImageSliderProps) {
+export function ImageSlider({ images,parsed }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(0)
-
+  console.log(images)
   function showNextImage() {
     setImageIndex(index => {
       if (index === images.length - 1) return 0
@@ -44,7 +45,7 @@ export function ImageSlider({ images }: ImageSliderProps) {
         {images?.map((image, index) => (
           <img
             key={index}
-            src="https://github.com/shadcn.png"
+            src={parsed?.Url}
             alt={image}
             aria-hidden={imageIndex !== index}
             className="img-slider-img"
