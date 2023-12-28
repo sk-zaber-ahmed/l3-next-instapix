@@ -22,7 +22,7 @@ type Props = {
           ))}
   
         <div>
-          <span className="text-sm font-medium">{message}</span>
+          <span className="text-sm font-medium">Error Message</span>
         </div>
       </div>
     );
