@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot, ChevronRight, ChevronLeft } from "lucide-react"
 import ImageGet from "./ImageGet";
+import Image from "next/image";
 
 
 type ImageSliderProps = {
@@ -14,6 +15,27 @@ export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(0)
   //console.log(images)
   //console.log('each user post image', multiImage[0]?.Url)
+
+
+  // Shimmer loader for images
+  const shimmer = (w: number, h: number) => `
+  <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <linearGradient id="g">
+        <stop stop-color="#333" offset="20%" />
+        <stop stop-color="#222" offset="50%" />
+        <stop stop-color="#333" offset="70%" />
+      </linearGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="#333" />
+    <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
+    <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="3s" repeatCount="indefinite"  />
+  </svg>`
+
+  const toBase64 = (str: string) =>
+    typeof window === 'undefined'
+      ? Buffer.from(str).toString('base64')
+      : window.btoa(str)
 
   function showNextImage() {
     setImageIndex(index => {
@@ -46,14 +68,26 @@ export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
         }}
       >
         {multiImage?.map((image: any, index: number) => (
-            <img
-              key={index}
-              src={image?.Url}
-              alt={image}
-              aria-hidden={imageIndex !== index}
-              className="img-slider-img"
-              style={{ translate: `${-100 * imageIndex}%` }}
-            />
+          // <img
+          //   key={index}
+          //   src={image?.Url}
+          //   alt={image}
+          //   aria-hidden={imageIndex !== index}
+          //   className="img-slider-img"
+          //   style={{ translate: `${-100 * imageIndex}%` }}
+          // />
+
+          <Image
+            key={index}
+            src={image?.Url}
+            alt={image}
+            aria-hidden={imageIndex !== index}
+            className="img-slider-img"
+            style={{ translate: `${-100 * imageIndex}%` }}
+            width={500}
+            height={500}
+            placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+          />
 
           //   <img
           //   key={index}
@@ -63,8 +97,6 @@ export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
           //   className="img-slider-img"
           //   style={{ translate: `${-100 * imageIndex}%` }}
           // />
-
-          // <ImageGet key={index} image={image} imageIndex={imageIndex} index={index}></ImageGet>
         ))}
       </div>
       <button
@@ -109,7 +141,7 @@ export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
         ))}
       </div>
       <div id="after-image-slider-controls" />
-      
+
     </section>
   )
 }

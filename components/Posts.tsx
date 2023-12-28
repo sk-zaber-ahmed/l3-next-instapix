@@ -10,12 +10,12 @@ async function Posts() {
 
   
   return (
-    <>
+    <div>
       {posts?.posts?.map((post:any) => (
         <Post key={post._id} post={post} />
       ))}
       {/* <h1>{loggedIn?.UserName}</h1> */}
-    </>
+    </div>
   );
 }
 

@@ -27,7 +27,7 @@ const Post = async ({ post }: any) => {
     console.log(multiImage)
 
     return (
-        <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[100px] 2xl:px-[250px]">
+        <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[300px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
                 <div className="flex space-x-3 items-center">
                     <UserAvatar user={post.user} />
@@ -53,7 +53,7 @@ const Post = async ({ post }: any) => {
                 <PostOptions post={post} />
             </div>
 
-            <Card className="relative h-[450px] w-full overflow-hidden rounded-none sm:rounded-md">
+            <Card className="relative h-[450px] md:h-[550px] w-full overflow-hidden rounded-none sm:rounded-md">
                 {/* <Image
                     src={post?.images[0]}
                     alt="Post Image"

@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 function DashboardPage() {
   return (
-    <main className="grid xl:grid-cols-5 xl:gap-[50px]">
+    <main className="grid xl:grid-cols-4">
 
       <div className="col-span-3">
         <Suspense fallback={<PostsSkeleton></PostsSkeleton>}>
