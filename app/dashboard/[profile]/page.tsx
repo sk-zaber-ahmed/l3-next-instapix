@@ -7,6 +7,7 @@ async function ProfilePage({
 }: {
   params: { username: string };
 }) {
+  console.log(username);
   const posts = await fetchPostsByUsername(username);
 
   return <ProfilePostsGrid posts={posts} />;

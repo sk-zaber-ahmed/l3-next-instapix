@@ -11,17 +11,19 @@ import LikeButton from "./LikeButton";
 interface Props {
     post: fakepost;
     className?: string;
+    loggedIn:any;
 }
 
-function PostActions({ post, className }: Props) {
+function PostActions({ post, className,loggedIn }: Props) {
+    const {UserId}=loggedIn
 
     //userId will be come from who is loggedin user now 
     const userId = "64eb61e611e76cab67d456de"  //testing purpose
 
     return (
-        <div className={cn("relative flex justify-between w-full", className)}>
+        <div className={cn("relative flex justify-between w-full mt-2", className)}>
             <div className='flex'>
-                <LikeButton post={post} userId={userId} />
+                <LikeButton post={post} userId={UserId} />
                 <div>
                     <Link href={`/dashboard/p/${post._id}`}>
                         <ActionIcon>

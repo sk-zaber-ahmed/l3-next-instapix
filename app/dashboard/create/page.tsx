@@ -130,7 +130,7 @@ function CreatePage() {
         className="bg-background/10"
       >
         <div
-          className={`flex flex-col border-2 rounded-lg rounded border-border bg-border w-full md:w-[70%] 
+          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%] 
           ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
           `}
         >
@@ -165,7 +165,7 @@ function CreatePage() {
           <Separator className="bg-foreground" />
 
           <div
-            className={`flex items-center justify-center rounded-b-lg w-full h-full rounded-b-lg overflow-hidden`}
+            className={`flex items-center justify-center rounded-b-lg w-full h-full overflow-hidden`}
           >
             {/* image pick area */}
             <div

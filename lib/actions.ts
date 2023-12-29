@@ -9,6 +9,7 @@ import { formSchema } from "@/components/RegisterForm";
 import zod from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { splitFullName } from "./utils";
+import { revalidatePath } from "next/cache";
 
 // const axiosInstance = axios.create();
 
@@ -284,8 +285,6 @@ export const fetchLoggedInUser = async () => {
     // Make a POST request with custom headers using Axios
     const response = await axiosInstance.get(url);
 
-    // Handle the response data
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     // Handle errors
@@ -309,18 +308,6 @@ export const fetchLoggedInUser = async () => {
 
 export async function uploadToStorage(data: any) {
   try {
-    // console.log("call for upload", cookies().get("access_token")?.value);
-
-    // if (!cookies().get("access_token")) {
-    //   return "cookies_not_found";
-    // }
-
-    // const headers = {
-    //   token: `bearer ${cookies().get("access_token")?.value}`,
-    // };
-
-    // // console.log(headers, data);
-
     const response = await axiosInstance.post(
       `http://127.0.0.1:5000/storage/upload`,
       data
@@ -357,7 +344,7 @@ export const parseImage = async () => {
 };
 
 //multiple image parse
-export const multiImageParse = async (files:any) => {
+export const multiImageParse = async (files: any) => {
   try {
     const formData = {
       FileIds: files,
@@ -369,11 +356,38 @@ export const multiImageParse = async (files:any) => {
 
     // Make a POST request with custom headers using Axios
     const response = await axiosInstance.post(url, formData);
-    
+
     //console.log(response.data);
     return response.data;
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
+  }
+};
+
+//liking or unliking a post
+export const likePost = async (postId: FormDataEntryValue | null, userId: string) => {
+  try {
+    const formData = {
+      userId: userId,
+    };
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/like/${postId}`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
   }
 };

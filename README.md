@@ -18,3 +18,12 @@
 
 ## https://www.npmjs.com/package/react-timeago (Used for the time stamps)
 
+## client component shouldn't be top level component. it should be in lower level
+
+## useOptimistic hook: is used for optimistic UI. React Hook that lets you show a different state while an async action is underway. It accepts some state as an argument and returns a copy of that state that can be different during the duration of an async action such as a network request. You provide a function that takes the current state and the input to the action, and returns the optimistic state to be used while the action is pending.
+
+This state is called the “optimistic” state because it is usually used to immediately present the user with the result of performing an action, even though the action actually takes time to complete. For example, if you were to implement a “like” button, you would want to immediately show the button as “liked” when the user clicks it, even though the network request to actually like the post might take a few seconds to complete. If the network request fails, the optimistic state is reverted to the actual state.
+
+## Intercepting Routes: https://nextjs.org/docs/api-reference/next/router#intercepting-routes
+
+

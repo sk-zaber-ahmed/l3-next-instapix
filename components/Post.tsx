@@ -18,18 +18,18 @@ import { ImageSlider } from './ImageSlider';
 import axios from 'axios';
 import { multiImageParse, parseImage } from '@/lib/actions';
 
-const Post = async ({ post }: any) => {
+const Post = async ({ post,loggedIn }: any) => {
     const {files}=post
     const parsed = await parseImage()
-    console.log(parsed)
+    //console.log(parsed)
 
     const multiImage=await multiImageParse(files)
-    console.log(multiImage)
+    //console.log(multiImage)
 
     return (
-        <div className="flex flex-col space-y-2.5 mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[300px]">
+        <div className="flex flex-col mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[300px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
-                <div className="flex space-x-3 items-center">
+                <div className="flex space-x-3 items-center mb-4">
                     <UserAvatar user={post.user} />
                     <div className="text-sm">
                         <p className="space-x-1">
@@ -50,7 +50,7 @@ const Post = async ({ post }: any) => {
                 </div>
 
                 {/* Sending the post and userId=owner of the post as parameter to give some special accessibility */}
-                <PostOptions post={post} />
+                <PostOptions post={post} loggedIn={loggedIn}/>
             </div>
 
             <Card className="relative h-[450px] md:h-[550px] w-full overflow-hidden rounded-none sm:rounded-md">
@@ -64,20 +64,20 @@ const Post = async ({ post }: any) => {
                 <ImageSlider parsed={parsed} multiImage={multiImage} images={post?.files} />
             </Card>
 
-            <PostActions post={post} />
+            <PostActions post={post} loggedIn={loggedIn}/>
 
-            {/* {post?.content && (
-                <div className="text-sm leading-none flex items-center space-x-2 font-medium px-2 sm:px-0">
+            {post?.content && (
+                <div className="text-[13px] leading-none flex items-center space-x-2 font-medium px-2 sm:px-0 mt-2 mb-4">
                     <Link href={`/dashboard/${post?.owner}`} className="font-bold">
-                        User
+                        {loggedIn?.FirstName}
                     </Link>
-                    <p>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
+                    <p className='text-[14px] font-normal'>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
                 </div>
-            )} */}
+            )}
 
             {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
 
-            <Separator />
+            <Separator/>
         </div>
     );
 };
