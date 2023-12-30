@@ -51,9 +51,11 @@ const LikeButton = ({ post, userId }: Props) => {
             <form
                 action={async (formData: FormData) => {
                     const postId = formData.get("postId");
+                    console.log(postId, userId);
                     addOptimisticLike(userId);
 
-                    await likePost(postId, userId);
+                    const result=await likePost(postId, userId);
+                    console.log('result will be',result);
                 }}
             >
                 <input type="hidden" name="postId" value={post._id} />
@@ -70,7 +72,7 @@ const LikeButton = ({ post, userId }: Props) => {
             {optimisticLike.length > 0 && (
                 <p className="text-[14px] leading-none flex items-center space-x-2 font-medium px-2 sm:px-0 mt-2 dark:text-white">
                     {optimisticLike.length}{" "}
-                    {optimisticLike.length === 1 ? "like" : "likes"}
+                    {optimisticLike.length === 1 ? "like" : "like"}
                 </p>
             )}
         </div>

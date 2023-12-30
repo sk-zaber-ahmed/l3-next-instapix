@@ -25,8 +25,9 @@ import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 import { ArrowLeft, CircleUser } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { authenticate, uploadToStorage } from "@/lib/actions";
+import { authenticate, createUserPost, fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 function PostCreateButton() {
   const { pending } = useFormStatus();
@@ -62,9 +63,23 @@ function CreatePage() {
       formData.append("image", item);
     });
 
+    
+
     const imageIds = await uploadToStorage(formData);
     console.log("uploaded image ids", imageIds);
+    console.log('form data',postDist)
 
+    const loggedIn = await fetchLoggedInUser()
+    const data={
+      userId: loggedIn?.UserId,
+      files:imageIds,
+      content:postDist,
+      userName:loggedIn?.UserName
+    }
+    const postCreate=await createUserPost(data)
+    console.log('create response',postCreate)
+    toast.success("posted successfully")
+    router.push("/dashboard");
     return imageIds;
   }
 

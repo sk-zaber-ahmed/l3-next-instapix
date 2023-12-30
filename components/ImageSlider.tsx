@@ -7,11 +7,10 @@ import Image from "next/image";
 
 type ImageSliderProps = {
   images: string[]
-  parsed: any
   multiImage: any
 }
 
-export function ImageSlider({ images, parsed, multiImage }: ImageSliderProps) {
+export function ImageSlider({ images, multiImage }: ImageSliderProps) {
   const [imageIndex, setImageIndex] = useState(0)
   //console.log(images)
   //console.log('each user post image', multiImage[0]?.Url)

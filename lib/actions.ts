@@ -320,6 +320,38 @@ export async function uploadToStorage(data: any) {
   }
 }
 
+export const createUserPost = async (data: any) => {
+  try {
+    const formData = {
+      userId: data.userId,
+      files:data.files,
+      content:data.content,
+      userName:data.userName
+    };
+
+   console.log("from like post",formData)
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/new/post`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+}
+
 //getting image string using image id from the storage micro-service
 export const parseImage = async () => {
   try {
@@ -368,9 +400,12 @@ export const multiImageParse = async (files: any) => {
 //liking or unliking a post
 export const likePost = async (postId: FormDataEntryValue | null, userId: string) => {
   try {
+    
     const formData = {
       userId: userId,
     };
+
+   //console.log("from like post",postId,formData)
 
     // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/insta/user/like/${postId}`;
@@ -383,6 +418,7 @@ export const likePost = async (postId: FormDataEntryValue | null, userId: string
         Accept: "application/json",
       },
       body: JSON.stringify(formData),
+      cache: "no-cache",
     });
     revalidatePath("/dashboard");
     return response.json();
@@ -391,3 +427,28 @@ export const likePost = async (postId: FormDataEntryValue | null, userId: string
     return error;
   }
 };
+
+export const followingUser = async (loggedInUser: string,userToFollow: FormDataEntryValue | null) => {
+  try{
+    const formData = {
+      loggedInUser: loggedInUser,
+      userToFollow: userToFollow,
+    };
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/user/follow`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  }catch(error){
+    throw new Error("Failed to fetch");
+  }
+}

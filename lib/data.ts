@@ -1,10 +1,12 @@
 //Contains all the data fetching logic
 import data from "@/lib/fake-data.json";
 
-export async function fetchPostsByUsername(username: string = "8_sza_8") {
+export async function fetchPostsByUsername(username:any) {
   try {
-    const { profile } = data;
-    return profile.username === username ? profile.posts : [];
+    const res = await fetch(`http://127.0.0.1:5000/insta/user/own/posts/${username}`, {
+      cache: "no-cache",
+    });
+    return res.json();
   } catch (error) {
     console.log("Error while executing function", error);
   }

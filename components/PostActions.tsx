@@ -15,15 +15,15 @@ interface Props {
 }
 
 function PostActions({ post, className,loggedIn }: Props) {
-    const {UserId}=loggedIn
-
+    // console.log('post',post)
+    // console.log('loggedIn',loggedIn)
     //userId will be come from who is loggedin user now 
-    const userId = "64eb61e611e76cab67d456de"  //testing purpose
+    // const userId = "64eb61e611e76cab67d456de"  //testing purpose
 
     return (
         <div className={cn("relative flex justify-between w-full mt-2", className)}>
             <div className='flex'>
-                <LikeButton post={post} userId={UserId} />
+                <LikeButton post={post} userId={loggedIn} />
                 <div>
                     <Link href={`/dashboard/p/${post._id}`}>
                         <ActionIcon>
@@ -35,7 +35,7 @@ function PostActions({ post, className,loggedIn }: Props) {
             </div>
 
 
-            <BookmarkButton post={post} userId={userId} />
+            <BookmarkButton post={post} userId={loggedIn} />
 
         </div>
     );

@@ -2,20 +2,25 @@
 import FollowersSuggestion from "@/components/FollowersSuggestion";
 import Posts from "@/components/Posts";
 import { PostsSkeleton, SuggestionsSkeleton } from "@/components/Skeletons";
+import { fetchLoggedInUser } from "@/lib/actions";
 import { Suspense } from "react";
 
-function DashboardPage() {
+async function DashboardPage() {
+  //The user who is loggedin to the app
+  const loggedIn = await fetchLoggedInUser()
+  // console.log(loggedIn)
+
   return (
     <main className="grid xl:grid-cols-4">
 
       <div className="col-span-3">
         <Suspense fallback={<PostsSkeleton></PostsSkeleton>}>
-          <Posts />
+          <Posts loggedIn={loggedIn} userId={loggedIn?.UserId}/>
         </Suspense>
       </div>
       <div className="hidden xl:block">
         <Suspense fallback={<SuggestionsSkeleton></SuggestionsSkeleton>}>
-          <FollowersSuggestion />
+          <FollowersSuggestion loggedUser={loggedIn} userId={loggedIn?.UserId}/>
         </Suspense>
       </div>
 

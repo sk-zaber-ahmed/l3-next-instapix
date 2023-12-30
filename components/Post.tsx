@@ -19,9 +19,10 @@ import axios from 'axios';
 import { multiImageParse, parseImage } from '@/lib/actions';
 
 const Post = async ({ post,loggedIn }: any) => {
-    const {files}=post
+
+    const {files,userName}=post
     const parsed = await parseImage()
-    //console.log(parsed)
+
 
     const multiImage=await multiImageParse(files)
     //console.log(multiImage)
@@ -33,7 +34,7 @@ const Post = async ({ post,loggedIn }: any) => {
                     <UserAvatar user={post.user} />
                     <div className="text-sm">
                         <p className="space-x-1">
-                            <span className="font-semibold">Test_User</span>
+                            <span className="font-semibold">{userName}</span>
                             <span
                                 className="font-medium text-neutral-500 dark:text-neutral-400
                         text-xs
@@ -61,17 +62,17 @@ const Post = async ({ post,loggedIn }: any) => {
                     className="sm:rounded-md object-cover"
                 /> */}
 
-                <ImageSlider parsed={parsed} multiImage={multiImage} images={post?.files} />
+                <ImageSlider multiImage={multiImage} images={post?.files} />
             </Card>
 
             <PostActions post={post} loggedIn={loggedIn}/>
 
             {post?.content && (
-                <div className="text-[13px] leading-none flex items-center space-x-2 font-medium px-2 sm:px-0 mt-2 mb-4">
-                    <Link href={`/dashboard/${post?.owner}`} className="font-bold">
-                        {loggedIn?.FirstName}
+                <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
+                    <Link href={`/dashboard/${post?.userName}`} className="font-bold">
+                        {post?.userName}
                     </Link>
-                    <p className='text-[14px] font-normal'>{post?.content?.length > 16 ? `${post?.content?.slice(0, 20)}... more` : post?.content}</p>
+                    <p className='font-normal'>{post?.content}</p>
                 </div>
             )}
 

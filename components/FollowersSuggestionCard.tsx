@@ -1,16 +1,20 @@
-
+"use client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {Card} from "@/components/ui/card"
+import { Card } from "@/components/ui/card"
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { followingUser } from "@/lib/actions"
+import { toast } from "sonner"
 type CardProps = {
-    suggestion:any
+    suggestion: any
     className?: string
     [key: string]: any
+    loggedInUser:string
 }
 
-export function FollowersSuggestionCard({ className,suggestion }: CardProps) {
+export function FollowersSuggestionCard({ className, suggestion,loggedInUser }: CardProps) {
+
     return (
 
         <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)}>
@@ -23,13 +27,25 @@ export function FollowersSuggestionCard({ className,suggestion }: CardProps) {
                     </Avatar>
                     <div>
                         <p className="text-xs font-medium leading-none">
-                            Olivia Martin
+                            {suggestion?.userName}
                         </p>
-                        <p className="text-xs text-muted-foreground">m@example.com</p>
+                        <p className="text-xs text-muted-foreground">{suggestion?.userEmail}</p>
                     </div>
                 </div>
 
-                <Button className="text-[#0095F6] text-[12px]" variant={"ghost"}>Follow</Button>
+                {/* form client component in that we are using server action so that "use client" */}
+                <form
+                    action={async (formData: FormData) => {
+                        const userToFollow = formData.get("userId");
+                        //console.log(userToFollow)
+
+                        await followingUser(loggedInUser, userToFollow);
+                        toast("You are follwoing him!")
+                    }}
+                >
+
+                    <Button name="userId" value={suggestion?.userId} className="text-[#0095F6] text-[12px]" variant={"ghost"}>Follow</Button>
+                </form>
 
             </div>
         </div>
