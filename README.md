@@ -24,6 +24,9 @@
 
 This state is called the “optimistic” state because it is usually used to immediately present the user with the result of performing an action, even though the action actually takes time to complete. For example, if you were to implement a “like” button, you would want to immediately show the button as “liked” when the user clicks it, even though the network request to actually like the post might take a few seconds to complete. If the network request fails, the optimistic state is reverted to the actual state.
 
-## Intercepting Routes: https://nextjs.org/docs/api-reference/next/router#intercepting-routes
+## Intercepting Routes: https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes
+
+##   await new Promise((resolve) => setTimeout(resolve, 10000));  
+//for testing skeleton loader. this chunk of code will delay the response by 10 seconds. very useful for testing skeleton loader
 
 

@@ -27,7 +27,7 @@ const Post = async ({ post,loggedIn }: any) => {
     //console.log(multiImage)
 
     return (
-        <div className="flex flex-col mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[300px]">
+        <div className="flex flex-col mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[250px]">
             <div className="flex items-center justify-between px-3 sm:px-0">
                 <div className="flex space-x-3 items-center mb-4">
                     <UserAvatar user={post.user} />
