@@ -23,11 +23,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
-import { ArrowLeft, CircleUser } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { authenticate, createUserPost, fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
+import {
+  authenticate,
+  createUserPost,
+  fetchLoggedInUser,
+  uploadToStorage,
+} from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import ProfileAvatar from "@/components/ProfileAvatar";
+import { log } from "util";
 
 function PostCreateButton() {
   const { pending } = useFormStatus();
@@ -51,6 +58,7 @@ function CreatePage() {
   const [stage, setStage] = useState<number>(0);
   const [postImage, setPostImage] = useState<File[]>([]); // post's image list
   const [postDist, setPostDist] = useState<string>(""); // post's description
+  const [user, setUser] = useState();
 
   const [postData, dispatch] = useFormState(imageUploadFunc, undefined);
   // console.log("data comming from action", postData);
@@ -63,23 +71,24 @@ function CreatePage() {
       formData.append("image", item);
     });
 
-
-
     const imageIds = await uploadToStorage(formData);
-    console.log("uploaded image ids", imageIds);
-    console.log('form data',postDist)
-
-    const loggedIn = await fetchLoggedInUser()
-    const data={
-      userId: loggedIn?.UserId,
-      files:imageIds,
-      content:postDist,
-      userName:loggedIn?.UserName,
-      userEmail:loggedIn?.Email,
+    // console.log("uploaded image ids", imageIds);
+    // console.log("form data", postDist);
+    const loggedIn = await fetchLoggedInUser();
+    if (loggedIn) {
+      console.log("logged in user", loggedIn);
+      // setUser(loggedIn);
     }
-    const postCreate=await createUserPost(data)
+    const data = {
+      userId: loggedIn?.UserId,
+      files: imageIds,
+      content: postDist,
+      userName: loggedIn?.UserName,
+      userEmail: loggedIn?.Email,
+    };
+    const postCreate = await createUserPost(data);
     //console.log('create response',postCreate)
-    toast.success("posted successfully")
+    toast.success("posted successfully");
     router.push("/dashboard");
     return imageIds;
   }
@@ -143,10 +152,10 @@ function CreatePage() {
           alignItems: "center",
           justifyContent: "center",
         }}
-        className="bg-background/10"
+        className="bg-black/20"
       >
         <div
-          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%]
+          className={`flex flex-col border-2 rounded-lg border-border bg-white w-full md:w-[70%]
           ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
           `}
         >
@@ -264,23 +273,25 @@ function CreatePage() {
             {/* post's detail area */}
             <div
               className={`${
-                stage === 0 ? "hidden" : "lg:w-1/2 md:w-full"
+                stage === 0 ? "hidden" : "lg:w-1/3 md:w-full"
               } h-[65vh]`}
               // style={{ border: "2px solid red" }}
             >
               <div className="w-full flex items-center gap-3 p-4">
                 <div>
-                  <CircleUser size={48} />
+                  {/* <CircleUser size={48} /> */} <ProfileAvatar user={user} />
                 </div>
-                <div>Who is the User?</div>
+                <div>{"Anonymous user"}</div>
               </div>
-              <div className=" m-4">
+              <div className="m-2">
                 <textarea
+                  style={{ resize: "none" }}
                   name="description"
                   id="post_dist"
                   rows={10}
                   onChange={handleDistInputChange}
-                  className="p-4 w-full"
+                  className="p-4 w-full bg-inherit placeholder:text-black focus-visible:outline-none dark:placeholder:text-white"
+                  placeholder="Write a caption..."
                 ></textarea>
               </div>
             </div>
