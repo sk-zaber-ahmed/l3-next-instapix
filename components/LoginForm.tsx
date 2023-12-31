@@ -88,7 +88,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormControl>
                     <Input
-                      type="email"
+                      type="text"
                       className="text-[12px]"
                       placeholder="Phone number, username or email"
                       {...field}
