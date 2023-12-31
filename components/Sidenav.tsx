@@ -4,8 +4,8 @@ import { MoreDropDown } from "./MoreDropDown";
 import NavLinks from "./NavLinks";
 import { fetchLoggedInUser } from "@/lib/actions";
 
-const SideNavbar = async() => {
-  const loggedIn = await fetchLoggedInUser()
+const SideNavbar = async () => {
+  const loggedIn = await fetchLoggedInUser();
   //console.log(loggedIn)
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">

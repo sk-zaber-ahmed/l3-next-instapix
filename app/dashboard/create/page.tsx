@@ -63,7 +63,7 @@ function CreatePage() {
       formData.append("image", item);
     });
 
-    
+
 
     const imageIds = await uploadToStorage(formData);
     console.log("uploaded image ids", imageIds);
@@ -146,7 +146,7 @@ function CreatePage() {
         className="bg-background/10"
       >
         <div
-          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%] 
+          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%]
           ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
           `}
         >

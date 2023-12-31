@@ -19,6 +19,7 @@ import SubmitButton from "./SubmitButton";
 import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { deletePost } from "@/lib/actions";
 
 interface Props {
     post: any;
@@ -30,7 +31,7 @@ const PostOptions = ({ post,loggedIn }: Props) => {
 
     //checking if the post is by loggedin user or not
     const loggedInUserId = "64eb61e611e76cab67d456de"  //we will get it from when user logged in then
-    const isPostMine = userId === loggedIn?.UserId;
+    const isPostMine = userId === loggedIn;
 
     return (
         <Dialog>
@@ -43,13 +44,17 @@ const PostOptions = ({ post,loggedIn }: Props) => {
                 
                 {isPostMine && (
                     <form
-                        // action={async (formData) => {
-                        //     const { message } = await deletePost(formData);
-                        //     toast(message);
-                        // }}
+                    action={async (formData: FormData) => {
+                        const postId = formData.get("postId");
+                        console.log(post,postId, userId);
+              
+                        const result = await deletePost(post, postId, userId);
+                        console.log("result will be", result);
+
+                      }}
                         className="postOption"
                     >
-                        <input type="hidden" name="id" value={post._id} />
+                        <input type="hidden" name="postId" value={post._id} />
                         <SubmitButton className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">
                             Delete post
                         </SubmitButton>

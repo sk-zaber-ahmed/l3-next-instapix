@@ -3,11 +3,11 @@ import Post from "./Post";
 import { fetchLoggedInUser, multiImageParse } from "@/lib/actions";
 
 type props = {
-  loggedIn:any
+  loggedIn: any;
   userId: string;
 };
 
-async function Posts({loggedIn,userId}:props) {
+async function Posts({ loggedIn, userId }: props) {
   // const loggedIn = await fetchLoggedInUser()
   // console.log(loggedIn)
 
@@ -15,23 +15,22 @@ async function Posts({loggedIn,userId}:props) {
 
   //console.log('posts',userId)
   const posts = await fetchInstaPosts(userId);
-  //console.log(posts)
-
+  console.log("===========================================================");
+  console.log(posts);
 
   return (
     <div>
-      {
-        posts?.length === 0 ?
-          <div className="flex justify-center items-center h-screen">
-            <h1 className="text-2xl font-bold">No Posts Yet</h1>
-          </div>
-          :
-          <>
-            {posts?.posts?.map((post: any) => (
-              <Post key={post._id} post={post} loggedIn={userId} />
-            ))}
-          </>
-      }
+      {posts?.length === 0 ? (
+        <div className="flex justify-center items-center h-screen">
+          <h1 className="text-2xl font-bold">No Posts Yet</h1>
+        </div>
+      ) : (
+        <>
+          {posts?.posts?.map((post: any) => (
+            <Post key={post._id} post={post} loggedIn={userId} />
+          ))}
+        </>
+      )}
     </div>
   );
 }

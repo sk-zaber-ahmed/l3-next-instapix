@@ -12,7 +12,7 @@ function ProfilePostsGrid({ posts }: any) {
 
   return (
     <div className="grid grid-cols-3 gap-0.5">
-      {posts?.ownPosts?.map((post:any) => (
+      {posts?.ownPosts?.map((post: any) => (
         <SingleProfilePost key={post._id} post={post} />
       ))}
     </div>

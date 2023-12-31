@@ -11,7 +11,13 @@ import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fetchLoggedInUser } from "@/lib/actions";
 
-const ProfileLayout =async ({ children,params }: { children: ReactNode,params: { profile: string } }) => {
+const ProfileLayout = async ({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { profile: string };
+}) => {
   //------Actual logic------//
   // const profile = await fetchProfile(username);
   // const session = await auth();
@@ -33,7 +39,7 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
     (user) => user.followerId === session?.user.id
   );
 
-  const loggedIn = await fetchLoggedInUser()
+  const loggedIn = await fetchLoggedInUser();
   //console.log('logged in user',loggedIn)
   //console.log('profile',params?.profile)
 
@@ -111,11 +117,7 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
             </div>
 
             <div className="hidden md:flex md:items-center md:gap-x-7">
-
-              <Link
-                href={`/dashboard`}
-                className="font-medium"
-              >
+              <Link href={`/dashboard`} className="font-medium">
                 <strong>{profile.posts.length}</strong> followers
               </Link>
 

@@ -197,6 +197,23 @@ export async function authenticate(data: any) {
   }
 }
 
+
+export async function logoutUser() {
+  try {
+    cookies().delete("refresh_token");
+    cookies().delete("access_token");
+    return null;
+  } catch (error: any) {
+    console.log("From the authenticate function", error);
+
+    return "authentication error";
+  }
+}
+
+
+
+
+
 export async function registerUser(
   registrationData: zod.infer<typeof formSchema>
 ) {
@@ -324,13 +341,13 @@ export const createUserPost = async (data: any) => {
   try {
     const formData = {
       userId: data.userId,
-      files:data.files,
-      content:data.content,
-      userName:data.userName,
-      userEmail:data.userEmail,
+      files: data.files,
+      content: data.content,
+      userName: data.userName,
+      userEmail: data.userEmail,
     };
 
-   console.log("from like post",formData)
+    console.log("from like post", formData);
 
     // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/insta/user/new/post`;
@@ -351,7 +368,7 @@ export const createUserPost = async (data: any) => {
     // Handle errors
     return error;
   }
-}
+};
 
 //getting image string using image id from the storage micro-service
 export const parseImage = async () => {
@@ -399,14 +416,16 @@ export const multiImageParse = async (files: any) => {
 };
 
 //liking or unliking a post
-export const likePost = async (postId: FormDataEntryValue | null, userId: string) => {
+export const likePost = async (
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
   try {
-    
     const formData = {
       userId: userId,
     };
 
-   //console.log("from like post",postId,formData)
+    //console.log("from like post",postId,formData)
 
     // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/insta/user/like/${postId}`;
@@ -429,8 +448,11 @@ export const likePost = async (postId: FormDataEntryValue | null, userId: string
   }
 };
 
-export const followingUser = async (loggedInUser: string,userToFollow: FormDataEntryValue | null) => {
-  try{
+export const followingUser = async (
+  loggedInUser: string,
+  userToFollow: FormDataEntryValue | null
+) => {
+  try {
     const formData = {
       loggedInUser: loggedInUser,
       userToFollow: userToFollow,
@@ -449,10 +471,52 @@ export const followingUser = async (loggedInUser: string,userToFollow: FormDataE
     });
     revalidatePath("/dashboard");
     return response.json();
-  }catch(error){
+  } catch (error) {
     throw new Error("Failed to fetch");
+  }
+};
+
+export const deletePost = async (post:any ,postId: FormDataEntryValue | null,userId:string) => {
+  try {
+    const formData = {
+      userId: userId,
+    };
+
+    //console.log("from like post",postId,formData)
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+
+
+    const formData2 = {
+      ItemIds: post?.files,
+    };
+
+    // Define the URL for your POST request
+    const url2 =
+      "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageCommand/DeleteAll";
+
+    // Make a POST request with custom headers using Axios
+    const response2 = await axiosInstance.post(url2, formData2);
+
+
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
   }
 }
 
 
-//Test

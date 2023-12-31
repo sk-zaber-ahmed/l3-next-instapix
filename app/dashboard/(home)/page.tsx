@@ -1,4 +1,3 @@
-
 import FollowersSuggestion from "@/components/FollowersSuggestion";
 import Posts from "@/components/Posts";
 import { PostsSkeleton, SuggestionsSkeleton } from "@/components/Skeletons";
@@ -7,23 +6,24 @@ import { Suspense } from "react";
 
 async function DashboardPage() {
   //The user who is loggedin to the app
-  const loggedIn = await fetchLoggedInUser()
-  // console.log(loggedIn)
+  const loggedIn = await fetchLoggedInUser();
+  console.log(loggedIn);
 
   return (
     <main className="grid xl:grid-cols-4">
-
       <div className="col-span-3">
         <Suspense fallback={<PostsSkeleton></PostsSkeleton>}>
-          <Posts loggedIn={loggedIn} userId={loggedIn?.UserId}/>
+          <Posts loggedIn={loggedIn} userId={loggedIn?.UserId} />
         </Suspense>
       </div>
       <div className="hidden xl:block">
         <Suspense fallback={<SuggestionsSkeleton></SuggestionsSkeleton>}>
-          <FollowersSuggestion loggedUser={loggedIn} userId={loggedIn?.UserId}/>
+          <FollowersSuggestion
+            loggedUser={loggedIn}
+            userId={loggedIn?.UserId}
+          />
         </Suspense>
       </div>
-
     </main>
 
     // <main className="flex w-full flex-grow">
