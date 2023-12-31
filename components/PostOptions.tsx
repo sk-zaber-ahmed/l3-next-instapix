@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { deletePost } from "@/lib/actions";
+import {useRouter } from "next/navigation";
 
 interface Props {
     post: any;
@@ -32,7 +33,7 @@ const PostOptions = ({ post,loggedIn }: Props) => {
     //checking if the post is by loggedin user or not
     const loggedInUserId = "64eb61e611e76cab67d456de"  //we will get it from when user logged in then
     const isPostMine = userId === loggedIn;
-
+    const router = useRouter();
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -50,7 +51,7 @@ const PostOptions = ({ post,loggedIn }: Props) => {
               
                         const result = await deletePost(post, postId, userId);
                         console.log("result will be", result);
-
+                        router.push('/dashboard')
                       }}
                         className="postOption"
                     >
