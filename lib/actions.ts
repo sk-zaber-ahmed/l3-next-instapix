@@ -9,6 +9,7 @@ import { formSchema } from "@/components/RegisterForm";
 import zod from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { splitFullName } from "./utils";
+import { revalidatePath } from "next/cache";
 
 // const axiosInstance = axios.create();
 
@@ -284,8 +285,6 @@ export const fetchLoggedInUser = async () => {
     // Make a POST request with custom headers using Axios
     const response = await axiosInstance.get(url);
 
-    // Handle the response data
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     // Handle errors
@@ -309,18 +308,6 @@ export const fetchLoggedInUser = async () => {
 
 export async function uploadToStorage(data: any) {
   try {
-    // console.log("call for upload", cookies().get("access_token")?.value);
-
-    // if (!cookies().get("access_token")) {
-    //   return "cookies_not_found";
-    // }
-
-    // const headers = {
-    //   token: `bearer ${cookies().get("access_token")?.value}`,
-    // };
-
-    // // console.log(headers, data);
-
     const response = await axiosInstance.post(
       `http://127.0.0.1:5000/storage/upload`,
       data
@@ -333,25 +320,141 @@ export async function uploadToStorage(data: any) {
   }
 }
 
-//getting image string using image id from the storage micro-service
-export const parseImage=async ()=>{
+export const createUserPost = async (data: any) => {
   try {
-     const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0"
-     const formData = {
-       "fileId": fileId
-     }
+    const formData = {
+      userId: data.userId,
+      files: data.files,
+      content: data.content,
+      userName: data.userName,
+      userEmail: data.userEmail,
+    };
 
-     // Define the URL for your POST request
-     const url = 'http://127.0.0.1:5000/storage/url/parser';
+    console.log("from like post", formData);
 
-     // Make a POST request with custom headers using Axios
-     const response = await axiosInstance.post(url, formData);
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/new/post`;
 
-     // Handle the response data
-     //console.log(response.data);
-     return response.data
-   } catch (error) {
-     // Handle errors
-     console.error('Error:', error);
-   }
-} 
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
+
+//getting image string using image id from the storage micro-service
+export const parseImage = async () => {
+  try {
+    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0";
+    const formData = {
+      fileId: fileId,
+    };
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/storage/url/parser";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+
+    // Handle the response data
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
+
+//multiple image parse
+export const multiImageParse = async (files: any) => {
+  try {
+    const formData = {
+      FileIds: files,
+    };
+
+    // Define the URL for your POST request
+    const url =
+      "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+
+    //console.log(response.data);
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    console.error("Error:", error);
+  }
+};
+
+//liking or unliking a post
+export const likePost = async (
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const formData = {
+      userId: userId,
+    };
+
+    //console.log("from like post",postId,formData)
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/like/${postId}`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
+
+export const followingUser = async (
+  loggedInUser: string,
+  userToFollow: FormDataEntryValue | null
+) => {
+  try {
+    const formData = {
+      loggedInUser: loggedInUser,
+      userToFollow: userToFollow,
+    };
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/user/follow`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+};

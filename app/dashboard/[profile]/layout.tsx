@@ -9,8 +9,14 @@ import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
+<<<<<<< HEAD
 
 const ProfileLayout = ({ children }: { children: ReactNode }) => {
+=======
+import { fetchLoggedInUser } from "@/lib/actions";
+
+const ProfileLayout =async ({ children,params }: { children: ReactNode,params: { profile: string } }) => {
+>>>>>>> origin/amin_new
   //------Actual logic------//
   // const profile = await fetchProfile(username);
   // const session = await auth();
@@ -26,19 +32,39 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
       id: "1",
     },
   };
+<<<<<<< HEAD
   const isCurrentUser = true;
   const { profile } = data;
+=======
+  const { profile } = data;
+  //console.log(profile);
+>>>>>>> origin/amin_new
   const isFollowing = profile?.followedBy.some(
     (user) => user.followerId === session?.user.id
   );
 
+<<<<<<< HEAD
   if (!profile) {
+=======
+  const loggedIn = await fetchLoggedInUser()
+  //console.log('logged in user',loggedIn)
+  //console.log('profile',params?.profile)
+
+  const isCurrentUser = loggedIn?.UserName == params?.profile;
+  //console.log('isCurrentUser',isCurrentUser)
+
+  if (!loggedIn) {
+>>>>>>> origin/amin_new
     notFound();
   }
 
   return (
     <>
+<<<<<<< HEAD
       <ProfileHeader username={profile.username} />
+=======
+      <ProfileHeader username={"shaik"} />
+>>>>>>> origin/amin_new
       <div className="max-w-4xl mx-auto">
         <div className="flex gap-x-5 md:gap-x-10 px-4">
           <ProfileAvatar
@@ -47,9 +73,15 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
           />
 
           <div className="md:px-10 space-y-4">
+<<<<<<< HEAD
             <div className="grid grid-cols-2 md:grid-cols-4 items-center gap-3">
               <p className="font-semibold text-xl col-span-2 md:col-span-1">
                 {profile.username}
+=======
+            <div className="flex items-center gap-3">
+              <p className="font-normal text-[17px] col-span-2 md:col-span-1">
+                {loggedIn?.UserName}
+>>>>>>> origin/amin_new
               </p>
               {isCurrentUser ? (
                 <>
@@ -63,7 +95,11 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({
+<<<<<<< HEAD
                       className: "!font-bold",
+=======
+                      className: "font-nomal",
+>>>>>>> origin/amin_new
                       variant: "secondary",
                       size: "sm",
                     })}
@@ -72,7 +108,11 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
                   </Link>
                   <Button
                     variant={"secondary"}
+<<<<<<< HEAD
                     className="font-bold"
+=======
+                    className="font-normal"
+>>>>>>> origin/amin_new
                     size={"sm"}
                   >
                     View archive
@@ -103,9 +143,19 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
             </div>
 
             <div className="hidden md:flex md:items-center md:gap-x-7">
+<<<<<<< HEAD
               <p className="font-medium">
                 <strong>{profile.posts.length} posts</strong>
               </p>
+=======
+
+              <Link
+                href={`/dashboard`}
+                className="font-medium"
+              >
+                <strong>{profile.posts.length}</strong> followers
+              </Link>
+>>>>>>> origin/amin_new
 
               <Link
                 href={`/dashboard/${profile.username}/followers`}
@@ -122,8 +172,13 @@ const ProfileLayout = ({ children }: { children: ReactNode }) => {
               </Link>
             </div>
 
+<<<<<<< HEAD
             <div className="text-sm -ml-24 md:ml-0 space-y-2">
               <h1 className="font-bold ">{profile.name}</h1>
+=======
+            <div className="text-sm -ml-24 md:ml-0 space-y-1">
+              <h1 className="font-bold ">{loggedIn?.DisplayName}</h1>
+>>>>>>> origin/amin_new
               <p>{profile.bio}</p>
             </div>
           </div>
