@@ -38,7 +38,7 @@ function PostCreateButton() {
       type="submit"
       aria-disabled={pending}
     >
-      {pending ? "pending..." : "Share"}
+      {pending ? "Pending..." : "Share"}
     </button>
   );
 }
@@ -74,10 +74,11 @@ function CreatePage() {
       userId: loggedIn?.UserId,
       files:imageIds,
       content:postDist,
-      userName:loggedIn?.UserName
+      userName:loggedIn?.UserName,
+      userEmail:loggedIn?.Email,
     }
     const postCreate=await createUserPost(data)
-    console.log('create response',postCreate)
+    //console.log('create response',postCreate)
     toast.success("posted successfully")
     router.push("/dashboard");
     return imageIds;

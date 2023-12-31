@@ -40,7 +40,7 @@ export function FollowersSuggestionCard({ className, suggestion,loggedInUser }: 
                         //console.log(userToFollow)
 
                         await followingUser(loggedInUser, userToFollow);
-                        toast("You are follwoing him!")
+                        toast.success("You are now follwoing him!")
                     }}
                 >
 

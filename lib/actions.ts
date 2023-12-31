@@ -326,7 +326,8 @@ export const createUserPost = async (data: any) => {
       userId: data.userId,
       files:data.files,
       content:data.content,
-      userName:data.userName
+      userName:data.userName,
+      userEmail:data.userEmail,
     };
 
    console.log("from like post",formData)
