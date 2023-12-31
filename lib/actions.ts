@@ -197,18 +197,38 @@ export async function authenticate(data: any) {
   }
 }
 
+
+export async function logoutUser() {
+  try {
+    cookies().delete("refresh_token");
+    cookies().delete("access_token");
+    return null;
+  } catch (error: any) {
+    console.log("From the authenticate function", error);
+
+    return "authentication error";
+  }
+}
+
+
+
+
+
 export async function registerUser(
   registrationData: zod.infer<typeof formSchema>
 ) {
   try {
     // console.log("registration data", registrationData);
     let token = cookies().get("access_token");
-    if (token?.value.length === 0) {
+    console.log("token", token);
+    if (!token || token?.value.length === 0) {
+      console.log("calling for token");
       const authenticatedSiteData = await authenticateSite();
       if (authenticatedSiteData?.access_token) {
         cookies().set("access_token", authenticatedSiteData?.access_token);
-        // console.log("access_token", data?.access_token);
+        console.log("access_token", authenticatedSiteData?.access_token);
         token = authenticatedSiteData?.access_token;
+        console.log("token", token?.value);
       }
     }
 
@@ -232,13 +252,13 @@ export async function registerUser(
         headers: {
           Origin: "http://misterloo.seliselocal.com",
           Accept: "application/json",
-          "Content-Type": "application/json",
+          "Content-Type": "application/json, charset=utf-8",
           Authorization: `bearer ${token?.value}`,
         },
         body: JSON.stringify(payload),
       }
     );
-
+    console.log("response", res);
     const data = await res.json();
     console.log("data from register user", data);
     return data;
@@ -272,7 +292,7 @@ export async function authenticateSite() {
 
     return data;
   } catch (error) {
-    console.log("Error while authenticating site user", error);
+    console.log("Error while authenticating site ", error);
   }
 }
 
@@ -330,7 +350,7 @@ export const createUserPost = async (data: any) => {
       userEmail: data.userEmail,
     };
 
-    console.log("from like post", formData);
+    // console.log("from like post", formData);
 
     // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/insta/user/new/post`;
