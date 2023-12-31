@@ -15,18 +15,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { pacifico } from "./fonts";
-import AppCard from "./AppCard";
 import { FacebookIcon } from "lucide-react";
-import axios from "axios";
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
+import SyncLoader from "react-spinners/SyncLoader";
 
 function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button className="w-full mt-4" type="submit">
-      Log in
+    <Button className="w-full mt-4" type="submit" aria-disabled={pending}>
+      {pending ? <SyncLoader size={6} /> : "Log in"}
     </Button>
   );
 }
@@ -43,7 +42,6 @@ const formSchema = z.object({
 const LoginForm = () => {
   const router = useRouter();
   const [userData, dispatch] = useFormState(onSubmit, undefined);
-  const { pending } = useFormStatus();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -55,23 +53,14 @@ const LoginForm = () => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(
-    prevState: string | undefined,
-    values: z.infer<typeof formSchema>
-  ) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    // console.log(values);
-
+  async function onSubmit(prevState: string | undefined, formData: FormData) {
     const postData = {
       grant_type: "password_username",
-      username: values.email,
-      password: values.password,
+      username: formData.get("email"),
+      password: formData.get("password"),
     };
 
     const data = await authenticate(postData);
-
-    console.log(data);
 
     if (data) {
       router.replace("/dashboard");
@@ -90,7 +79,8 @@ const LoginForm = () => {
           </h1>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(dispatch)} className="space-y-2">
+          {/* <form onSubmit={form.handleSubmit(dispatch)} className="space-y-2"> */}
+          <form action={dispatch} className="space-y-2">
             <FormField
               control={form.control}
               name="email"
@@ -98,9 +88,11 @@ const LoginForm = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      type="email"
                       className="text-[12px]"
                       placeholder="Phone number, username or email"
                       {...field}
+                      required
                     />
                   </FormControl>
                   <FormMessage />
@@ -114,9 +106,11 @@ const LoginForm = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      type="password"
                       className="text-[12px]"
                       placeholder="Password"
                       {...field}
+                      required
                     />
                   </FormControl>
                   <FormMessage />

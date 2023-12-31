@@ -15,7 +15,7 @@ async function Posts({ loggedIn, userId }: props) {
 
   //console.log('posts',userId)
   const posts = await fetchInstaPosts(userId);
-  //console.log(posts)
+  console.log(posts);
 
   return (
     <div>
