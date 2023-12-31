@@ -155,7 +155,7 @@ const LoginForm = () => {
         </p>
       </div>
 
-      <div className="mt-6 flex flex-col items-center">
+      {/* <div className="mt-6 flex flex-col items-center">
         <h1 className="text-[14px]">Get the app.</h1>
         <div className="flex space-x-2">
           <div>
@@ -165,7 +165,7 @@ const LoginForm = () => {
             <AppCard></AppCard>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

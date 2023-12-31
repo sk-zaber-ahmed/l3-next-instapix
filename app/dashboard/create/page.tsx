@@ -25,8 +25,9 @@ import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 import { ArrowLeft, CircleUser } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { authenticate, uploadToStorage } from "@/lib/actions";
+import { authenticate, createUserPost, fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 function PostCreateButton() {
   const { pending } = useFormStatus();
@@ -37,7 +38,7 @@ function PostCreateButton() {
       type="submit"
       aria-disabled={pending}
     >
-      {pending ? "pending..." : "Share"}
+      {pending ? "Pending..." : "Share"}
     </button>
   );
 }
@@ -62,9 +63,24 @@ function CreatePage() {
       formData.append("image", item);
     });
 
+
+
     const imageIds = await uploadToStorage(formData);
     console.log("uploaded image ids", imageIds);
+    console.log('form data',postDist)
 
+    const loggedIn = await fetchLoggedInUser()
+    const data={
+      userId: loggedIn?.UserId,
+      files:imageIds,
+      content:postDist,
+      userName:loggedIn?.UserName,
+      userEmail:loggedIn?.Email,
+    }
+    const postCreate=await createUserPost(data)
+    //console.log('create response',postCreate)
+    toast.success("posted successfully")
+    router.push("/dashboard");
     return imageIds;
   }
 
@@ -130,7 +146,7 @@ function CreatePage() {
         className="bg-background/10"
       >
         <div
-          className={`flex flex-col border-2 rounded-lg rounded border-border bg-border w-full md:w-[70%] 
+          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%]
           ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
           `}
         >
@@ -165,7 +181,7 @@ function CreatePage() {
           <Separator className="bg-foreground" />
 
           <div
-            className={`flex items-center justify-center rounded-b-lg w-full h-full rounded-b-lg overflow-hidden`}
+            className={`flex items-center justify-center rounded-b-lg w-full h-full overflow-hidden`}
           >
             {/* image pick area */}
             <div

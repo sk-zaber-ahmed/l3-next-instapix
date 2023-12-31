@@ -24,10 +24,6 @@ const nextConfig = {
         hostname: "instagram.fpnq13-1.fna.fbcdn.net",
       },
       {
-        protocol: "https",
-        hostname: "//selisefalcon.blob.core.windows.net/",
-      },
-      {
         protocol: "http",
         hostname: "res.cloudinary.com",
       },
@@ -38,9 +34,9 @@ const nextConfig = {
         pathname: "/shadcn.png",
       },
       {
-        protocol:"https",
-        hostname:"selisefalcon.blob.core.windows.net",
-      }
+        protocol: "https",
+        hostname: "selisefalcon.blob.core.windows.net",
+      },
     ],
   },
 };

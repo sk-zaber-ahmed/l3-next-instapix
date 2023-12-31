@@ -1,11 +1,15 @@
 //Contains all the data fetching logic
 import data from "@/lib/fake-data.json";
 
-
-export async function fetchPostsByUsername(username: string = "8_sza_8") {
+export async function fetchPostsByUsername(username: any) {
   try {
-    const { profile } = data;
-    return profile.username === username ? profile.posts : [];
+    const res = await fetch(
+      `http://127.0.0.1:5000/insta/user/own/posts/${username}`,
+      {
+        cache: "no-cache",
+      }
+    );
+    return res.json();
   } catch (error) {
     console.log("Error while executing function", error);
   }
@@ -40,13 +44,30 @@ export const fetchFollowersPost = async () => {
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
-      const res = await fetch(`http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`, {
-        cache:'no-cache',
-    });
+    const res = await fetch(
+      `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
+      {
+        cache: "no-cache",
+      }
+    );
 
     return res.json();
   } catch (error: any) {
     return error;
+  }
+}
+
+//get single post by its id
+export async function fetchPostById(postId: string) {
+  try {
+    //await new Promise((resolve) => setTimeout(resolve, 10000));  //for testing skeleton loader. this chunk of code will delay the response by 10 seconds. very useful for testing skeleton loader
+
+    const res = await fetch(`http://127.0.0.1:5000/insta/user/post/${postId}`, {
+      cache: "no-cache",
+    });
+    return res.json();
+  } catch (error: any) {
+    throw new Error("Failed to fetch");
   }
 }
 

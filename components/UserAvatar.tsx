@@ -15,7 +15,8 @@ function UserAvatar({ user, ...avatarProps }: Props) {
           user?.image ||
           "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"
         }
-        fill
+        width={32}
+        height={32}
         alt={`${user?.name}'s profile picture`}
         className="rounded-full object-cover"
       />
