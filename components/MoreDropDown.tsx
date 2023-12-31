@@ -37,6 +37,7 @@ export function MoreDropDown() {
   const [showModeToggle, setShowModeToggle] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
+  const router = useRouter();
 
   //outside click handler when clicking outside the dropdown menu to close it
   useEffect(() => {
@@ -102,10 +103,17 @@ export function MoreDropDown() {
               <p>Switch appearance</p>
             </DropdownMenuItem>
 
-            {/* <DropdownMenuItem className="menuItem" onClick={() => signOut()}>
-                            <LogOut size={20} />
-                            <p>Log out</p>
-                        </DropdownMenuItem> */}
+            <DropdownMenuItem
+              className="menuItem"
+              onClick={async () => {
+                console.log("logout calling");
+                await logoutUser();
+                router.replace("/login");
+              }}
+            >
+              <LogOut size={20} />
+              <p>Logout</p>
+            </DropdownMenuItem>
           </>
         )}
 
