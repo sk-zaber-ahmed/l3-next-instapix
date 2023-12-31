@@ -61,13 +61,13 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
               </p>
               {isCurrentUser ? (
                 <>
-                  <Button
+                  {/* <Button
                     size={"icon"}
                     variant={"ghost"}
                     className="hidden md:block md:order-last"
                   >
                     <Settings />
-                  </Button>
+                  </Button> */}
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({
@@ -76,14 +76,14 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
                       size: "sm",
                     })}
                   >
-                    Edit profile
+                    Edit Profile
                   </Link>
                   <Button
                     variant={"secondary"}
                     className="font-normal"
                     size={"sm"}
                   >
-                    View archive
+                    View Archive
                   </Button>
                 </>
               ) : (

@@ -446,9 +446,40 @@ export const followingUser = async (loggedInUser: string,userToFollow: FormDataE
         Accept: "application/json",
       },
       body: JSON.stringify(formData),
+      cache: "no-cache",
     });
     revalidatePath("/dashboard");
     return response.json();
+  }catch(error){
+    throw new Error("Failed to fetch");
+  }
+}
+
+export const deletePost= async (postId: FormDataEntryValue | null,loggedIn:string) => {
+  try{
+    const formData = {
+      userId: loggedIn,
+    };
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
+
+    // const response = await fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    //   cache: "no-cache",
+    // });
+    // revalidatePath("/dashboard");
+    // return response.json();
+
+    const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
+    //console.log(response.data);
+    return response.data;
   }catch(error){
     throw new Error("Failed to fetch");
   }

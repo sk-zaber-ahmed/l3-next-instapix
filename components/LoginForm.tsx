@@ -114,6 +114,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormControl>
                     <Input
+                      type="password"
                       className="text-[12px]"
                       placeholder="Password"
                       {...field}
@@ -142,16 +143,16 @@ const LoginForm = () => {
               Login with Facebook
             </h1>
           </div>
-          <p className="text-center text-[13px] text-[#0095F7]">
+          {/* <p className="text-center text-[13px] text-[#0095F7]">
             Forgot password?
-          </p>
+          </p> */}
         </div>
       </div>
 
       <div className="border border-gray-200 px-6 py-4 mt-6 text-[14px]">
         <p className="text-center">
           Don&apos;t have account?
-          <span className="text-[#0095F7]">Sign up</span>
+          <span className="text-[#0095F7] ml-1">Sign up</span>
         </p>
       </div>
 
