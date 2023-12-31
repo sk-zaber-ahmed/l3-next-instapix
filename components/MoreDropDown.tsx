@@ -29,6 +29,8 @@ import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Switch } from "./ui/switch";
 import { useTheme } from "next-themes";
+import { logoutUser } from "@/lib/actions";
+import { useRouter } from "next/navigation";
 
 export function MoreDropDown() {
   const [open, setOpen] = useState(false);

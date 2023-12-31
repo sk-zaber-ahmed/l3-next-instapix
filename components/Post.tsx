@@ -20,7 +20,7 @@ import { multiImageParse, parseImage } from "@/lib/actions";
 
 const Post = async ({ post, loggedIn }: any) => {
   const { files, userName } = post;
-  const parsed = await parseImage();
+  //const parsed = await parseImage();
 
   const multiImage = await multiImageParse(files);
   //console.log(multiImage)

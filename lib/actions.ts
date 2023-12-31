@@ -197,6 +197,23 @@ export async function authenticate(data: any) {
   }
 }
 
+
+export async function logoutUser() {
+  try {
+    cookies().delete("refresh_token");
+    cookies().delete("access_token");
+    return null;
+  } catch (error: any) {
+    console.log("From the authenticate function", error);
+
+    return "authentication error";
+  }
+}
+
+
+
+
+
 export async function registerUser(
   registrationData: zod.infer<typeof formSchema>
 ) {
