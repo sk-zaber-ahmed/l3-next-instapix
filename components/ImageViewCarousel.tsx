@@ -100,7 +100,7 @@ const ImageViewCarousel = ({
       </CarouselContent>
       <CarouselPrevious className="left-5" />
       <CarouselNext className="right-5" />
-
+      {/* have to change here*/}
       {updateOverlay && (
         <div className="absolute h-[100px] w-full  right-0 left-0 bottom-[10px] -translate-y-1/2">
           <div className="grid grid-cols-12 gap-1 mx-4 bg-background/80 rounded-lg">
