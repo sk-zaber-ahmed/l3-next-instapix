@@ -453,3 +453,6 @@ export const followingUser = async (loggedInUser: string,userToFollow: FormDataE
     throw new Error("Failed to fetch");
   }
 }
+
+
+//Test
