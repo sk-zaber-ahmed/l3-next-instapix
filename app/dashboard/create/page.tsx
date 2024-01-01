@@ -25,9 +25,15 @@ import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 import { ArrowLeft, CircleUser } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { authenticate, createUserPost, fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
+import {
+  authenticate,
+  createUserPost,
+  fetchLoggedInUser,
+  uploadToStorage,
+} from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import ProfileAvatar from "@/components/ProfileAvatar";
 
 function PostCreateButton() {
   const { pending } = useFormStatus();
@@ -51,37 +57,40 @@ function CreatePage() {
   const [stage, setStage] = useState<number>(0);
   const [postImage, setPostImage] = useState<File[]>([]); // post's image list
   const [postDist, setPostDist] = useState<string>(""); // post's description
+  const [user, setUser] = useState();
 
   const [postData, dispatch] = useFormState(imageUploadFunc, undefined);
   // console.log("data comming from action", postData);
 
   async function imageUploadFunc(values: z.infer<typeof CreatePost>) {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("disc", postDist);
-    postImage.map((item: File) => {
-      formData.append("image", item);
-    });
+      formData.append("disc", postDist);
+      postImage.map((item: File) => {
+        formData.append("image", item);
+      });
 
+      const imageIds = await uploadToStorage(formData);
+      console.log("uploaded image ids", imageIds);
+      console.log("form data", postDist);
 
-
-    const imageIds = await uploadToStorage(formData);
-    console.log("uploaded image ids", imageIds);
-    console.log('form data',postDist)
-
-    const loggedIn = await fetchLoggedInUser()
-    const data={
-      userId: loggedIn?.UserId,
-      files:imageIds,
-      content:postDist,
-      userName:loggedIn?.UserName,
-      userEmail:loggedIn?.Email,
+      const loggedIn = await fetchLoggedInUser();
+      const data = {
+        userId: loggedIn?.UserId,
+        files: imageIds,
+        content: postDist,
+        userName: loggedIn?.UserName,
+        userEmail: loggedIn?.Email,
+      };
+      const postCreate = await createUserPost(data);
+      //console.log('create response',postCreate)
+      toast.success("Post Create Successfully");
+      router.push("/dashboard");
+      return imageIds;
+    } catch (error) {
+      toast.warning("Post Creation Faild");
     }
-    const postCreate=await createUserPost(data)
-    //console.log('create response',postCreate)
-    toast.success("Posted successfully")
-    router.push("/dashboard");
-    return imageIds;
   }
 
   const updateStage = () => {
@@ -143,10 +152,10 @@ function CreatePage() {
           alignItems: "center",
           justifyContent: "center",
         }}
-        className="bg-background/10"
+        className="bg-black/20"
       >
         <div
-          className={`flex flex-col border-2 rounded-lg border-border bg-border w-full md:w-[70%]
+          className={`flex flex-col border-2 rounded-lg border-border bg-white dark:bg-black w-full md:w-[70%]
           ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
           `}
         >
@@ -270,17 +279,19 @@ function CreatePage() {
             >
               <div className="w-full flex items-center gap-3 p-4">
                 <div>
-                  <CircleUser size={48} />
+                  {/* <CircleUser size={48} /> */} <ProfileAvatar user={user} />
                 </div>
-                <div>Who is the User?</div>
+                <div>{"Anonymous user"}</div>
               </div>
               <div className=" m-4">
                 <textarea
+                  style={{ resize: "none" }}
                   name="description"
                   id="post_dist"
                   rows={10}
                   onChange={handleDistInputChange}
-                  className="p-4 w-full"
+                  className=" p-4 w-full bg-inherit placeholder:text-black dark:placeholder:text-white focus-visible:outline-none "
+                  placeholder="Write a caption..."
                 ></textarea>
               </div>
             </div>

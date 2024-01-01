@@ -19,6 +19,7 @@ import { FacebookIcon } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
 import SyncLoader from "react-spinners/SyncLoader";
+import Link from "next/link";
 
 function LoginButton() {
   const { pending } = useFormStatus();
@@ -128,14 +129,14 @@ const LoginForm = () => {
         </div>
 
         <div className="mt-8 space-y-5">
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <div className="bg-[#385185] p-1 rounded">
               <FacebookIcon color="white" size={18} />
             </div>
             <h1 className="text-[#385185] text-[14px] font-semibold  ml-2">
               Login with Facebook
             </h1>
-          </div>
+          </div> */}
           <p className="text-center text-[13px] text-[#0095F7]">
             Forgot password?
           </p>
@@ -145,7 +146,9 @@ const LoginForm = () => {
       <div className="border border-gray-200 px-6 py-4 mt-6 text-[14px]">
         <p className="text-center">
           Don&apos;t have account?
-          <span className="text-[#0095F7]">Sign up</span>
+          <Link href={"/register"} className="text-[#0095F7] ms-2">
+            Sign up
+          </Link>
         </p>
       </div>
 

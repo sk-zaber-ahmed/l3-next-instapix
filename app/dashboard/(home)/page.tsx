@@ -7,7 +7,7 @@ import { Suspense } from "react";
 async function DashboardPage() {
   //The user who is loggedin to the app
   const loggedIn = await fetchLoggedInUser();
-  console.log(loggedIn);
+  // console.log(loggedIn);
 
   return (
     <main className="grid xl:grid-cols-4">
