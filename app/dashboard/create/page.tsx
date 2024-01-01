@@ -83,7 +83,7 @@ function CreatePage() {
       };
       const postCreate = await createUserPost(data);
       //console.log('create response',postCreate)
-      toast.success("Post Create Successfully");
+      toast.success("Post created successfully");
       router.push("/dashboard");
       return imageIds;
     } catch (error) {
