@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -39,7 +38,7 @@ export function OwnProfilePage({ className, loggedUser }: CardProps) {
           className="text-[#0095F6] text-[12px]"
           variant={"ghost"}
           onClick={async () => {
-            console.log("logout calling");
+            // console.log("logout calling");
             await logoutUser();
             router.replace("/login");
           }}

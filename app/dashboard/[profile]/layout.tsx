@@ -18,16 +18,6 @@ const ProfileLayout = async ({
   children: ReactNode;
   params: { profile: string };
 }) => {
-  //------Actual logic------//
-  // const profile = await fetchProfile(username);
-  // const session = await auth();
-  // const isCurrentUser = session?.user.id === profile?.id;
-  // //   the followerId here is the id of the user who is following the profile
-  // const isFollowing = profile?.followedBy.some(
-  //   (user) => user.followerId === session?.user.id
-  // );
-
-  //------Fake logic------//
   const session = {
     user: {
       id: "1",
@@ -40,11 +30,11 @@ const ProfileLayout = async ({
   );
 
   const loggedIn = await fetchLoggedInUser();
-  //console.log('logged in user',loggedIn)
-  //console.log('profile',params?.profile)
+  // console.log("logged in user", loggedIn);
+  // console.log("profile", params?.profile);
 
   const isCurrentUser = loggedIn?.UserName == params?.profile;
-  //console.log('isCurrentUser',isCurrentUser)
+  // console.log("isCurrentUser", isCurrentUser);
 
   if (!loggedIn) {
     notFound();
@@ -56,8 +46,9 @@ const ProfileLayout = async ({
       <div className="max-w-4xl mx-auto">
         <div className="flex gap-x-5 md:gap-x-10 px-4">
           <ProfileAvatar
-            user={profile}
             className="w-20 h-20 md:w-36 md:h-36 cursor-pointer"
+            image={loggedIn?.ProfileImageUrl}
+            profileName={params?.profile}
           />
 
           <div className="md:px-10 space-y-4">
@@ -77,7 +68,7 @@ const ProfileLayout = async ({
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({
-                      className: "font-nomal",
+                      className: "font-normal",
                       variant: "secondary",
                       size: "sm",
                     })}
@@ -165,7 +156,10 @@ const ProfileLayout = async ({
           </div>
         </div>
 
-        <ProfileTabs profile={profile} isCurrentUser={isCurrentUser} />
+        <ProfileTabs
+          profileName={params?.profile}
+          isCurrentUser={isCurrentUser}
+        />
 
         {children}
       </div>
