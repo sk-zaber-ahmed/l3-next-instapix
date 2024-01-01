@@ -20,14 +20,14 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { deletePost } from "@/lib/actions";
-import {useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Props {
     post: any;
     loggedIn: any;
 }
 
-const PostOptions = ({ post,loggedIn }: Props) => {
+const PostOptions = ({ post, loggedIn }: Props) => {
     const { userId } = post   //Each post has its ownerId who did the post
 
     //checking if the post is by loggedin user or not
@@ -42,17 +42,18 @@ const PostOptions = ({ post,loggedIn }: Props) => {
                 )} />
             </DialogTrigger>
             <DialogContent className="dialogContent">
-                
+
                 {isPostMine && (
                     <form
-                    action={async (formData: FormData) => {
-                        const postId = formData.get("postId");
-                        console.log(post,postId, userId);
-              
-                        const result = await deletePost(post, postId, userId);
-                        console.log("result will be", result);
-                        router.push('/dashboard')
-                      }}
+                        action={async (formData: FormData) => {
+                            const postId = formData.get("postId");
+                            console.log(post, postId, userId);
+
+                            const result = await deletePost(post, postId, userId);
+                            console.log("result will be", result);
+                            toast.success('Deleted successfully')
+                            router.back()
+                        }}
                         className="postOption"
                     >
                         <input type="hidden" name="postId" value={post._id} />
@@ -62,7 +63,7 @@ const PostOptions = ({ post,loggedIn }: Props) => {
                     </form>
                 )}
 
-                {/* {isPostMine && (
+                {isPostMine && (
                     <Link
                         scroll={false}
                         href={`/dashboard/p/${post._id}/edit`}
@@ -70,7 +71,7 @@ const PostOptions = ({ post,loggedIn }: Props) => {
                     >
                         Edit
                     </Link>
-                )} */}
+                )}
 
                 <form action="" className="postOption">
                     <button className="w-full p-3">Hide like count</button>
