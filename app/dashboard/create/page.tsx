@@ -25,14 +25,11 @@ import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 import { ArrowLeft } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import {
-  createUserPost,
-  fetchLoggedInUser,
-  uploadToStorage,
-} from "@/lib/actions";
+import { fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
 
 import { toast } from "sonner";
 import ProfileAvatar from "@/components/ProfileAvatar";
+import { createUserPost } from "@/lib/data";
 
 function PostCreateButton() {
   const { pending } = useFormStatus();
@@ -70,24 +67,19 @@ function CreatePage() {
       });
 
       const imageIds = await uploadToStorage(formData);
-      // console.log("uploaded image ids", imageIds);
-      // console.log("form data", postDist);
 
-      const loggedIn = await fetchLoggedInUser();
       const data = {
-        userId: loggedIn?.UserId,
         files: imageIds,
         content: postDist,
-        userName: loggedIn?.UserName,
-        userEmail: loggedIn?.Email,
       };
       const postCreate = await createUserPost(data);
       //console.log('create response',postCreate)
-      toast.success("Post created successfully");
+
+      toast.success("Successfully created post");
       router.push("/dashboard");
       return imageIds;
     } catch (error) {
-      toast.warning("Post Creation Faild");
+      toast.warning("Failed to create post");
     }
   }
 

@@ -1,6 +1,5 @@
-import { fetchFollowersPost, fetchInstaPosts } from "@/lib/data";
+import { fetchInstaPosts } from "@/lib/data";
 import Post from "./Post";
-import { fetchLoggedInUser, multiImageParse } from "@/lib/actions";
 
 type props = {
   loggedIn: any;
@@ -8,16 +7,8 @@ type props = {
 };
 
 async function Posts({ loggedIn, userId }: props) {
-  // const loggedIn = await fetchLoggedInUser()
-  // console.log(loggedIn)
-
-  //const loggedInUserId = "7e648dc6-f120-42e6-9c34-8cf366a63654";
-
-  //console.log('posts',userId)
   const posts = await fetchInstaPosts(userId);
-  console.log("===========================================================");
-  console.log(posts);
-
+  // console.log(posts);
   return (
     <div>
       {posts?.length === 0 ? (
