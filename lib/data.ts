@@ -48,19 +48,19 @@ export const fetchFollowersPost = async () => {
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
-    // const res = await fetch(
-    //   `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
-    //   {
-    //     cache: "no-cache",
-    //   }
-    // );
+    const res = await fetch(
+      `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
+      {
+        cache: "no-cache",
+      }
+    );
 
-    // return res.json();
+    return res.json();
 
-    const response = await axiosInstance.get(`http://127.0.0.1:5000/insta/user/own/posts/${loggedInUserId}`);
-    console.log(loggedInUserId, response?.data);
+    // const response = await axiosInstance.get(`http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`);
+    // console.log(loggedInUserId, response?.data);
 
-    return response.data;
+    // return response.data;
   } catch (error: any) {
     return error;
   }

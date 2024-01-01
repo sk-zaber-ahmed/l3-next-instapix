@@ -403,7 +403,7 @@ export const multiImageParse = async (files: any) => {
       "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
 
     // Make a POST request with custom headers using Axios
-    if (files.length > 0) {
+    if (files?.length > 0) {
       const response = await axiosInstance.post(url, formData);
       //console.log(response.data);
       return response.data;
