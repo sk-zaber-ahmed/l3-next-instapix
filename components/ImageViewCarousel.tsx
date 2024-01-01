@@ -100,7 +100,7 @@ const ImageViewCarousel = ({
       </CarouselContent>
       <CarouselPrevious className="left-5" />
       <CarouselNext className="right-5" />
-      {/* have to change here*/}
+
       {updateOverlay && (
         <div className="absolute h-[100px] w-full  right-0 left-0 bottom-[10px] -translate-y-1/2">
           <div className="grid grid-cols-12 gap-1 mx-4 bg-background/80 rounded-lg">
@@ -129,8 +129,8 @@ const ImageViewCarousel = ({
                   ))}
               </div>
             </div>
-            <div className="col-start-11 col-span-2 h-[100px] ">
-              <label className="rounded-full h-[50px] w-[50px] border-slate-50/30 border-2 flex justify-center items-center cursor-pointer">
+            <div className="col-start-11 col-span-2 h-[100px] flex justify-center items-center">
+              <label className="rounded-full h-[50px] w-[50px] dark:border-slate-50/30 border-black/50 border-2 flex justify-center items-center cursor-pointer">
                 <input
                   type="file"
                   accept="image/*"
