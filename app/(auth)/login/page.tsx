@@ -5,7 +5,7 @@ import { links } from "@/lib/links";
 
 const Login = () => {
   return (
-    <div className="" style={{ border: "2px solid red" }}>
+    <div className="">
       <div className="grid grid-cols-11 lg:grid-cols-12 gap-4 h-fit">
         <div className="hidden lg:block lg:col-start-2 lg:col-span-5">
           <LoginLogo />

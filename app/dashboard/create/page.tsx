@@ -63,30 +63,34 @@ function CreatePage() {
   // console.log("data comming from action", postData);
 
   async function imageUploadFunc(values: z.infer<typeof CreatePost>) {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("disc", postDist);
-    postImage.map((item: File) => {
-      formData.append("image", item);
-    });
+      formData.append("disc", postDist);
+      postImage.map((item: File) => {
+        formData.append("image", item);
+      });
 
-    const imageIds = await uploadToStorage(formData);
-    console.log("uploaded image ids", imageIds);
-    console.log("form data", postDist);
+      const imageIds = await uploadToStorage(formData);
+      console.log("uploaded image ids", imageIds);
+      console.log("form data", postDist);
 
-    const loggedIn = await fetchLoggedInUser();
-    const data = {
-      userId: loggedIn?.UserId,
-      files: imageIds,
-      content: postDist,
-      userName: loggedIn?.UserName,
-      userEmail: loggedIn?.Email,
-    };
-    const postCreate = await createUserPost(data);
-    //console.log('create response',postCreate)
-    toast.success("posted successfully");
-    router.push("/dashboard");
-    return imageIds;
+      const loggedIn = await fetchLoggedInUser();
+      const data = {
+        userId: loggedIn?.UserId,
+        files: imageIds,
+        content: postDist,
+        userName: loggedIn?.UserName,
+        userEmail: loggedIn?.Email,
+      };
+      const postCreate = await createUserPost(data);
+      //console.log('create response',postCreate)
+      toast.success("Post Create Successfully");
+      router.push("/dashboard");
+      return imageIds;
+    } catch (error) {
+      toast.warning("Post Creation Faild");
+    }
   }
 
   const updateStage = () => {
