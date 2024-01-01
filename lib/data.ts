@@ -1,15 +1,19 @@
 //Contains all the data fetching logic
 import data from "@/lib/fake-data.json";
+import axiosInstance from "./actions";
 
 export async function fetchPostsByUsername(username: any) {
   try {
-    const res = await fetch(
-      `http://127.0.0.1:5000/insta/user/own/posts/${username}`,
-      {
-        cache: "no-cache",
-      }
-    );
-    return res.json();
+
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/insta/user/own/posts/${username}`);
+    return response.data;
+    // const res = await fetch(
+    //   `http://127.0.0.1:5000/insta/user/own/posts/${username}`,
+    //   {
+    //     cache: "no-cache",
+    //   }
+    // );
+    // return res.json();
   } catch (error) {
     console.log("Error while executing function", error);
   }
@@ -44,14 +48,19 @@ export const fetchFollowersPost = async () => {
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
-    const res = await fetch(
-      `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
-      {
-        cache: "no-cache",
-      }
-    );
+    // const res = await fetch(
+    //   `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
+    //   {
+    //     cache: "no-cache",
+    //   }
+    // );
 
-    return res.json();
+    // return res.json();
+
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/insta/user/own/posts/${loggedInUserId}`);
+    console.log(loggedInUserId, response?.data);
+
+    return response.data;
   } catch (error: any) {
     return error;
   }
