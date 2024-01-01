@@ -1,6 +1,6 @@
 "use client";
 
-import { FakeUserProfile, ProfileTabs } from "@/lib/definitions";
+import { ProfileTabs } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,10 +32,10 @@ const profileTabs: ProfileTabs[] = [
 ];
 
 function ProfileTabs({
-  profile,
+  profileName,
   isCurrentUser,
 }: {
-  profile: FakeUserProfile;
+  profileName: string;
   isCurrentUser: boolean;
 }) {
   const pathname = usePathname();
@@ -46,7 +46,7 @@ function ProfileTabs({
         {profileTabs
           .filter((tab) => isCurrentUser || tab.href !== "saved")
           .map((tab) => {
-            const profilePage = `/dashboard/${profile.username}`;
+            const profilePage = `/dashboard/${profileName}`;
             const isActive =
               tab.href === ""
                 ? pathname === profilePage
@@ -64,7 +64,7 @@ function ProfileTabs({
                 )}
                 asChild
               >
-                <Link href={`/dashboard/${profile.username}/${tab.href}`}>
+                <Link href={`/dashboard/${profileName}/${tab.href}`}>
                   <Separator
                     className={cn(
                       "!h-px w-16",
