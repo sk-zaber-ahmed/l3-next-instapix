@@ -23,15 +23,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
-import { ArrowLeft, CircleUser } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
 import {
-  authenticate,
   createUserPost,
   fetchLoggedInUser,
   uploadToStorage,
 } from "@/lib/actions";
-import { Button } from "@/components/ui/button";
+
 import { toast } from "sonner";
 import ProfileAvatar from "@/components/ProfileAvatar";
 
@@ -57,36 +56,39 @@ function CreatePage() {
   const [stage, setStage] = useState<number>(0);
   const [postImage, setPostImage] = useState<File[]>([]); // post's image list
   const [postDist, setPostDist] = useState<string>(""); // post's description
-  const [user, setUser] = useState();
 
   const [postData, dispatch] = useFormState(imageUploadFunc, undefined);
   // console.log("data comming from action", postData);
 
   async function imageUploadFunc(values: z.infer<typeof CreatePost>) {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    formData.append("disc", postDist);
-    postImage.map((item: File) => {
-      formData.append("image", item);
-    });
+      formData.append("disc", postDist);
+      postImage.map((item: File) => {
+        formData.append("image", item);
+      });
 
-    const imageIds = await uploadToStorage(formData);
-    console.log("uploaded image ids", imageIds);
-    console.log("form data", postDist);
+      const imageIds = await uploadToStorage(formData);
+      // console.log("uploaded image ids", imageIds);
+      // console.log("form data", postDist);
 
-    const loggedIn = await fetchLoggedInUser();
-    const data = {
-      userId: loggedIn?.UserId,
-      files: imageIds,
-      content: postDist,
-      userName: loggedIn?.UserName,
-      userEmail: loggedIn?.Email,
-    };
-    const postCreate = await createUserPost(data);
-    //console.log('create response',postCreate)
-    toast.success("posted successfully");
-    router.push("/dashboard");
-    return imageIds;
+      const loggedIn = await fetchLoggedInUser();
+      const data = {
+        userId: loggedIn?.UserId,
+        files: imageIds,
+        content: postDist,
+        userName: loggedIn?.UserName,
+        userEmail: loggedIn?.Email,
+      };
+      const postCreate = await createUserPost(data);
+      //console.log('create response',postCreate)
+      toast.success("Post Create Successfully");
+      router.push("/dashboard");
+      return imageIds;
+    } catch (error) {
+      toast.warning("Post Creation Faild");
+    }
   }
 
   const updateStage = () => {
@@ -275,7 +277,7 @@ function CreatePage() {
             >
               <div className="w-full flex items-center gap-3 p-4">
                 <div>
-                  {/* <CircleUser size={48} /> */} <ProfileAvatar user={user} />
+                  <ProfileAvatar image={undefined} profileName={undefined} />
                 </div>
                 <div>{"Anonymous user"}</div>
               </div>

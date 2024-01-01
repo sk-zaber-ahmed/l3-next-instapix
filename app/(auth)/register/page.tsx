@@ -10,14 +10,21 @@ import AppCard from "@/components/AppCard";
 
 const Register = () => {
   return (
-    <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black ">
+    <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black dark:bg-black dark:text-white">
       <div className=" flex flex-col w-full max-w-[340px] space-y-2.5 p-8 gap-2 md:shadow-sm border-[#dbdbdb] md:border md:mt-5">
         <Image
           src={"/Instapix.svg"}
           alt={"logo"}
           width={150}
           height={150}
-          className="self-center pt-5"
+          className="self-center pt-5 dark:hidden"
+        />
+        <Image
+          src={"/Instapix-white.svg"}
+          alt={"logo"}
+          width={150}
+          height={150}
+          className="self-center pt-5 dark:block hidden"
         />
 
         <p
@@ -27,7 +34,8 @@ const Register = () => {
         </p>
 
         <Button className="gap-1 text-sm" variant={"auth"} size={"auth"}>
-          <Facebook size={16} /> Log in with Facebook
+          <Facebook size={16} className="dark:bg-blend-color-dodge" /> Log in
+          with Facebook
         </Button>
 
         <div className="flex justify-between items-center my-4">
