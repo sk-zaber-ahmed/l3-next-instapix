@@ -197,7 +197,6 @@ export async function authenticate(data: any) {
   }
 }
 
-
 export async function logoutUser() {
   try {
     cookies().delete("refresh_token");
@@ -209,10 +208,6 @@ export async function logoutUser() {
     return "authentication error";
   }
 }
-
-
-
-
 
 export async function registerUser(
   registrationData: zod.infer<typeof formSchema>
@@ -408,10 +403,11 @@ export const multiImageParse = async (files: any) => {
       "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
 
     // Make a POST request with custom headers using Axios
-    const response = await axiosInstance.post(url, formData);
-
-    //console.log(response.data);
-    return response.data;
+    if (files.length > 0) {
+      const response = await axiosInstance.post(url, formData);
+      //console.log(response.data);
+      return response.data;
+    }
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
@@ -476,5 +472,86 @@ export const followingUser = async (
     return response.json();
   } catch (error) {
     throw new Error("Failed to fetch");
+  }
+};
+
+//update user post
+export const updatePost = async (
+  content: any,
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const formData = {
+      userId: userId,
+      content: content,
+    };
+    //console.log("from like post",postId,formData)
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/update/${postId}`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+
+    revalidatePath("/dashboard");
+    return true;
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
+
+//delete user post
+export const deletePost = async (
+  post: any,
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const formData = {
+      userId: userId,
+    };
+
+    //console.log("from like post",postId,formData)
+
+    // Define the URL for your POST request
+    const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
+
+    // Make a POST request with custom headers using Axios
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+      cache: "no-cache",
+    });
+
+    const formData2 = {
+      ItemIds: post?.files,
+    };
+
+    // Deleting image from blocks storage
+    const url2 =
+      "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageCommand/DeleteAll";
+
+    // Make a POST request with custom headers using Axios
+    const response2 = await axiosInstance.post(url2, formData2);
+
+    revalidatePath("/dashboard");
+    return response.json();
+  } catch (error) {
+    // Handle errors
+    return error;
   }
 };

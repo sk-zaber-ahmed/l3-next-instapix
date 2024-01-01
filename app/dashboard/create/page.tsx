@@ -75,22 +75,19 @@ function CreatePage() {
       console.log("uploaded image ids", imageIds);
       console.log("form data", postDist);
 
-      const loggedIn = await fetchLoggedInUser();
-      const data = {
-        userId: loggedIn?.UserId,
-        files: imageIds,
-        content: postDist,
-        userName: loggedIn?.UserName,
-        userEmail: loggedIn?.Email,
-      };
-      const postCreate = await createUserPost(data);
-      //console.log('create response',postCreate)
-      toast.success("Post Create Successfully");
-      router.push("/dashboard");
-      return imageIds;
-    } catch (error) {
-      toast.warning("Post Creation Faild");
+    const loggedIn = await fetchLoggedInUser()
+    const data={
+      userId: loggedIn?.UserId,
+      files:imageIds,
+      content:postDist,
+      userName:loggedIn?.UserName,
+      userEmail:loggedIn?.Email,
     }
+    const postCreate=await createUserPost(data)
+    //console.log('create response',postCreate)
+    toast.success("Posted successfully")
+    router.push("/dashboard");
+    return imageIds;
   }
 
   const updateStage = () => {
