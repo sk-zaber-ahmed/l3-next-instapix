@@ -12,38 +12,6 @@ import { splitFullName } from "./utils";
 import { revalidatePath } from "next/cache";
 
 const axiosInstance = axios.create();
-
-const getToken = async (refresh_token: any) => {
-  //console.log("from axios instance",refresh_token)
-  try {
-    const formData = {
-      grant_type: "refresh_token",
-      refresh_token: refresh_token,
-    };
-    //console.log("from axios instance",formData)
-    // Define your headers
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    // Define the URL for your POST request
-    const url = "http://127.0.0.1:5000/user/auth";
-
-    // Make a POST request with custom headers using Axios
-    const response = await axios.post(url, formData, { headers });
-
-    // cookies().set("access_token", response.data.access_token, {
-    //   path: "/",
-    //   domain: "localhost",
-    //   maxAge: response.data?.expires_in,
-    //   httpOnly: true,
-    //   secure: false,
-    // });
-    return response;
-  } catch (error) {
-    throw new Error("Failed to get a new token");
-  }
-};
-
 axiosInstance.interceptors.request.use(
   async (config) => {
     // Check if the token is valid before sending the request
@@ -71,8 +39,26 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
-
 export default axiosInstance;
+
+export async function getToken(refresh_token: any) {
+  try {
+    const formData = {
+      grant_type: "refresh_token",
+      refresh_token: refresh_token,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const url = "http://127.0.0.1:5000/user/auth";
+
+    const response = await axios.post(url, formData, { headers });
+    return response;
+  } catch (error) {
+    throw new Error("Failed to get a new token");
+  }
+};
 
 export async function followUser() {
   try {
@@ -329,86 +315,5 @@ export const followingUser = async (
     return response.json();
   } catch (error) {
     throw new Error("Failed to fetch");
-  }
-};
-
-//update user post
-export const updatePost = async (
-  content: any,
-  postId: FormDataEntryValue | null,
-  userId: string
-) => {
-  try {
-    const formData = {
-      userId: userId,
-      content: content,
-    };
-    //console.log("from like post",postId,formData)
-
-    // Define the URL for your POST request
-    const url = `http://127.0.0.1:5000/insta/user/update/${postId}`;
-
-    // Make a POST request with custom headers using Axios
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
-    });
-
-    revalidatePath("/dashboard");
-    return true;
-  } catch (error) {
-    // Handle errors
-    return error;
-  }
-};
-
-//delete user post
-export const deletePost = async (
-  post: any,
-  postId: FormDataEntryValue | null,
-  userId: string
-) => {
-  try {
-    const formData = {
-      userId: userId,
-    };
-
-    //console.log("from like post",postId,formData)
-
-    // Define the URL for your POST request
-    const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
-
-    // Make a POST request with custom headers using Axios
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
-    });
-
-    const formData2 = {
-      ItemIds: post?.files,
-    };
-
-    // Deleting image from blocks storage
-    const url2 =
-      "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageCommand/DeleteAll";
-
-    // Make a POST request with custom headers using Axios
-    const response2 = await axiosInstance.post(url2, formData2);
-
-    revalidatePath("/dashboard");
-    return response.json();
-  } catch (error) {
-    // Handle errors
-    return error;
   }
 };

@@ -74,3 +74,38 @@ export async function fetchSuggestedUsers(loggedInUserId: string) {
     return error;
   }
 }
+
+
+//update user post
+export const updatePost = async (
+  content: any,
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const formData = {
+      userId: userId,
+      content: content,
+    };
+
+    const response = await axiosInstance.post(`http://127.0.0.1:5000/posts/update/${postId}`, formData);
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
+
+//delete user post
+export const deletePost = async (postId: string) => {
+  try {
+    // const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
+    const response = await axiosInstance.post(`http://127.0.0.1:5000/posts/delete/${postId}`, {});
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
