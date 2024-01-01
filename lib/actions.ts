@@ -11,66 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 import { splitFullName } from "./utils";
 import { revalidatePath } from "next/cache";
 
-// const axiosInstance = axios.create();
-
-// const getToken = async (refresh_token: any) => {
-//   try {
-//     const formData = {
-//       grant_type: "refresh_token",
-//       refresh_token: refresh_token,
-//     };
-//     // Define your headers
-//     const headers = {
-//       "Content-Type": "application/json",
-//     };
-//     // Define the URL for your POST request
-//     const url = "http://127.0.0.1:5000/user/auth";
-
-//     // Make a POST request with custom headers using Axios
-//     const response = await axios.post(url, formData, { headers });
-//     return response;
-//   } catch (error) {
-//     throw new Error("Failed to get a new token");
-//   }
-// };
-
-// axiosInstance.interceptors.request.use(
-//   async (config) => {
-//     const access_token = cookies().get("access_token");
-
-//     if (access_token && access_token.value !== "") {
-//       config.headers.Authorization = `bearer ${access_token.value}`;
-//       return config;
-//     }
-
-//     const refresh_token = cookies().get("refresh_token");
-
-//     if (!refresh_token?.value || refresh_token?.value === "") {
-//       throw new Error("token not found");
-//     }
-
-//     // Check token validity here, you might have your own validation logic
-//     // For example, you could decode the token and check its expiration date
-//     try {
-//       const response = await getToken(refresh_token?.value);
-
-//       cookies().set("access_token", response.data.access_token, {
-//         path: "/",
-//         domain: "localhost",
-//         maxAge: response.data?.expires_in,
-//         httpOnly: true,
-//         secure: false,
-//       });
-
-//       config.headers.Authorization = `bearer ${response.data.access_token}`;
-//       return config;
-//     } catch (error) {
-//       throw error;
-//     }
-//   },
-//   (error) => Promise.reject(error)
-// );
-
 const axiosInstance = axios.create();
 
 const getToken = async (refresh_token: any) => {
@@ -109,28 +49,25 @@ axiosInstance.interceptors.request.use(
     // Check if the token is valid before sending the request
     const refresh_token = cookies().get("refresh_token")?.value; // Assuming token is stored in localStorage
     const access_token = cookies().get("access_token")?.value;
-    //console.log("from axios instance",refresh_token)
-    let newToken = "";
 
     if (refresh_token) {
       // Check token validity here, you might have your own validation logic
       // For example, you could decode the token and check its expiration date
       try {
+        if (access_token && access_token !== "") {
+          config.headers.Authorization = `bearer ${access_token}`;
+          return config;
+        }
         const response = await getToken(refresh_token);
+        config.headers.Authorization = `bearer ${response.data.access_token}`;
+        return config;
 
-        newToken = response.data.access_token;
-        //console.log("from axios instance",newToken)
       } catch (error) {
-        // Handle errors
-        console.error("Error:", error);
+        throw new Error("User Unauthorized");
       }
+    } else {
+      throw new Error("User Unauthorized");
     }
-
-    // Set the token in the request header
-    config.headers.Authorization = `Bearer ${newToken}`;
-    //console.log("from axios instance",config)
-
-    return config;
   },
   (error) => Promise.reject(error)
 );
@@ -307,20 +244,6 @@ export const fetchLoggedInUser = async () => {
   }
 };
 
-// export async function fetchInstaPosts(loggedInUserId: string) {
-//   try {
-//     const res = await fetch("http://localhost:9100/api/insta/app/posts", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         loggedInUserId,
-//       }),
-//     });
-
-// console.log("token", token?.value);
-
 export async function uploadToStorage(data: any) {
   try {
     const response = await axiosInstance.post(
@@ -334,39 +257,6 @@ export async function uploadToStorage(data: any) {
     return null;
   }
 }
-
-export const createUserPost = async (data: any) => {
-  try {
-    const formData = {
-      userId: data.userId,
-      files: data.files,
-      content: data.content,
-      userName: data.userName,
-      userEmail: data.userEmail,
-    };
-
-    // console.log("from like post", formData);
-
-    // Define the URL for your POST request
-    const url = `http://127.0.0.1:5000/insta/user/new/post`;
-
-    // Make a POST request with custom headers using Axios
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
-    });
-    revalidatePath("/dashboard");
-    return response.json();
-  } catch (error) {
-    // Handle errors
-    return error;
-  }
-};
 
 //getting image string using image id from the storage micro-service
 export const parseImage = async () => {
@@ -411,39 +301,6 @@ export const multiImageParse = async (files: any) => {
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
-  }
-};
-
-//liking or unliking a post
-export const likePost = async (
-  postId: FormDataEntryValue | null,
-  userId: string
-) => {
-  try {
-    const formData = {
-      userId: userId,
-    };
-
-    //console.log("from like post",postId,formData)
-
-    // Define the URL for your POST request
-    const url = `http://127.0.0.1:5000/insta/user/like/${postId}`;
-
-    // Make a POST request with custom headers using Axios
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
-    });
-    revalidatePath("/dashboard");
-    return response.json();
-  } catch (error) {
-    // Handle errors
-    return error;
   }
 };
 
