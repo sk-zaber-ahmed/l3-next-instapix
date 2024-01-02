@@ -1,8 +1,6 @@
 import React from "react";
 import RegisterForm from "@/components/RegisterForm";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Facebook } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { roboto } from "@/components/fonts";
@@ -33,10 +31,9 @@ const Register = () => {
           Sign up to see photos and videos from your friends.
         </p>
 
-        <Button className="gap-1 text-sm" variant={"auth"} size={"auth"}>
-          <Facebook size={16} className="dark:bg-blend-color-dodge" /> Log in
-          with Facebook
-        </Button>
+        {/* <Button className="gap-1 text-sm" variant ={'auth'} size={"auth"}>
+          <Facebook size={16} /> Log in with Facebook
+        </Button> */}
 
         <div className="flex justify-between items-center my-4">
           <Separator decorative className="w-2/5 border-1 bg-gray-300 " />

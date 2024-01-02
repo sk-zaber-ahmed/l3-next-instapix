@@ -136,17 +136,18 @@ export async function registerUser(
   registrationData: zod.infer<typeof formSchema>
 ) {
   try {
+    const itemId = uuidv4();
     // console.log("registration data", registrationData);
-    let token = cookies().get("access_token");
-    console.log("token", token);
-    if (!token || token?.value.length === 0) {
-      console.log("calling for token");
+    let token = cookies().get("access_token")?.value;
+    // console.log("token", token);
+    if (!token) {
+      // console.log("calling for token");
       const authenticatedSiteData = await authenticateSite();
       if (authenticatedSiteData?.access_token) {
         cookies().set("access_token", authenticatedSiteData?.access_token);
-        console.log("access_token", authenticatedSiteData?.access_token);
+        // console.log("access_token", authenticatedSiteData?.access_token);
         token = authenticatedSiteData?.access_token;
-        console.log("token", token?.value);
+        // console.log("token", token?.value);
       }
     }
 
@@ -154,15 +155,15 @@ export async function registerUser(
     const { firstName, lastName } = splitFullName(registrationData?.fullName);
     const payload = {
       ...userRegistrationTemplate,
+      ItemId: itemId,
       Email: registrationData?.email || userTemplate?.Email,
       UserName: registrationData?.username || userTemplate?.UserName,
       Password: registrationData?.password || userTemplate?.Password,
       PhoneNumber: registrationData?.mobileNumber || userTemplate?.PhoneNumber,
       FirstName: firstName,
       LastName: lastName,
-      ItemId: uuidv4(),
     };
-    console.log("payload", payload);
+    // console.log("payload", payload);
     const res = await fetch(
       "http://microservices.seliselocal.com/api/uam/v23/UserAccessManagement/SecurityCommand/CreateUser",
       {
@@ -171,14 +172,17 @@ export async function registerUser(
           Origin: "http://misterloo.seliselocal.com",
           Accept: "application/json",
           "Content-Type": "application/json, charset=utf-8",
-          Authorization: `bearer ${token?.value}`,
+          Authorization: `bearer ${token}`,
+          Host: "misterloo.seliselocal.com",
         },
         body: JSON.stringify(payload),
+        next: { revalidate: 420 },
+        // cache: "no-cache",
       }
     );
-    console.log("response", res);
+    // console.log("response", res);
     const data = await res.json();
-    console.log("data from register user", data);
+    // console.log("data from register user", data);
     return data;
   } catch (error) {
     console.log("Error while registering user", error);
@@ -203,10 +207,12 @@ export async function authenticateSite() {
           Host: "misterloo.seliselocal.com",
         },
         body: formData.toString(),
+        cache: "no-store",
       }
     );
 
     const data = await res.json();
+    // console.log("data from authenticate site", data);
 
     return data;
   } catch (error) {
