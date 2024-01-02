@@ -33,11 +33,11 @@ export const DeleteComment = CommentSchema.pick({ id: true });
 export const UserSchema = z.object({
   id: z.string(),
   username: z.string().optional(),
-  name: z.string().optional(),
+  email: z.string().email().optional(),
+  displayName: z.string().optional(),
   image: z.string().optional(),
   bio: z.string().max(150).optional(),
-  website: z.string().optional(),
-  gender: z.string().optional(),
+  phone: z.string().optional(),
 });
 
 export const UpdateUser = UserSchema;

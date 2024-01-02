@@ -10,16 +10,18 @@ export const metadata: Metadata = {
 };
 
 async function EditProfile() {
+    
     const profile=await fetchLoggedInUser()
-    console.log('edit profile',profile);
+    const loggedUserDetail=await fetchUserDetails(profile?.UserName)
+   // console.log('edit profile',loggedUserDetail);
 
   if (!profile) {
     notFound();
   }
 
   return (
-    <div className="px-12 ml-[100px]">
-      <ProfileForm profile={profile} />
+    <div className="px-12 md:ml-[100px]">
+      <ProfileForm profile={profile} loggedUserDetail={loggedUserDetail?.details?.user}/>
     </div>
   );
 }

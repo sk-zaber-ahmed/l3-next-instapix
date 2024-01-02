@@ -313,3 +313,26 @@ export const followingUser = async (
     throw new Error("Failed to fetch");
   }
 };
+
+//update loggedin user profile
+export const updateUserProfile = async (
+  params:any
+) => {
+  try {
+    const formData = {
+      bio:params?.bio,
+      displayName:params?.displayName,
+      phone:params?.phone,
+    };
+    //console.log("formData",formData )
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/user/update";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
