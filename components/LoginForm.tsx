@@ -139,7 +139,7 @@ const LoginForm = () => {
           </div> */}
           <p className="text-center text-[13px] text-[#0095F7]">
             Forgot password?
-          </p> */}
+          </p> 
         </div>
       </div>
 
