@@ -75,6 +75,18 @@ export async function fetchSuggestedUsers(loggedInUserId: string) {
   }
 }
 
+//fetch user details from business table
+export const fetchUserDetails = async (userName: string) => {
+  try {
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/user/details/${userName}`);
+    return response.data;
+
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+};
 
 //update user post
 export const updatePost = async (

@@ -10,6 +10,29 @@ import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fetchLoggedInUser } from "@/lib/actions";
+import type { Metadata, ResolvingMetadata } from "next";
+import UserAvatar from "@/components/UserAvatar";
+
+
+type Props = {
+  params: {
+    profile: string;
+  };
+  children: React.ReactNode;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const username = params.profile;
+
+  const loggedIn = await fetchLoggedInUser();
+
+  return {
+    title: `${loggedIn?.FirstName} (@${loggedIn?.LastName})`,
+  };
+}
 
 const ProfileLayout = async ({
   children,
@@ -24,15 +47,15 @@ const ProfileLayout = async ({
     },
   };
   const { profile } = data;
-  //console.log(profile);
-  const isFollowing = profile?.followedBy.some(
-    (user) => user.followerId === session?.user.id
-  );
 
   const loggedIn = await fetchLoggedInUser();
   // console.log("logged in user", loggedIn);
   // console.log("profile", params?.profile);
 
+  const isFollowing = profile?.followedBy.some(
+    (user) => user.followerId === session?.user.id
+  );
+  // 
   const isCurrentUser = loggedIn?.UserName == params?.profile;
   // console.log("isCurrentUser", isCurrentUser);
 
@@ -58,13 +81,13 @@ const ProfileLayout = async ({
               </p>
               {isCurrentUser ? (
                 <>
-                  <Button
+                  {/* <Button
                     size={"icon"}
                     variant={"ghost"}
                     className="hidden md:block md:order-last"
                   >
                     <Settings />
-                  </Button>
+                  </Button> */}
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({
@@ -73,14 +96,14 @@ const ProfileLayout = async ({
                       size: "sm",
                     })}
                   >
-                    Edit profile
+                    Edit Profile
                   </Link>
                   <Button
                     variant={"secondary"}
                     className="font-normal"
                     size={"sm"}
                   >
-                    View archive
+                    View Archive
                   </Button>
                 </>
               ) : (
@@ -109,7 +132,7 @@ const ProfileLayout = async ({
 
             <div className="hidden md:flex md:items-center md:gap-x-7">
               <Link href={`/dashboard`} className="font-medium">
-                <strong>{profile.posts.length}</strong> followers
+                <strong>{profile.posts.length}</strong> Posts
               </Link>
 
               <Link

@@ -61,10 +61,12 @@ function CreatePage() {
     try {
       const formData = new FormData();
 
-      formData.append("disc", postDist);
-      postImage.map((item: File) => {
-        formData.append("image", item);
-      });
+    formData.append("disc", postDist);
+    postImage.map((item: File) => {
+      formData.append("image", item);
+    });
+
+    
 
       const imageIds = await uploadToStorage(formData);
 
