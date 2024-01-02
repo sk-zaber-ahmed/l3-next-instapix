@@ -331,6 +331,7 @@ export const updateUserProfile = async (
 
     // Make a POST request with custom headers using Axios
     const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch");

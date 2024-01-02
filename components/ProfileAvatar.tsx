@@ -13,7 +13,7 @@ function ProfileAvatar({ image, profileName, ...avatarProps }: Props) {
       <Image
         src={image || "https://github.com/shadcn.png"}
         fill
-        alt={`${profileName}'s profile picture`}
+        alt={`profile picture`}
         className="rounded-full object-cover"
       />
     </Avatar>
