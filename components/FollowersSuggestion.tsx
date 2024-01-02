@@ -4,11 +4,11 @@ import { OwnProfilePage } from "./OwnProfilePage";
 import { fetchSuggestedUsers } from "@/lib/data";
 
 type props = {
-  loggedUser:any;
+  loggedUser: any;
   userId: string;
 };
 
-const FollowersSuggestion = async ({loggedUser,userId}:props) => {
+const FollowersSuggestion = async ({ loggedUser, userId }: props) => {
   //let loggedInUser = "7e648dc6-f120-42e6-9c34-8cf366a63654";
   const suggestedUser = await fetchSuggestedUsers(userId);
   //console.log(suggestedUser);

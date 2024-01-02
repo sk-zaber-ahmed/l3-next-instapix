@@ -162,8 +162,8 @@ const RegisterForm = () => {
 
         <Button
           type="submit"
-          variant={"auth"}
           size={"auth"}
+          variant={"auth"}
           disabled={disableSignupButton()}
           aria-disabled={pending}
         >

@@ -1,20 +1,25 @@
 "use client";
-import { useState } from "react"
-import { ArrowBigLeft, ArrowBigRight, Circle, CircleDot, ChevronRight, ChevronLeft } from "lucide-react"
+import { useState } from "react";
+import {
+  ArrowBigLeft,
+  ArrowBigRight,
+  Circle,
+  CircleDot,
+  ChevronRight,
+  ChevronLeft,
+} from "lucide-react";
 import ImageGet from "./ImageGet";
 import Image from "next/image";
 
-
 type ImageSliderProps = {
-  images: string[]
-  multiImage: any
-}
+  images: string[];
+  multiImage: any;
+};
 
 export function ImageSlider({ images, multiImage }: ImageSliderProps) {
-  const [imageIndex, setImageIndex] = useState(0)
+  const [imageIndex, setImageIndex] = useState(0);
   //console.log(images)
   //console.log('each user post image', multiImage[0]?.Url)
-
 
   // Shimmer loader for images
   const shimmer = (w: number, h: number) => `
@@ -29,25 +34,25 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
     <rect width="${w}" height="${h}" fill="#333" />
     <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
     <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="3s" repeatCount="indefinite"  />
-  </svg>`
+  </svg>`;
 
   const toBase64 = (str: string) =>
-    typeof window === 'undefined'
-      ? Buffer.from(str).toString('base64')
-      : window.btoa(str)
+    typeof window === "undefined"
+      ? Buffer.from(str).toString("base64")
+      : window.btoa(str);
 
   function showNextImage() {
-    setImageIndex(index => {
-      if (index === images.length - 1) return 0
-      return index + 1
-    })
+    setImageIndex((index) => {
+      if (index === images?.length - 1) return 0;
+      return index + 1;
+    });
   }
 
   function showPrevImage() {
-    setImageIndex(index => {
-      if (index === 0) return images.length - 1
-      return index - 1
-    })
+    setImageIndex((index) => {
+      if (index === 0) return images.length - 1;
+      return index - 1;
+    });
   }
 
   return (
@@ -85,7 +90,9 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
             style={{ translate: `${-100 * imageIndex}%` }}
             width={500}
             height={500}
-            placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(700, 475))}`}
+            placeholder={`data:image/svg+xml;base64,${toBase64(
+              shimmer(700, 475)
+            )}`}
           />
 
           //   <img
@@ -124,7 +131,7 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
           gap: ".25rem",
         }}
       >
-        {images.map((_, index) => (
+        {images?.map((_, index) => (
           <button
             key={index}
             className="img-slider-dot-btn"
@@ -140,7 +147,6 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
         ))}
       </div>
       <div id="after-image-slider-controls" />
-
     </section>
-  )
+  );
 }

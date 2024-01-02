@@ -10,35 +10,54 @@ import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { fetchLoggedInUser } from "@/lib/actions";
+import type { Metadata, ResolvingMetadata } from "next";
+import UserAvatar from "@/components/UserAvatar";
 
-const ProfileLayout =async ({ children,params }: { children: ReactNode,params: { profile: string } }) => {
-  //------Actual logic------//
-  // const profile = await fetchProfile(username);
-  // const session = await auth();
-  // const isCurrentUser = session?.user.id === profile?.id;
-  // //   the followerId here is the id of the user who is following the profile
-  // const isFollowing = profile?.followedBy.some(
-  //   (user) => user.followerId === session?.user.id
-  // );
 
-  //------Fake logic------//
+type Props = {
+  params: {
+    profile: string;
+  };
+  children: React.ReactNode;
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const username = params.profile;
+
+  const loggedIn = await fetchLoggedInUser();
+
+  return {
+    title: `${loggedIn?.FirstName} (@${loggedIn?.LastName})`,
+  };
+}
+
+const ProfileLayout = async ({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { profile: string };
+}) => {
   const session = {
     user: {
       id: "1",
     },
   };
   const { profile } = data;
-  //console.log(profile);
+
+  const loggedIn = await fetchLoggedInUser();
+  // console.log("logged in user", loggedIn);
+  // console.log("profile", params?.profile);
+
   const isFollowing = profile?.followedBy.some(
     (user) => user.followerId === session?.user.id
   );
-
-  const loggedIn = await fetchLoggedInUser()
-  //console.log('logged in user',loggedIn)
-  //console.log('profile',params?.profile)
-
+  // 
   const isCurrentUser = loggedIn?.UserName == params?.profile;
-  //console.log('isCurrentUser',isCurrentUser)
+  // console.log("isCurrentUser", isCurrentUser);
 
   if (!loggedIn) {
     notFound();
@@ -50,8 +69,9 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
       <div className="max-w-4xl mx-auto">
         <div className="flex gap-x-5 md:gap-x-10 px-4">
           <ProfileAvatar
-            user={profile}
             className="w-20 h-20 md:w-36 md:h-36 cursor-pointer"
+            image={loggedIn?.ProfileImageUrl}
+            profileName={params?.profile}
           />
 
           <div className="md:px-10 space-y-4">
@@ -71,7 +91,7 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
                   <Link
                     href={`/dashboard/edit-profile`}
                     className={buttonVariants({
-                      className: "font-nomal",
+                      className: "font-normal",
                       variant: "secondary",
                       size: "sm",
                     })}
@@ -111,12 +131,8 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
             </div>
 
             <div className="hidden md:flex md:items-center md:gap-x-7">
-
-              <Link
-                href={`/dashboard`}
-                className="font-medium"
-              >
-                <strong>{profile.posts.length}</strong> followers
+              <Link href={`/dashboard`} className="font-medium">
+                <strong>{profile.posts.length}</strong> Posts
               </Link>
 
               <Link
@@ -163,7 +179,10 @@ const ProfileLayout =async ({ children,params }: { children: ReactNode,params: {
           </div>
         </div>
 
-        <ProfileTabs profile={profile} isCurrentUser={isCurrentUser} />
+        <ProfileTabs
+          profileName={params?.profile}
+          isCurrentUser={isCurrentUser}
+        />
 
         {children}
       </div>
