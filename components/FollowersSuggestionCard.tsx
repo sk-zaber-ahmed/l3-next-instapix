@@ -19,18 +19,18 @@ export function FollowersSuggestionCard({
   loggedInUser,
 }: CardProps) {
   return (
-    <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)}>
+    <div className={cn("lg:w-[100%] mb-2 px-2 py-2 rounded", className)}>
       <div className="flex justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 w-[70%]">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-xs font-medium leading-none">
+          <div className="w-[70%]">
+            <p className="text-xs font-medium leading-none truncate">
               {suggestion?.userName}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground truncate hover:text-clip">
               {suggestion?.userEmail}
             </p>
           </div>

@@ -19,32 +19,35 @@ export function OwnProfilePage({ className, loggedUser }: CardProps) {
   const router = useRouter();
   // console.log(loggedUser)
   return (
-    <div className={cn("lg:w-[380px] mb-2 px-2 py-2 rounded", className)}>
+    <div className={cn("lg:w-[100%] mb-2 px-2 py-2 rounded", className)}>
       <div className="flex justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 w-[70%]">
           <Avatar>
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
-          <div>
-            <p className="text-xs font-medium leading-none">
+
+          <div className="w-[70%]">
+            <p className="text-xs font-medium leading-none truncate">
               {loggedUser?.UserName}
             </p>
-            <p className="text-xs text-muted-foreground">{loggedUser?.Email}</p>
+            <p className="text-xs text-muted-foreground truncate">
+              {loggedUser?.Email}
+            </p>
           </div>
         </div>
 
-        <Button
-          className="text-[#0095F6] text-[12px]"
-          variant={"ghost"}
-          onClick={async () => {
+        <form
+          action={async () => {
             // console.log("logout calling");
             await logoutUser();
             router.replace("/login");
           }}
         >
-          Logout
-        </Button>
+          <Button className="text-[#0095F6] text-[12px]" variant={"ghost"}>
+            Logout
+          </Button>
+        </form>
       </div>
     </div>
   );
