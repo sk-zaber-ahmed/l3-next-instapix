@@ -8,7 +8,7 @@ type props = {
 
 async function Posts({ loggedIn, userId }: props) {
   const posts = await fetchInstaPosts(userId);
-  // console.log(posts);
+  //console.log(posts);
   return (
     <div>
       {posts?.length === 0 ? (

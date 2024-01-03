@@ -240,9 +240,8 @@ export async function uploadToStorage(data: any) {
 }
 
 //getting image string using image id from the storage micro-service
-export const parseImage = async () => {
+export const parseImage = async (fileId:any) => {
   try {
-    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0";
     const formData = {
       fileId: fileId,
     };
@@ -323,6 +322,29 @@ export const updateUserProfile = async (
       bio:params?.bio,
       displayName:params?.displayName,
       phone:params?.phone,
+      avatar:params?.avatar,
+    };
+    //console.log("formData",formData )
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/user/update";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
+
+//update loggedin user profile picture
+export const updateUserProfilePicture = async (
+  files:any
+) => {
+  try {
+    const formData = {
+      avatar:files
     };
     //console.log("formData",formData )
 

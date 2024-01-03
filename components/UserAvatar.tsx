@@ -12,7 +12,7 @@ function UserAvatar({ user, ...avatarProps }: Props) {
     <Avatar className="relative h-8 w-8" {...avatarProps}>
       <Image
         src={
-          user?.ProfileImageUrl ||
+          user ||
           "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"
         }
         width={32}

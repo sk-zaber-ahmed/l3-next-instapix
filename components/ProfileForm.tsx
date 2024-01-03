@@ -11,27 +11,20 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { UserSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import ProfileAvatar from "./ProfileAvatar";
-import UserAvatar from "./UserAvatar";
 import Image from "next/image";
 import { updateUserProfile } from "@/lib/actions";
 import { useState } from "react";
-import ProfilePicChange from "./ProfilePicChange";
+import ProfileImageChange from './ProfileImageChange';
+import ProfileAvatar from './ProfileAvatar'
 
-function ProfileForm({ profile, loggedUserDetail }: { profile: any, loggedUserDetail: any }) {
+function ProfileForm({ profile, loggedUserDetail,parsedAvatar }: { profile: any, loggedUserDetail: any,parsedAvatar:string}) {
+   
     const [open, setOpen] = useState(false)
     const form = useForm<z.infer<typeof UserSchema>>({
         resolver: zodResolver(UserSchema),
@@ -41,7 +34,7 @@ function ProfileForm({ profile, loggedUserDetail }: { profile: any, loggedUserDe
             displayName: loggedUserDetail?.displayName || "Test",
             bio: loggedUserDetail?.bio || "",
             phone: profile?.PhoneNumber || "",
-            email: profile?.Email || "",
+            email: profile?.Email || ""
         },
     });
 
@@ -55,7 +48,12 @@ function ProfileForm({ profile, loggedUserDetail }: { profile: any, loggedUserDe
             <div className="space-y-8 py-10 lg:p-10 max-w-xl">
                 <div className="flex justify-between items-center gap-x-2 md:gap-x-5 rounded-lg bg-zinc-100 dark:bg-neutral-800 p-2">
                     <div className='flex items-center gap-2'>
-                        <Image src={profile?.ProfileImageUrl} alt="profile-image" width={50} height={50} className="rounded-full" />
+                        {/* <Image src={parsedAvatar} alt="profile-image" width={50} height={50} className="rounded-full object-cover" /> */}
+                        <ProfileAvatar
+            className="cursor-pointer"
+            image={parsedAvatar}
+            profileName={"Test"}
+          />
                         <div>
                             <p>{profile?.FirstName}</p>
                             <p className='text-[12px] dark:text-neutral-500'>{profile?.Email}</p>
@@ -173,7 +171,7 @@ function ProfileForm({ profile, loggedUserDetail }: { profile: any, loggedUserDe
             </div>
 
             {
-                open && <ProfilePicChange open={open} setOpen={setOpen}></ProfilePicChange>
+                open && <ProfileImageChange open={open} setOpen={setOpen}></ProfileImageChange>
             }
         </>
 

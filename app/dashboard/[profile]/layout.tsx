@@ -9,7 +9,7 @@ import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { fetchLoggedInUser } from "@/lib/actions";
+import { fetchLoggedInUser, parseImage } from "@/lib/actions";
 import type { Metadata, ResolvingMetadata } from "next";
 import UserAvatar from "@/components/UserAvatar";
 import { fetchUserDetails } from "@/lib/data";
@@ -39,6 +39,9 @@ export async function generateMetadata(
 const ProfileLayout = async ({ children, params: { profile } }: Props) => {
 
   const userProfile = await fetchUserDetails(profile);
+  const {avatar}=userProfile?.details?.user
+  //get the parsed image of avatar
+  const parsedAvatar = await parseImage(avatar[0]);
   const loggedIn = await fetchLoggedInUser()
   const isCurrentUser = loggedIn?.UserName === userProfile?.details?.user?.userName;
   //   the followerId here is the id of the user who is following the profile
@@ -55,7 +58,7 @@ const ProfileLayout = async ({ children, params: { profile } }: Props) => {
         <div className="flex justify-center gap-x-2 md:gap-x-6 px-4">
           <ProfileAvatar
             className="w-20 h-20 md:w-36 md:h-36 cursor-pointer"
-            image={loggedIn?.ProfileImageUrl}
+            image={parsedAvatar?.Url}
             profileName={profile}
           />
 
