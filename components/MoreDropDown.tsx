@@ -67,7 +67,7 @@ export function MoreDropDown() {
           className="md:w-full !justify-start space-x-2 !px-3"
         >
           <Menu />
-          <div className="hidden 2xl:block">More</div>
+          <div className="hidden xl:block">More</div>
         </Button>
       </DropdownMenuTrigger>
 

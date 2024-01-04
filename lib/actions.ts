@@ -1,5 +1,4 @@
 //contains all the mutation logics
-
 "use server";
 
 import axios from "axios";
@@ -69,29 +68,25 @@ export async function followUser() {
 
 export async function authenticate(data: any) {
   try {
-    const res = await fetch("http://127.0.0.1:5000/user/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-      cache: "no-cache",
-    });
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const url = "http://127.0.0.1:5000/user/auth";
 
-    const user = await res.json();
+    const response = await axios.post(url, data, { headers });
 
-    if (user?.access_token) {
-      cookies().set("access_token", user?.access_token, {
+    if (response.data?.access_token) {
+      cookies().set("access_token", response.data?.access_token, {
         path: "/",
         domain: "localhost",
-        maxAge: user?.expires_in,
+        maxAge: response.data?.expires_in,
         httpOnly: true,
         secure: false,
       });
     }
 
-    if (user?.refresh_token) {
-      cookies().set("refresh_token", user?.refresh_token, {
+    if (response.data?.refresh_token) {
+      cookies().set("refresh_token", response.data?.refresh_token, {
         path: "/",
         domain: "localhost",
         maxAge: 60 * 60 * 7,
@@ -100,23 +95,17 @@ export async function authenticate(data: any) {
       });
     }
 
-    if (res.ok && user) {
-      return user;
-    } else {
-      console.log("login api not working");
-      return null;
-    }
-  } catch (error: any) {
-    console.log("From the authenticate function", error);
-    if (error.response) {
-      console.log(error.response?.data);
-      return error.response?.body?.error;
-    }
+    return response.data;
 
-    if ((error as Error).message.includes("CredentialsSignin")) {
-      return "CredentialsSignIn";
+  } catch (error: any) {
+    if (!error.response) {
+      // handle offline error
+      throw new Error('Please check your internet connection.');
+    } else {
+      // handle server error;
+      // throw error.response.data?.error;
+      throw new Error('Incorrect Username or Password.');
     }
-    return "authentication error";
   }
 }
 
@@ -251,9 +240,8 @@ export async function uploadToStorage(data: any) {
 }
 
 //getting image string using image id from the storage micro-service
-export const parseImage = async () => {
+export const parseImage = async (fileId:any) => {
   try {
-    const fileId = "4f23068f-cceb-43e7-b9ae-eb129fbe66d0";
     const formData = {
       fileId: fileId,
     };
@@ -285,7 +273,7 @@ export const multiImageParse = async (files: any) => {
       "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
 
     // Make a POST request with custom headers using Axios
-    if (files.length > 0) {
+    if (files?.length > 0) {
       const response = await axiosInstance.post(url, formData);
       //console.log(response.data);
       return response.data;
@@ -316,6 +304,7 @@ export const followingUser = async (
         Accept: "application/json",
       },
       body: JSON.stringify(formData),
+      cache: "no-cache",
     });
     revalidatePath("/dashboard");
     return response.json();
@@ -323,3 +312,50 @@ export const followingUser = async (
     throw new Error("Failed to fetch");
   }
 };
+
+//update loggedin user profile
+export const updateUserProfile = async (
+  params:any
+) => {
+  try {
+    const formData = {
+      bio:params?.bio,
+      displayName:params?.displayName,
+      phone:params?.phone,
+      avatar:params?.avatar,
+    };
+    //console.log("formData",formData )
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/user/update";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}
+
+//update loggedin user profile picture
+export const updateUserProfilePicture = async (
+  files:any
+) => {
+  try {
+    const formData = {
+      avatar:files
+    };
+    //console.log("formData",formData )
+
+    // Define the URL for your POST request
+    const url = "http://127.0.0.1:5000/user/update";
+
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+}

@@ -15,10 +15,10 @@ const Logo = () => {
         size: "lg",
       })}
     >
-      <Instagram className="h-6 w-6 shrink-0 2xl:hidden" />
+      <Instagram className="h-6 w-6 shrink-0 xl:hidden" />
 
       <h1
-        className={`${pacifico.className} text-primary text-4xl font-bold text-center hidden 2xl:block`}
+        className={`${pacifico.className} text-primary text-4xl font-bold text-center hidden xl:block`}
       >
         InstaPix
       </h1>

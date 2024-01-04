@@ -49,6 +49,22 @@ export function PostsSkeleton() {
   );
 }
 
+export const GridSkeleton = () => {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+    </div>
+  );
+}
+
 export function SuggestionsSkeleton() {
   return (
     <div className="space-y-3">
