@@ -12,12 +12,12 @@ async function DashboardPage() {
   return (
     <main className="grid xl:grid-cols-12 2xl:grid-cols-10">
       <div className="col-span-8 2xl:col-span-7">
-        <Suspense fallback={<PostsSkeleton></PostsSkeleton>}>
+        <Suspense fallback={<PostsSkeleton />}>
           <Posts loggedIn={loggedIn} userId={loggedIn?.UserId} />
         </Suspense>
       </div>
       <div className="hidden xl:block xl:col-span-4 2xl:col-span-3">
-        <Suspense fallback={<SuggestionsSkeleton></SuggestionsSkeleton>}>
+        <Suspense fallback={<SuggestionsSkeleton />}>
           <FollowersSuggestion
             loggedUser={loggedIn}
             userId={loggedIn?.UserId}

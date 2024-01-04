@@ -55,7 +55,7 @@ const Post = async ({ post, loggedIn }: any) => {
         <PostOptions post={post} loggedIn={loggedIn} />
       </div>
 
-      <Card className="relative h-[450px] md:h-[550px] w-full overflow-hidden rounded-none sm:rounded-md">
+      <Card className="relative h-[400px] md:h-[600px] w-full overflow-hidden rounded-none sm:rounded-md">
         {/* <Image
                     src={post?.images[0]}
                     alt="Post Image"
@@ -73,15 +73,13 @@ const Post = async ({ post, loggedIn }: any) => {
           <Link href={`/dashboard/${post?.userName}`} className="font-bold">
             {post?.userName}
           </Link>
-          <p className='font-normal'>{post?.content}</p>
+          <p className="font-normal">{post?.content}</p>
         </div>
-      ) :
-        (<div>
-          <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
-
-          </div>
+      ) : (
+        <div>
+          <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4"></div>
         </div>
-        )}
+      )}
 
       {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
 
