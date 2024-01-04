@@ -42,7 +42,7 @@ const PostView = ({ id, post, loggedIn, multiImage }: props) => {
           gap: "0",
         }}
       >
-        <div className="flex gap-0 flex-col md:flex-row items-start p-0 md:max-w-3xl lg:max-w-5xl xl:max-w-6xl h-[500px] w-[380px] md:order-2 max-h-[500px] lg:max-h-[500px] xl:max-h-[500px] border-border border rounded-tr-md rounded-br-md">
+        <div className="flex gap-0 flex-col md:flex-row items-start p-0 md:max-w-3xl lg:max-w-5xl xl:max-w-6xl h-[500px] w-[380px] md:order-2 max-h-[500px] lg:max-h-[500px] xl:max-h-[500px] border-border border rounded-tr-md rounded-br-md  bg-white dark:bg-black">
           <div className="flex flex-col justify-between md:h-full md:order-2 w-full max-w-md">
             <DialogHeader className="border-b space-y-0 space-x-2.5py-4 pl-3.5 pr-6 py-3">
               <div className="flex justify-between">
