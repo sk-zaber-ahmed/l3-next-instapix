@@ -76,7 +76,7 @@ const PostOptions = ({ post, loggedIn }: Props) => {
         )}
 
         <form action="" className="postOption">
-          <button className="w-full p-3">Hide like count</button>
+          <button className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">Hide ad</button>
         </form>
 
         <DialogClose asChild>

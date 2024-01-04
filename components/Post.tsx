@@ -19,7 +19,7 @@ import { fetchUserDetails } from "@/lib/data";
 
 const Post = async ({ post, loggedIn }: any) => {
   const { files, userName } = post;
-  const userDetails= await fetchUserDetails(userName);
+  const userDetails = await fetchUserDetails(userName);
   //console.log(userDetails)
 
   const parsed = await parseImage(userDetails?.details?.user?.avatar[0]);
@@ -68,14 +68,20 @@ const Post = async ({ post, loggedIn }: any) => {
 
       <PostActions post={post} loggedIn={loggedIn} />
 
-      {post?.content && (
+      {post?.content ? (
         <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
           <Link href={`/dashboard/${post?.userName}`} className="font-bold">
             {post?.userName}
           </Link>
-          <p className="font-normal">{post?.content}</p>
+          <p className='font-normal'>{post?.content}</p>
         </div>
-      )}
+      ) :
+        (<div>
+          <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
+
+          </div>
+        </div>
+        )}
 
       {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
 

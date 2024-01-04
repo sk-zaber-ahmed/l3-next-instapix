@@ -52,11 +52,17 @@ const ProfileImageChange = ({ open, setOpen }: props) => {
     const [postImage, setPostImage] = useState<File[]>([]);
     const handleFileInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
         if (files) {
             const inputImages: File[] = [];
 
             for (let i = 0; i < files.length; i++) {
+                if (!allowedTypes.includes(files[i].type)) {
+                    toast.warning('Please select only image files (JPEG, PNG).');
+                    event.target.value = ''; // Clear the input field
+                    return;
+                }
                 const file = files[i];
                 inputImages.push(file); // set input files
 
@@ -92,7 +98,8 @@ const ProfileImageChange = ({ open, setOpen }: props) => {
         const result=await updateUserProfilePicture(imageIds)
         console.log("uploaded image ids", result);
         if(result.status){
-            toast.success('Profile Image Uploaded')
+            toast.success('Profile picture updated successfully!')
+            setOpen(false)
         }
     }
 
@@ -148,11 +155,11 @@ const ProfileImageChange = ({ open, setOpen }: props) => {
                                                         <label className="custom-file-upload m-[10px]">
                                                             <input
                                                                 type="file"
-                                                                multiple
+        
+                                                                accept="image/*"
                                                                 onChange={handleFileInputChange}
                                                                 style={{ display: 'none' }} />
-                                                            {/* <button onClick={handleUpload}>Upload</button> */}
-                                                            Select from computer
+                                                            Choose Photo
                                                         </label>
                                                     </div>
                                                 </FormControl>

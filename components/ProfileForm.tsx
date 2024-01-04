@@ -33,7 +33,7 @@ function ProfileForm({ profile, loggedUserDetail,parsedAvatar }: { profile: any,
             image: profile?.image || "",
             displayName: loggedUserDetail?.displayName || "Test",
             bio: loggedUserDetail?.bio || "",
-            phone: profile?.PhoneNumber || "",
+            phone: loggedUserDetail?.userPhone || "",
             email: profile?.Email || ""
         },
     });
@@ -151,7 +151,7 @@ function ProfileForm({ profile, loggedUserDetail,parsedAvatar }: { profile: any,
                                         <Input
                                             type="phone"
                                             id="phone"
-                                            placeholder="+880"
+                                            placeholder="(xxx) xxx-xxxx"
                                             {...field}
                                             className="focus:outline-none"
                                         />
