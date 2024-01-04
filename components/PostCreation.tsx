@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator";
 import ImageViewCarousel from "@/components/ImageViewCarousel";
 import { ArrowLeft } from "lucide-react";
 import { useFormState, useFormStatus } from "react-dom";
-import { fetchLoggedInUser, uploadToStorage } from "@/lib/actions";
+import { uploadToStorage } from "@/lib/actions";
 
 import { toast } from "sonner";
 import ProfileAvatar from "@/components/ProfileAvatar";
@@ -45,7 +45,13 @@ function PostCreateButton() {
   );
 }
 
-function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) {
+function PostCreation({
+  userName,
+  parsedAvatar,
+}: {
+  userName: any;
+  parsedAvatar: any;
+}) {
   const pathname = usePathname();
   const isCreatePage = pathname === "/dashboard/create";
   const router = useRouter();
@@ -61,12 +67,10 @@ function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) 
     try {
       const formData = new FormData();
 
-    formData.append("disc", postDist);
-    postImage.map((item: File) => {
-      formData.append("image", item);
-    });
-
-    
+      formData.append("disc", postDist);
+      postImage.map((item: File) => {
+        formData.append("image", item);
+      });
 
       const imageIds = await uploadToStorage(formData);
 
@@ -138,7 +142,7 @@ function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) 
     >
       <DialogContent
         style={{
-          minWidth: "100vw",
+          minWidth: "100dvw",
           minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
@@ -271,7 +275,10 @@ function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) 
             >
               <div className="w-full flex items-center gap-3 p-4">
                 <div>
-                  <ProfileAvatar image={parsedAvatar?.Url} profileName={userName} />
+                  <ProfileAvatar
+                    image={parsedAvatar?.Url}
+                    profileName={userName}
+                  />
                 </div>
                 <div>{userName}</div>
               </div>
