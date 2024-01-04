@@ -37,9 +37,15 @@ export const UserSchema = z.object({
   displayName: z.string().optional(),
   image: z.string().optional(),
   bio: z.string().max(150).optional(),
-  phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/, {
-    message: 'Invalid phone number format',
-  }),
+  // phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/, {
+  //   message: 'Invalid phone number format',
+  // })
+  phone:z
+    .string()
+    .refine((value) => /^\+880\s[0-9]{10}$/g.test(value), {
+      message:
+        "Please enter a valid Bangladesh mobile number starting with +8801.",
+    }),
 });
 
 export const UpdateUser = UserSchema;

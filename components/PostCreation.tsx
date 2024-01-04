@@ -235,13 +235,14 @@ function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) 
                           </div>
                           <FormLabel
                             htmlFor="picture"
-                            className="flex justify-center text-[18px]"
+                            className="flex flex-col items-center justify-center text-[18px]"
                           >
-                            Drag photos and videos here
+                            Please upload image in one of the following formats: (JPG, PNG).
+                            <p className='text-red-600 text-[12px]'>The file size should not exceed 100KB</p>
                           </FormLabel>
                           <FormControl>
                             <div className="file-uploader flex justify-center">
-                              <label className="custom-file-upload m-[50px]">
+                              <label className="custom-file-upload m-[30px]">
                                 <input
                                   type="file"
                                   accept="image/*"
@@ -249,7 +250,7 @@ function PostCreation({userName,parsedAvatar}: {userName:any,parsedAvatar:any}) 
                                   onChange={handleFileInputChange}
                                   style={{ display: "none" }}
                                 />
-                                Select from computer
+                                Choose Photo
                               </label>
                             </div>
                           </FormControl>

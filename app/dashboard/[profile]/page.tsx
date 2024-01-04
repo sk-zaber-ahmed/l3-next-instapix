@@ -12,8 +12,8 @@ async function ProfilePage({ params }: { params: { profile: string } }) {
 
   return (
     <Suspense fallback={<GridSkeleton></GridSkeleton>}>
-    <ProfilePostsGrid posts={posts}/>
-  </Suspense>
+      <ProfilePostsGrid posts={posts} />
+    </Suspense>
   );
 }
 

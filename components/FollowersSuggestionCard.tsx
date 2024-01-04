@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { followingUser, multiImageParse } from "@/lib/actions";
 import { toast } from "sonner";
 import FollowButtonAction from "./FollowButtonAction";
+import UserAvatar from "./UserAvatar";
 type CardProps = {
   suggestion: any;
   className?: string;
@@ -27,10 +28,11 @@ export async function FollowersSuggestionCard({
     <div className={cn("lg:w-[100%] mb-2 px-2 py-2 rounded", className)}>
       <div className="flex justify-between">
         <div className="flex items-center space-x-4 w-[70%]">
-          <Avatar>
+          {/* <Avatar>
             <AvatarImage src={multiImage ? multiImage[0]?.Url : "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"} />
             <AvatarFallback>OM</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
+          <UserAvatar user={multiImage ? multiImage[0]?.Url : "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"} />
           <div className="w-[70%]">
             <p className="text-xs font-medium leading-none truncate">
               {suggestion?.userName}

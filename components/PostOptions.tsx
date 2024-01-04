@@ -74,10 +74,10 @@ const PostOptions = ({ post, loggedIn }: Props) => {
             Edit
           </Link>
         )}
-
+{/* 
         <form action="" className="postOption">
           <button className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">Hide ad</button>
-        </form>
+        </form> */}
 
         <DialogClose asChild>
           <Button type="button" variant="secondary">

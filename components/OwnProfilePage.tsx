@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import LogoutButton from "./LogoutButton";
 import { fetchUserDetails } from "@/lib/data";
 import { parseImage } from "@/lib/actions";
+import UserAvatar from "./UserAvatar";
 
 type CardProps = {
   className?: string;
@@ -23,10 +24,11 @@ export async function OwnProfilePage({ className, loggedUser }: CardProps) {
     <div className={cn("lg:w-[100%] mb-2 px-2 py-2 rounded", className)}>
       <div className="flex justify-between">
         <div className="flex items-center space-x-4 w-[70%]">
-          <Avatar>
+          <UserAvatar user={parsedAvatar?.Url ? parsedAvatar?.Url : "https://github.com/shadcn.png"} />
+          {/* <Avatar>
             <AvatarImage src={parsedAvatar?.Url ? parsedAvatar?.Url : "https://github.com/shadcn.png" }/>
             <AvatarFallback>OM</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
 
           <div className="w-[70%]">
             <p className="text-xs font-medium leading-none truncate">
@@ -39,7 +41,7 @@ export async function OwnProfilePage({ className, loggedUser }: CardProps) {
         </div>
 
         <LogoutButton></LogoutButton>
-        
+
       </div>
     </div>
   );
