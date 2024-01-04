@@ -37,7 +37,9 @@ export const UserSchema = z.object({
   displayName: z.string().optional(),
   image: z.string().optional(),
   bio: z.string().max(150).optional(),
-  phone: z.string().optional(),
+  phone: z.string().regex(/^\(\d{3}\) \d{3}-\d{4}$/, {
+    message: 'Invalid phone number format',
+  }),
 });
 
 export const UpdateUser = UserSchema;
