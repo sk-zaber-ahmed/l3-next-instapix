@@ -10,13 +10,14 @@ type props = {
 }
 
 const FollowButtonAction = ({loggedInUser,suggestion}:props) => {
+    //console.log('-------->',loggedInUser,suggestion)
     return (
         <div>
                {/* form client component in that we are using server action so that "use client" */}
                 <form
                     action={async (formData: FormData) => {
                         const userToFollow = formData.get("userId");
-                        //console.log(userToFollow)
+                        console.log(loggedInUser,userToFollow)
 
                         await followingUser(loggedInUser, userToFollow);
                         toast.success("You are now follwoing him!")

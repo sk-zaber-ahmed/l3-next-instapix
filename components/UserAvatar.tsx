@@ -13,7 +13,7 @@ function UserAvatar({ user, ...avatarProps }: Props) {
       <Image
         src={
           user ||
-          "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"
+          "https://github.com/shadcn.png"
         }
         width={40}
         height={40}

@@ -28,7 +28,6 @@ axiosInstance.interceptors.request.use(
         const response = await getToken(refresh_token);
         config.headers.Authorization = `bearer ${response.data.access_token}`;
         return config;
-
       } catch (error) {
         throw new Error("User Unauthorized");
       }
@@ -57,7 +56,7 @@ export async function getToken(refresh_token: any) {
   } catch (error) {
     throw new Error("Failed to get a new token");
   }
-};
+}
 
 export async function followUser() {
   try {
@@ -94,17 +93,16 @@ export async function authenticate(data: any) {
         secure: false,
       });
     }
-    revalidatePath('/login')
+    revalidatePath("/login");
     return response.data;
-
   } catch (error: any) {
     if (!error.response) {
       // handle offline error
-      throw new Error('Please check your internet connection.');
+      throw new Error("Please check your internet connection.");
     } else {
       // handle server error;
       // throw error.response.data?.error;
-      throw new Error('Incorrect Username or Password.');
+      throw new Error("Incorrect Username or Password.");
     }
   }
 }
@@ -297,26 +295,27 @@ export const followingUser = async (
     // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/user/follow`;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
-    });
-    revalidatePath("/dashboard");
-    return response.json();
+    // const response = await fetch(url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    //   body: JSON.stringify(formData),
+    //   cache: "no-cache",
+    // });
+    if (loggedInUser && userToFollow) {
+      const response = await axiosInstance.post(url, formData);
+      revalidatePath("/dashboard");
+      return response.data;
+    }
   } catch (error) {
     throw new Error("Failed to fetch");
   }
 };
 
 //update loggedin user profile
-export const updateUserProfile = async (
-  params: any
-) => {
+export const updateUserProfile = async (params: any) => {
   try {
     const formData = {
       bio: params?.bio,
@@ -336,15 +335,13 @@ export const updateUserProfile = async (
   } catch (error) {
     throw new Error("Failed to fetch");
   }
-}
+};
 
 //update loggedin user profile picture
-export const updateUserProfilePicture = async (
-  files: any
-) => {
+export const updateUserProfilePicture = async (files: any) => {
   try {
     const formData = {
-      avatar: files
+      avatar: files,
     };
     //console.log("formData",formData )
 
@@ -358,4 +355,4 @@ export const updateUserProfilePicture = async (
   } catch (error) {
     throw new Error("Failed to fetch");
   }
-}
+};
