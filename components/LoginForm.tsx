@@ -33,10 +33,10 @@ function LoginButton() {
 }
 
 const formSchema = z.object({
-  email: z.string().min(2, {
+  email: z.string().min(4, {
     message: "Please enter a valid email address.",
   }),
-  password: z.string().min(2, {
+  password: z.string().min(4, {
     message: "Password must be at least 2 characters.",
   }),
 });
