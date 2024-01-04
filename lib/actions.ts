@@ -94,7 +94,7 @@ export async function authenticate(data: any) {
         secure: false,
       });
     }
-
+    revalidatePath('/login')
     return response.data;
 
   } catch (error: any) {
@@ -240,7 +240,7 @@ export async function uploadToStorage(data: any) {
 }
 
 //getting image string using image id from the storage micro-service
-export const parseImage = async (fileId:any) => {
+export const parseImage = async (fileId: any) => {
   try {
     const formData = {
       fileId: fileId,
@@ -315,14 +315,14 @@ export const followingUser = async (
 
 //update loggedin user profile
 export const updateUserProfile = async (
-  params:any
+  params: any
 ) => {
   try {
     const formData = {
-      bio:params?.bio,
-      displayName:params?.displayName,
-      phone:params?.phone,
-      avatar:params?.avatar,
+      bio: params?.bio,
+      displayName: params?.displayName,
+      phone: params?.phone,
+      avatar: params?.avatar,
     };
     //console.log("formData",formData )
 
@@ -340,11 +340,11 @@ export const updateUserProfile = async (
 
 //update loggedin user profile picture
 export const updateUserProfilePicture = async (
-  files:any
+  files: any
 ) => {
   try {
     const formData = {
-      avatar:files
+      avatar: files
     };
     //console.log("formData",formData )
 

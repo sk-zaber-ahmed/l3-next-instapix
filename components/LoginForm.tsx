@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import {
   Form,
   FormControl,
@@ -43,7 +43,8 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const router = useRouter();
-  const [userData, dispatch] = useFormState(onSubmit, undefined);
+  // const [userData, dispatch] = useFormState(onSubmit, undefined);
+  // const [pending, setPending] = useState(false);
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -54,13 +55,30 @@ const LoginForm = () => {
     },
   });
 
+  console.log(form.formState.isSubmitting);
+
   // 2. Define a submit handler.
-  async function onSubmit(prevState: string | undefined, formData: FormData) {
+  async function onSubmit(
+    // prevState: string | undefined,
+    values: z.infer<typeof formSchema>
+    // formData: FormData
+  ) {
     try {
+      // const inputData = formSchema.parse({
+      //   username: formData.get("email"),
+      //   password: formData.get("password"),
+      // });
+      // const postData = {
+      //   grant_type: "password_username",
+      //   ...inputData,
+      //   // username: formData.get("email"),
+      //   // password: formData.get("password"),
+      // };
+
       const postData = {
         grant_type: "password_username",
-        username: formData.get("email"),
-        password: formData.get("password"),
+        username: values.email,
+        password: values.password,
       };
 
       const data = await authenticate(postData);
@@ -86,8 +104,13 @@ const LoginForm = () => {
           </h1>
         </div>
         <Form {...form}>
-          {/* <form onSubmit={form.handleSubmit(dispatch)} className="space-y-2"> */}
-          <form action={dispatch} className="space-y-2">
+          <form
+            // onSubmit={form.handleSubmit(dispatch)}
+            onSubmit={form.handleSubmit(onSubmit)}
+            // action={dispatch}
+            className="space-y-2"
+          >
+            {/* <form action={dispatch} className="space-y-2"> */}
             <FormField
               control={form.control}
               name="email"
@@ -99,7 +122,7 @@ const LoginForm = () => {
                       className="text-[12px]"
                       placeholder="Phone number, username or email"
                       {...field}
-                      required
+                      // required
                     />
                   </FormControl>
                   <FormMessage />
@@ -117,14 +140,21 @@ const LoginForm = () => {
                       className="text-[12px]"
                       placeholder="Password"
                       {...field}
-                      required
+                      // required
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <LoginButton />
+            {/* <LoginButton /> */}
+            <Button
+              className="w-full"
+              type="submit"
+              aria-disabled={form.formState.isSubmitting}
+            >
+              {form.formState.isSubmitting ? <SyncLoader size={6} /> : "Log in"}
+            </Button>
           </form>
         </Form>
 
