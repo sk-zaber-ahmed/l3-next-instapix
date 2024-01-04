@@ -91,7 +91,7 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
             width={500}
             height={500}
             placeholder={`data:image/svg+xml;base64,${toBase64(
-              shimmer(700, 475)
+              shimmer(500, 500)
             )}`}
           />
 

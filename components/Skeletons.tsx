@@ -15,11 +15,12 @@ export const PostSkeleton = () => {
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[250px]" />
+          {/* <Skeleton className="h-4 w-[250px]" /> */}
+          {/*No need for location skeleton*/}
         </div>
       </div>
 
-      <Skeleton className="h-[400px] lg:h-[600px]" />
+      <Skeleton className="h-[400px] lg:h-[500px]" />
     </div>
   );
 };
@@ -63,7 +64,7 @@ export const GridSkeleton = () => {
       </Card>
     </div>
   );
-}
+};
 
 export function SuggestionsSkeleton() {
   return (
@@ -105,7 +106,6 @@ export function ViewPostSkeleton() {
     </Dialog>
   );
 }
-
 
 export function EditPostSkeleton() {
   return (
