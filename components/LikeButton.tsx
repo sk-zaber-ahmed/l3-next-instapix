@@ -3,8 +3,8 @@ import React from "react";
 import ActionIcon from "./ActionIcon";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { likePost } from "@/lib/actions";
 import { useOptimistic } from "react";
+import { likePost } from "@/lib/data";
 
 interface Props {
   post: any;

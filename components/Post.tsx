@@ -7,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import UserAvatar from "./UserAvatar";
 import Timestamp from "./TimesStamps";
@@ -15,21 +14,25 @@ import PostOptions from "./PostOptions";
 import PostActions from "./PostActions";
 import { Separator } from "./ui/separator";
 import { ImageSlider } from "./ImageSlider";
-import axios from "axios";
 import { multiImageParse, parseImage } from "@/lib/actions";
+import { fetchUserDetails } from "@/lib/data";
 
 const Post = async ({ post, loggedIn }: any) => {
   const { files, userName } = post;
-  //const parsed = await parseImage();
+  const userDetails = await fetchUserDetails(userName);
+  //console.log(userDetails)
+
+  const parsed = await parseImage(userDetails?.details?.user?.avatar[0]);
+  //console.log(parsed)
 
   const multiImage = await multiImageParse(files);
   //console.log(multiImage)
 
   return (
-    <div className="flex flex-col mb-[40px] md:px-[70px] xl:px-[200px] 2xl:px-[250px]">
+    <div className="flex flex-col mb-[40px] md:px-[70px] lg:px-[20%] xl:px-[14%] 2xl:px-[18%]">
       <div className="flex items-center justify-between px-3 sm:px-0">
         <div className="flex space-x-3 items-center mb-4">
-          <UserAvatar user={post.user} />
+          <UserAvatar user={parsed?.Url} />
           <div className="text-sm">
             <p className="space-x-1">
               <span className="font-semibold">{userName}</span>
@@ -42,9 +45,9 @@ const Post = async ({ post, loggedIn }: any) => {
               </span>
               <Timestamp createdAt={post.createdAt} />
             </p>
-            <p className="text-xs text-black dark:text-white font-medium">
+            {/* <p className="text-xs text-black dark:text-white font-medium">
               Dubai, United Arab Emirates
-            </p>
+            </p> */}
           </div>
         </div>
 
@@ -65,14 +68,20 @@ const Post = async ({ post, loggedIn }: any) => {
 
       <PostActions post={post} loggedIn={loggedIn} />
 
-      {post?.content && (
+      {post?.content ? (
         <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
           <Link href={`/dashboard/${post?.userName}`} className="font-bold">
             {post?.userName}
           </Link>
-          <p className="font-normal">{post?.content}</p>
+          <p className='font-normal'>{post?.content}</p>
         </div>
-      )}
+      ) :
+        (<div>
+          <div className="text-sm leading-none flex items-center space-x-2 font-medium px-3 sm:px-0 mt-2 mb-4">
+
+          </div>
+        </div>
+        )}
 
       {/*<Comments postId={post.id} comments={post.comments} user={session.user} /> */}
 

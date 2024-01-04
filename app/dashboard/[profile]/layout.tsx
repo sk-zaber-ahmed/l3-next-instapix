@@ -9,32 +9,43 @@ import ProfileTabs from "@/components/ProfileTabs";
 import ProfileHeader from "@/components/ProfileHeader";
 import FollowButton from "@/components/FollowButton";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { fetchLoggedInUser } from "@/lib/actions";
+import { fetchLoggedInUser, parseImage } from "@/lib/actions";
+import type { Metadata, ResolvingMetadata } from "next";
+import UserAvatar from "@/components/UserAvatar";
+import { fetchUserDetails } from "@/lib/data";
 
-const ProfileLayout = async ({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: { profile: string };
-}) => {
-  const session = {
-    user: {
-      id: "1",
-    },
+
+type Props = {
+  params: {
+    profile: string;
   };
-  const { profile } = data;
-  //console.log(profile);
-  const isFollowing = profile?.followedBy.some(
-    (user) => user.followerId === session?.user.id
-  );
+  children: React.ReactNode;
+};
 
-  const loggedIn = await fetchLoggedInUser();
-  // console.log("logged in user", loggedIn);
-  // console.log("profile", params?.profile);
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const username = params.profile;
 
-  const isCurrentUser = loggedIn?.UserName == params?.profile;
-  // console.log("isCurrentUser", isCurrentUser);
+  const userProfile = await fetchUserDetails(username);
+  console.log("userProfile", userProfile)
+
+  return {
+    title: `(@${userProfile?.details?.user?.userName})`,
+  };
+}
+
+const ProfileLayout = async ({ children, params: { profile } }: Props) => {
+
+  const userProfile = await fetchUserDetails(profile);
+  const {avatar}=userProfile?.details?.user
+  //get the parsed image of avatar
+  const parsedAvatar = await parseImage(avatar[0]);
+  const loggedIn = await fetchLoggedInUser()
+  const isCurrentUser = loggedIn?.UserName === userProfile?.details?.user?.userName;
+  //   the followerId here is the id of the user who is following the profile
+  const isFollowing = userProfile?.details?.user?.followers?.includes(loggedIn?.UserId);
 
   if (!loggedIn) {
     notFound();
@@ -42,45 +53,46 @@ const ProfileLayout = async ({
 
   return (
     <>
-      <ProfileHeader username={"shaik"} />
-      <div className="max-w-4xl mx-auto">
-        <div className="flex gap-x-5 md:gap-x-10 px-4">
+      <ProfileHeader username={userProfile?.details?.user?.userName} />
+      <div className="max-w-4xl mx-auto md:mt-6">
+        <div className="flex justify-center gap-x-2 md:gap-x-6 px-4">
           <ProfileAvatar
             className="w-20 h-20 md:w-36 md:h-36 cursor-pointer"
-            image={loggedIn?.ProfileImageUrl}
-            profileName={params?.profile}
+            image={parsedAvatar?.Url}
+            profileName={profile}
           />
 
           <div className="md:px-10 space-y-4">
             <div className="flex items-center gap-3">
-              <p className="font-normal text-[17px] col-span-2 md:col-span-1">
-                {loggedIn?.UserName}
+              <p className="font-normal text-[13px] md:text-[17px] col-span-2 md:col-span-1">
+                {userProfile?.details?.user?.displayName || 'Test User'}
               </p>
               {isCurrentUser ? (
                 <>
-                  <Button
+                  {/* <Button
                     size={"icon"}
                     variant={"ghost"}
                     className="hidden md:block md:order-last"
                   >
                     <Settings />
+                  </Button> */}
+                  <Button  className={buttonVariants({
+                        className: "font-bold",
+                        variant: "secondary",
+                        size: "sm"
+                      })}>
+                    <Link
+                      href={`/dashboard/edit-profile`}
+                    >
+                      Edit Profile
+                    </Link>
                   </Button>
-                  <Link
-                    href={`/dashboard/edit-profile`}
-                    className={buttonVariants({
-                      className: "font-normal",
-                      variant: "secondary",
-                      size: "sm",
-                    })}
-                  >
-                    Edit profile
-                  </Link>
                   <Button
                     variant={"secondary"}
-                    className="font-normal"
+                    className="font-bold"
                     size={"sm"}
                   >
-                    View archive
+                    View Archive
                   </Button>
                 </>
               ) : (
@@ -94,7 +106,7 @@ const ProfileLayout = async ({
                   </Button>
                   <FollowButton
                     isFollowing={isFollowing}
-                    profileId={profile.id}
+                    profileId={userProfile?.details?.user?.userId}
                   />
                   <Button
                     variant={"secondary"}
@@ -109,32 +121,32 @@ const ProfileLayout = async ({
 
             <div className="hidden md:flex md:items-center md:gap-x-7">
               <Link href={`/dashboard`} className="font-medium">
-                <strong>{profile.posts.length}</strong> followers
+                <strong>{userProfile?.details?.totalPost}</strong> Posts
               </Link>
 
               <Link
-                href={`/dashboard/${profile.username}/followers`}
+                href={`/dashboard/${userProfile?.details?.user?.userName}/followers`}
                 className="font-medium"
               >
-                <strong>{profile.followedBy.length}</strong> followers
+                <strong>{userProfile?.details?.user?.followers?.length}</strong> followers
               </Link>
 
               <Link
-                href={`/dashboard/${profile.username}/following`}
+                href={`/dashboard/${userProfile?.details?.user?.userName}/following`}
                 className="font-medium"
               >
-                <strong>{profile.following.length}</strong> following
+                <strong>{userProfile?.details?.user?.following?.length}</strong> following
               </Link>
             </div>
 
             <div className="text-sm -ml-24 md:ml-0 space-y-1">
-              <h1 className="font-bold ">{loggedIn?.DisplayName}</h1>
-              <p>{profile.bio}</p>
+              <h1 className="font-bold ">{loggedIn?.UserName}</h1>
+              <p>{userProfile?.details?.user?.bio}</p>
             </div>
           </div>
         </div>
 
-        <div className="md:hidden mt-4 space-y-2">
+        {/* <div className="md:hidden mt-4 space-y-2">
           <Separator className="border-[1px]" />
 
           <div className="flex justify-around items-center">
@@ -154,10 +166,10 @@ const ProfileLayout = async ({
               following
             </p>
           </div>
-        </div>
+        </div> */}
 
         <ProfileTabs
-          profileName={params?.profile}
+          profileName={profile}
           isCurrentUser={isCurrentUser}
         />
 

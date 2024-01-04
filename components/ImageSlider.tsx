@@ -43,7 +43,7 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
 
   function showNextImage() {
     setImageIndex((index) => {
-      if (index === images.length - 1) return 0;
+      if (index === images?.length - 1) return 0;
       return index + 1;
     });
   }
@@ -131,7 +131,7 @@ export function ImageSlider({ images, multiImage }: ImageSliderProps) {
           gap: ".25rem",
         }}
       >
-        {images.map((_, index) => (
+        {images?.map((_, index) => (
           <button
             key={index}
             className="img-slider-dot-btn"

@@ -10,13 +10,13 @@ async function DashboardPage() {
   // console.log(loggedIn);
 
   return (
-    <main className="grid xl:grid-cols-4">
-      <div className="col-span-3">
+    <main className="grid xl:grid-cols-12 2xl:grid-cols-10">
+      <div className="col-span-8 2xl:col-span-7">
         <Suspense fallback={<PostsSkeleton></PostsSkeleton>}>
           <Posts loggedIn={loggedIn} userId={loggedIn?.UserId} />
         </Suspense>
       </div>
-      <div className="hidden xl:block">
+      <div className="hidden xl:block xl:col-span-4 2xl:col-span-3">
         <Suspense fallback={<SuggestionsSkeleton></SuggestionsSkeleton>}>
           <FollowersSuggestion
             loggedUser={loggedIn}

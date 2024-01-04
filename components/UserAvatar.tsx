@@ -4,7 +4,7 @@ import type { User } from "next-auth";
 import Image from "next/image";
 
 type Props = Partial<AvatarProps> & {
-  user: User | undefined;
+  user: any | undefined;
 };
 
 function UserAvatar({ user, ...avatarProps }: Props) {
@@ -12,7 +12,7 @@ function UserAvatar({ user, ...avatarProps }: Props) {
     <Avatar className="relative h-8 w-8" {...avatarProps}>
       <Image
         src={
-          user?.image ||
+          user ||
           "http://res.cloudinary.com/dshvfqndm/image/upload/v1693295751/o2wi75xbu8wbp2ql5i2b.jpg"
         }
         width={32}

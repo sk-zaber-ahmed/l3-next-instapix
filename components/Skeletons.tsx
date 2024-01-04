@@ -11,7 +11,7 @@ import { Card } from "./ui/card";
 export const PostSkeleton = () => {
   return (
     <div className="space-y-3">
-      <div className="flex items-center w-full md:w-[500px] space-x-4">
+      <div className="flex items-center w-full md:w-[600px] space-x-4">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
@@ -19,7 +19,7 @@ export const PostSkeleton = () => {
         </div>
       </div>
 
-      <Skeleton className="h-[400px] lg:h-[550px]" />
+      <Skeleton className="h-[400px] lg:h-[600px]" />
     </div>
   );
 };
@@ -45,6 +45,22 @@ export function PostsSkeleton() {
       <PostSkeleton />
       <PostSkeleton />
       <PostSkeleton />
+    </div>
+  );
+}
+
+export const GridSkeleton = () => {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
     </div>
   );
 }

@@ -20,12 +20,13 @@ import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
 import SyncLoader from "react-spinners/SyncLoader";
 import Link from "next/link";
+import { toast } from "sonner";
 
 function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button className="w-full mt-4" type="submit" aria-disabled={pending}>
+    <Button className="w-full" type="submit" aria-disabled={pending}>
       {pending ? <SyncLoader size={6} /> : "Log in"}
     </Button>
   );
@@ -55,23 +56,28 @@ const LoginForm = () => {
 
   // 2. Define a submit handler.
   async function onSubmit(prevState: string | undefined, formData: FormData) {
-    const postData = {
-      grant_type: "password_username",
-      username: formData.get("email"),
-      password: formData.get("password"),
-    };
+    try {
+      const postData = {
+        grant_type: "password_username",
+        username: formData.get("email"),
+        password: formData.get("password"),
+      };
 
-    const data = await authenticate(postData);
-
-    if (data) {
+      const data = await authenticate(postData);
       router.replace("/dashboard");
+      return data;
+    } catch (error: unknown) {
+      const knownError = error as Error;
+      // console.log("==============================================");
+      // console.log(knownError?.message);
+      // toast.warning("Authentication Failed");
+      toast.warning(knownError?.message);
     }
-    return data;
   }
 
   return (
-    <div className="mt-[60px]">
-      <div className="border border-gray-200 px-6 py-8">
+    <div className="">
+      <div className="md:border border-gray-200 px-6 py-8">
         <div className="mb-8">
           <h1
             className={`${pacifico.className} text-primary text-4xl font-bold text-center`}
@@ -124,11 +130,12 @@ const LoginForm = () => {
 
         <div className="flex justify-between items-center my-4">
           <Separator decorative className="w-1/3 border-1" />
-          <h1>OR</h1>
+          <h1 className="text-[14px]">OR</h1>
           <Separator decorative className="w-1/3 border-1" />
         </div>
 
-        <div className="mt-8 space-y-5">
+        <div className="space-y-5">
+          {/* <div className="mt-8 space-y-5"> */}
           {/* <div className="flex justify-center">
             <div className="bg-[#385185] p-1 rounded">
               <FacebookIcon color="white" size={18} />
@@ -143,10 +150,13 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <div className="border border-gray-200 px-6 py-4 mt-6 text-[14px]">
+      <div className="md:border border-gray-200 px-6 py-4 mt-6 text-[14px]">
         <p className="text-center">
           Don&apos;t have account?
-          <Link href={"/register"} className="text-[#0095F7] ms-2">
+          <Link
+            href={"/register"}
+            className="text-[#0095F7] ms-1 font-semibold"
+          >
             Sign up
           </Link>
         </p>

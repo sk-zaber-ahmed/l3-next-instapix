@@ -88,7 +88,7 @@ const NavLinks = ({
               <NavLinkAvatar image={profileImage} />
             )}
             <p
-              className={`${cn("hidden 2xl:block", {
+              className={`${cn("hidden xl:block", {
                 "font-extrabold": isActive,
               })}`}
             >

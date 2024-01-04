@@ -134,6 +134,7 @@ const RegisterForm = () => {
             <FormItem>
               <FormControl>
                 <Input
+                  type="password"
                   placeholder="Password"
                   {...field}
                   className="bg-[#fafafa] text-black text-sm rounded-sm border border-gray-200  focus-visible:ring-0  focus-visible:ring-offset-0 text-ellipsis focus-visible:border-gray-400"
@@ -162,8 +163,8 @@ const RegisterForm = () => {
 
         <Button
           type="submit"
-          variant={"auth"}
           size={"auth"}
+          variant={"auth"}
           disabled={disableSignupButton()}
           aria-disabled={pending}
         >
