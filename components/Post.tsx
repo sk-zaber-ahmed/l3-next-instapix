@@ -18,7 +18,7 @@ import { multiImageParse, parseImage } from "@/lib/actions";
 import { fetchUserDetails } from "@/lib/data";
 
 const Post = async ({ post, loggedIn }: any) => {
-  const { files, userName } = post;
+  const { files, userName, userId } = post;
   const userDetails = await fetchUserDetails(userName);
   //console.log(userDetails)
 
@@ -26,12 +26,7 @@ const Post = async ({ post, loggedIn }: any) => {
   //console.log(parsed)
 
   const multiImage = await multiImageParse(files);
-  //console.log(multiImage)
-
-  const { userId } = post; //Each post has its ownerId who did the post
-
-  //checking if the post is by loggedin user or not
-  const isPostMine = userId === loggedIn;
+  //console.log(multiImage);
 
   return (
     <div className="flex flex-col mb-[40px] md:px-[70px] lg:px-[20%] xl:px-[14%] 2xl:px-[18%]">
@@ -57,10 +52,7 @@ const Post = async ({ post, loggedIn }: any) => {
         </div>
 
         {/* Sending the post and userId=owner of the post as parameter to give some special accessibility */}
-        {
-          isPostMine && <PostOptions post={post} loggedIn={loggedIn} />
-        }
-        
+        {userId === loggedIn && <PostOptions post={post} loggedIn={loggedIn} />}
       </div>
 
       <Card className="relative h-[400px] md:h-[600px] w-full overflow-hidden rounded-none sm:rounded-md">

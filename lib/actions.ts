@@ -242,15 +242,13 @@ export async function uploadToStorage(data: any) {
 //getting image string using image id from the storage micro-service
 export const parseImage = async (fileId: any) => {
   try {
-    const formData = {
-      fileId: fileId,
-    };
-
     // Define the URL for your POST request
     const url = "http://127.0.0.1:5000/storage/url/parser";
 
     // Make a POST request with custom headers using Axios
-    const response = await axiosInstance.post(url, formData);
+    const response = await axiosInstance.post(url, {
+      fileId: fileId,
+    });
 
     // Handle the response data
     //console.log(response.data);
@@ -264,20 +262,18 @@ export const parseImage = async (fileId: any) => {
 //multiple image parse
 export const multiImageParse = async (files: any) => {
   try {
-    const formData = {
-      FileIds: files,
-    };
-
+    if (files?.length <= 0) {
+      throw "no File detect";
+    }
     // Define the URL for your POST request
     const url =
       "http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFiles";
+    const response = await axiosInstance.post(url, {
+      FileIds: files,
+    });
+    //console.log(response.data);
+    return response.data;
 
-    // Make a POST request with custom headers using Axios
-    if (files?.length > 0) {
-      const response = await axiosInstance.post(url, formData);
-      //console.log(response.data);
-      return response.data;
-    }
   } catch (error) {
     // Handle errors
     console.error("Error:", error);
@@ -289,25 +285,15 @@ export const followingUser = async (
   userToFollow: FormDataEntryValue | null
 ) => {
   try {
-    const formData = {
-      loggedInUser: loggedInUser,
-      userToFollow: userToFollow,
-    };
-
-    // Define the URL for your POST request
     const url = `http://127.0.0.1:5000/user/follow`;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-      cache: "no-cache",
+    const response = await axiosInstance.post(url, {
+      loggedInUser: loggedInUser,
+      userToFollow: userToFollow,
     });
     revalidatePath("/dashboard");
-    return response.json();
+    return response.data;
+
   } catch (error) {
     throw new Error("Failed to fetch");
   }
