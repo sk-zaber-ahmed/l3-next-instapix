@@ -152,7 +152,7 @@ function PostCreation({
       >
         <div
           className={`flex flex-col border-2 rounded-lg border-border bg-white dark:bg-black w-full md:w-[70%]
-          ${stage === 1 ? "lg:w-[70%]" : "lg:w-[50%]"}
+          ${stage === 1 ? "lg:w-[70%]" : "lg:w-[40%]"}
           `}
         >
           <DialogHeader className="relative">
@@ -239,14 +239,17 @@ function PostCreation({
                           </div>
                           <FormLabel
                             htmlFor="picture"
-                            className="flex flex-col items-center justify-center text-[18px]"
+                            className="flex flex-col items-center justify-center  text-[12px] text-center md:text-[14px]"
                           >
-                            Please upload image in one of the following formats: (JPG, PNG).
-                            <p className='text-red-600 text-[12px]'>The file size should not exceed 100KB</p>
+                            Upload images from your device in one of the
+                            following formats: (JPG, PNG).
+                            <p className="text-red-600 text-[12px]">
+                              (The file size should not exceed 100KB)
+                            </p>
                           </FormLabel>
                           <FormControl>
                             <div className="file-uploader flex justify-center">
-                              <label className="custom-file-upload m-[30px]">
+                              <label className="custom-file-upload m-[30px] border border-border dark:bg-primary dark:text-secondary font-semibold bg-black text-primary ">
                                 <input
                                   type="file"
                                   accept="image/*"
