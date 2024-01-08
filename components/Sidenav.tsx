@@ -10,15 +10,10 @@ const SideNavbar = async () => {
   const { UserName } = loggedIn;
   const loggedInUserDetails = await fetchUserDetails(UserName);
   const { avatar, userName } = loggedInUserDetails?.details?.user;
-  // //get the parsed image of avatar
-  // let parsedAvatar;
-  // if (avatar?.length !== 0) {
-  //   parsedAvatar = await parseImage(avatar[0]);
-  // }
-  // const { Url } = parsedAvatar;
-  // console.log(loggedInUserDetails);
-  const Url =
-    "https://i.pravatar.cc/150?u=e5bd9423-1894-450e-a1c3-34dc89970c1e";
+  //get the parsed image of avatar
+  const parsedAvatar = await parseImage(avatar[0]);
+  const {Url}=parsedAvatar
+  console.log(Url)
 
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
