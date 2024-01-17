@@ -1,8 +1,6 @@
 import React from "react";
 import RegisterForm from "@/components/RegisterForm";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Facebook } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { roboto } from "@/components/fonts";
@@ -10,14 +8,21 @@ import AppCard from "@/components/AppCard";
 
 const Register = () => {
   return (
-    <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black ">
+    <main className="flex flex-col gap-3 items-center justify-center h-screen bg-white text-black dark:bg-black dark:text-white">
       <div className=" flex flex-col w-full max-w-[340px] space-y-2.5 p-8 gap-2 md:shadow-sm border-[#dbdbdb] md:border md:mt-5">
         <Image
           src={"/Instapix.svg"}
           alt={"logo"}
           width={150}
           height={150}
-          className="self-center pt-5"
+          className="self-center pt-5 dark:hidden"
+        />
+        <Image
+          src={"/Instapix-white.svg"}
+          alt={"logo"}
+          width={150}
+          height={150}
+          className="self-center pt-5 dark:block hidden"
         />
 
         <p
@@ -26,9 +31,9 @@ const Register = () => {
           Sign up to see photos and videos from your friends.
         </p>
 
-        <Button className="gap-1 text-sm" variant={"auth"} size={"auth"}>
+        {/* <Button className="gap-1 text-sm" variant ={'auth'} size={"auth"}>
           <Facebook size={16} /> Log in with Facebook
-        </Button>
+        </Button> */}
 
         <div className="flex justify-between items-center my-4">
           <Separator decorative className="w-2/5 border-1 bg-gray-300 " />

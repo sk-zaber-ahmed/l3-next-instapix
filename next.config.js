@@ -37,6 +37,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "selisefalcon.blob.core.windows.net",
       },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+      },
     ],
   },
 };

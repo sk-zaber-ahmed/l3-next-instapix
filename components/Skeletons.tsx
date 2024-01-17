@@ -11,15 +11,16 @@ import { Card } from "./ui/card";
 export const PostSkeleton = () => {
   return (
     <div className="space-y-3">
-      <div className="flex items-center w-full md:w-[500px] space-x-4">
+      <div className="flex items-center w-full md:w-[600px] space-x-4">
         <Skeleton className="h-12 w-12 rounded-full" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[250px]" />
+          {/* <Skeleton className="h-4 w-[250px]" /> */}
+          {/*No need for location skeleton*/}
         </div>
       </div>
 
-      <Skeleton className="h-[400px] lg:h-[550px]" />
+      <Skeleton className="h-[400px] lg:h-[500px]" />
     </div>
   );
 };
@@ -48,6 +49,22 @@ export function PostsSkeleton() {
     </div>
   );
 }
+
+export const GridSkeleton = () => {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+      <Card className="h-60">
+        <Skeleton className="h-full w-full" />
+      </Card>
+    </div>
+  );
+};
 
 export function SuggestionsSkeleton() {
   return (
@@ -85,6 +102,24 @@ export function ViewPostSkeleton() {
             </div>
           </div>
         </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export function EditPostSkeleton() {
+  return (
+    <Dialog open>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Edit info</DialogTitle>
+        </DialogHeader>
+
+        <AspectRatio ratio={1 / 1} className="relative h-full">
+          <Skeleton className="h-full w-full" />
+        </AspectRatio>
+
+        <Skeleton className="h-10 w-full" />
       </DialogContent>
     </Dialog>
   );

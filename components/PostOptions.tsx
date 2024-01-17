@@ -19,6 +19,8 @@ import SubmitButton from "./SubmitButton";
 import { toast } from "sonner";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { deletePost } from "@/lib/data";
 
 interface Props {
   post: any;
@@ -26,11 +28,11 @@ interface Props {
 }
 
 const PostOptions = ({ post, loggedIn }: Props) => {
+  const router = useRouter();
   const { userId } = post; //Each post has its ownerId who did the post
 
   //checking if the post is by loggedin user or not
-  const loggedInUserId = "64eb61e611e76cab67d456de"; //we will get it from when user logged in then
-  const isPostMine = userId === loggedIn?.UserId;
+  const isPostMine = userId === loggedIn;
 
   return (
     <Dialog>
@@ -42,32 +44,40 @@ const PostOptions = ({ post, loggedIn }: Props) => {
       <DialogContent className="dialogContent">
         {isPostMine && (
           <form
-            // action={async (formData) => {
-            //     const { message } = await deletePost(formData);
-            //     toast(message);
-            // }}
+            action={async (formData: FormData) => {
+              const postId = formData.get("postId");
+
+              console.log(postId);
+              if (!postId) {
+                return null;
+              }
+              const result = await deletePost(postId as string);
+              console.log("result will be", result);
+              toast.success("Deleted successfully");
+              router.back();
+            }}
             className="postOption"
           >
-            <input type="hidden" name="id" value={post._id} />
+            <input type="hidden" name="postId" value={post._id} />
             <SubmitButton className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">
               Delete post
             </SubmitButton>
           </form>
         )}
 
-        {/* {isPostMine && (
-                    <Link
-                        scroll={false}
-                        href={`/dashboard/p/${post._id}/edit`}
-                        className="postOption p-3"
-                    >
-                        Edit
-                    </Link>
-<<<<<<< HEAD
-                )}
-=======
-                )} */}
-        <button className="w-full p-3">Hide like count</button>
+        {isPostMine && (
+          <Link
+            scroll={false}
+            href={`/dashboard/p/${post._id}/edit`}
+            className="postOption p-3"
+          >
+            Edit
+          </Link>
+        )}
+{/* 
+        <form action="" className="postOption">
+          <button className="text-red-500 font-bold disabled:cursor-not-allowed w-full p-3">Hide ad</button>
+        </form> */}
 
         <DialogClose asChild>
           <Button type="button" variant="secondary">

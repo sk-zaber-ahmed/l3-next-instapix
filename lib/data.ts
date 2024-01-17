@@ -1,57 +1,40 @@
+"use server"
 //Contains all the data fetching logic
-import data from "@/lib/fake-data.json";
 
-export async function fetchPostsByUsername(username: any) {
+import axiosInstance from "./actions";
+import { revalidatePath } from "next/cache";
+
+export const createUserPost = async (data: any) => {
   try {
-    const res = await fetch(
-      `http://127.0.0.1:5000/insta/user/own/posts/${username}`,
-      {
-        cache: "no-cache",
-      }
-    );
-    return res.json();
+    const formData = {
+      files: data.files,
+      content: data.content,
+    };
+
+    const url = `http://127.0.0.1:5000/posts/create`;
+    const response = await axiosInstance.post(url, formData);
+    revalidatePath("/dashboard");
+    return response.data;
   } catch (error) {
-    console.log("Error while executing function", error);
-  }
-}
-
-// export const fetchFollowersPost=async()=>{
-//     try {
-//         const res=await fetch('http://localhost:9100/api/product/all/items',{
-//             cache:'no-cache',
-//         })
-//         return res.json()
-//       } catch (err) {
-//         console.log(err);
-//         return err
-//       }
-// }
-
-export const fetchFollowersPost = async () => {
-  try {
-    const res = await fetch("http://localhost:9100/api/product/all/items", {
-      cache: "no-cache",
-    });
-    return res.json();
-  } catch (err) {
-    console.log(err);
-    return err;
+    // Handle errors
+    return error;
   }
 };
 
-//--------------------------------------//
+export async function fetchPostsByUsername(username: any) { // own post list
+  try {
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/posts/own/all`);
+    return response.data;
+  } catch (error) {
+    console.log("Error while executing function", error);
+  }
+};
 
 //logged in user will see his and his following peoples post
 export async function fetchInstaPosts(loggedInUserId: string) {
   try {
-    const res = await fetch(
-      `http://127.0.0.1:5000/insta/user/posts/${loggedInUserId}`,
-      {
-        cache: "no-cache",
-      }
-    );
-
-    return res.json();
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/posts/feed/all`);
+    return response.data;
   } catch (error: any) {
     return error;
   }
@@ -60,65 +43,81 @@ export async function fetchInstaPosts(loggedInUserId: string) {
 //get single post by its id
 export async function fetchPostById(postId: string) {
   try {
-    //await new Promise((resolve) => setTimeout(resolve, 10000));  //for testing skeleton loader. this chunk of code will delay the response by 10 seconds. very useful for testing skeleton loader
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/posts/detail/${postId}`);
+    return response.data;
 
-    const res = await fetch(`http://127.0.0.1:5000/insta/user/post/${postId}`, {
-      cache: "no-cache",
-    });
-    return res.json();
   } catch (error: any) {
     throw new Error("Failed to fetch");
   }
 }
 
+//liking or unliking a post
+export const likePost = async (
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const response = await axiosInstance.post(`http://127.0.0.1:5000/posts/like/${postId}`, {});
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+
 //suggested following for loggedin user
 export async function fetchSuggestedUsers(loggedInUserId: string) {
   try {
-    const res = await fetch(
-      `http://127.0.0.1:5000/user/suggestions?loggedInUser=${loggedInUserId}`,
-      {
-        cache: "no-cache",
-      }
-    );
-    return res.json();
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/user/suggestions?loggedInUser=${loggedInUserId}`);
+    return response.data;
   } catch (error: any) {
     return error;
   }
 }
 
-// export async function getImageUrl(imageId: string) {
-//   try {
-//     console.log("image id", imageId);
-//     const headers = {
-//       accept: "application/json",
-//       Authorization: `bearer ${cookies().get("access_token")?.value}`,
-//     };
-//     console.log("headers", headers);
+//fetch user details from business table
+export const fetchUserDetails = async (userName: string) => {
+  try {
 
-//     const data = {
-//       fileId: "4f23068f-cceb-43e7-b9ae-eb129fbe66d0",
-//     };
+    // Make a POST request with custom headers using Axios
+    const response = await axiosInstance.get(`http://127.0.0.1:5000/user/details/${userName}`);
+    return response.data;
 
-//     // const response = await fetch(
-//     //   `http://microservices.seliselocal.com/api/storageservice/v22/StorageService/StorageQuery/GetFile?FileId=${imageId}`,
-//     //   {
-//     //     method: "GET",
-//     //     headers: headers,
-//     //   }
-//     // );
+  } catch (error) {
+    throw new Error("Failed to fetch");
+  }
+};
 
-//     const response = await axios.post(
-//       `http://127.0.0.1:5000/storage/url/parser`,
-//       {
-//         fileId: imageId,
-//       },
-//       {
-//         headers: headers,
-//       }
-//     );
-//     console.log("response", response.data.status);
-//     //return response.json();
-//   } catch (error: any) {
-//     return error;
-//   }
-// }
+//update user post
+export const updatePost = async (
+  content: any,
+  postId: FormDataEntryValue | null,
+  userId: string
+) => {
+  try {
+    const formData = {
+      userId: userId,
+      content: content,
+    };
+
+    const response = await axiosInstance.post(`http://127.0.0.1:5000/posts/update/${postId}`, formData);
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};
+
+//delete user post
+export const deletePost = async (postId: string) => {
+  try {
+    // const url = `http://127.0.0.1:5000/insta/user/delete/${postId}`;
+    const response = await axiosInstance.post(`http://127.0.0.1:5000/posts/delete/${postId}`, {});
+    revalidatePath("/dashboard");
+    return response.data;
+  } catch (error) {
+    // Handle errors
+    return error;
+  }
+};

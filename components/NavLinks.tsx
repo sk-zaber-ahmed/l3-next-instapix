@@ -19,7 +19,13 @@ import { buttonVariants } from "./ui/button";
 import { cn } from "@/lib/utils";
 import NavLinkAvatar from "./NavLinkAvatar";
 
-const NavLinks = ({ profile }: { profile: string }) => {
+const NavLinks = ({
+  profileName,
+  profileImage,
+}: {
+  profileName: string;
+  profileImage: string;
+}) => {
   const pathname = usePathname();
 
   const links: NavigationLinks[] = [
@@ -54,7 +60,7 @@ const NavLinks = ({ profile }: { profile: string }) => {
     },
     {
       name: "Profile",
-      href: `/dashboard/${profile}`,
+      href: `/dashboard/${profileName}`,
     },
   ];
 
@@ -79,10 +85,10 @@ const NavLinks = ({ profile }: { profile: string }) => {
             {LinkIcon ? (
               <LinkIcon className="w-6" />
             ) : (
-              <NavLinkAvatar size={6} />
+              <NavLinkAvatar image={profileImage} />
             )}
             <p
-              className={`${cn("hidden 2xl:block", {
+              className={`${cn("hidden xl:block", {
                 "font-extrabold": isActive,
               })}`}
             >
