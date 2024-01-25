@@ -17,7 +17,7 @@ type props = {
 };
 
 const PostView = ({ id, post, loggedIn, multiImage }: props) => {
-  // console.log('post', post)
+  console.log('from edit page', post)
 
   const pathName = usePathname();
   const isPostModal = pathName === `/dashboard/p/${id}`;
@@ -47,12 +47,12 @@ const PostView = ({ id, post, loggedIn, multiImage }: props) => {
             <DialogHeader className="border-b space-y-0 space-x-2.5py-4 pl-3.5 pr-6 py-3">
               <div className="flex justify-between">
                 <div className="flex items-center gap-2">
-                  <Link href={href}>
+                  {/* <Link href={href}>
                     <UserAvatar user={post?.user} />
-                  </Link>
-                  <Link href={href} className="font-semibold text-sm">
+                  </Link> */}
+                  {/* <Link href={href} className="font-semibold text-sm">
                     {username}
-                  </Link>
+                  </Link> */}
                 </div>
                 <div>
                   <PostOptions post={post} loggedIn={loggedIn}></PostOptions>

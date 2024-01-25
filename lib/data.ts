@@ -75,6 +75,37 @@ export async function fetchSuggestedUsers(loggedInUserId: string) {
   }
 }
 
+//All the followed user details get by userId
+export async function fetchFollowedUsers(userId: string) {
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:5000/user/following?userId=${userId}`,
+      // {
+      //   cache: "no-cache",
+      // }
+    );
+    return res.json();
+  } catch (error: any) {
+    return error;
+  }
+}
+
+
+//All the followers user details get by userId
+export async function fetchFollowers(userId: string) {
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:5000/user/follower?userId=${userId}`,
+      // {
+      //   cache: "no-cache",
+      // }
+    );
+    return res.json();
+  } catch (error: any) {
+    return error;
+  }
+}
+
 //fetch user details from business table
 export const fetchUserDetails = async (userName: string) => {
   try {
